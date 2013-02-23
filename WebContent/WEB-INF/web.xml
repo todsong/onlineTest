@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>onlineTest</display-name>
+  <servlet>
+    <servlet-name>loginCheck</servlet-name>
+    <servlet-class>com.action.loginCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>loginCheck</servlet-name>
+    <url-pattern>/loginCheck</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LogOutAction</servlet-name>
+    <servlet-class>com.action.LogOutAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogOutAction</servlet-name>
+    <url-pattern>/LogOutAction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>regCheck</servlet-name>
+    <servlet-class>com.action.regCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>regCheck</servlet-name>
+    <url-pattern>/regCheck</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DeptAction</servlet-name>
+    <servlet-class>com.action.DeptAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeptAction</servlet-name>
+    <url-pattern>/admin/DeptAction</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SubjectAction</servlet-name>
+    <servlet-class>com.action.SubjectAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubjectAction</servlet-name>
+    <url-pattern>/admin/SubjectAction</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>JudgeQuesAction</servlet-name>
+    <servlet-class>com.action.JudgeQuesAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JudgeQuesAction</servlet-name>
+    <url-pattern>/admin/JudgeQuesAction</url-pattern>
+  </servlet-mapping>
+<servlet>
+    <servlet-name>SingleQuesAction</servlet-name>
+    <servlet-class>com.action.SingleQuesAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SingleQuesAction</servlet-name>
+    <url-pattern>/admin/SingleQuesAction</url-pattern>
+  </servlet-mapping>
+<servlet>
+    <servlet-name>MultiQuesAction</servlet-name>
+    <servlet-class>com.action.MultiQuesAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MultiQuesAction</servlet-name>
+    <url-pattern>/admin/MultiQuesAction</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MultiAddBatch</servlet-name>
+    <servlet-class>com.action.MultiAddBatch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MultiAddBatch</servlet-name>
+    <url-pattern>/admin/MultiAddBatch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>SingleAddBatch</servlet-name>
+    <servlet-class>com.action.SingleAddBatch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SingleAddBatch</servlet-name>
+    <url-pattern>/admin/SingleAddBatch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>JudgeAddBatch</servlet-name>
+    <servlet-class>com.action.JudgeAddBatch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JudgeAddBatch</servlet-name>
+    <url-pattern>/admin/JudgeAddBatch</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ExamAction</servlet-name>
+    <servlet-class>com.action.ExamAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExamAction</servlet-name>
+    <url-pattern>/admin/ExamAction</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PracAction</servlet-name>
+    <servlet-class>com.action.PracAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PracAction</servlet-name>
+    <url-pattern>/admin/PracAction</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>InfoUpdateCheck</servlet-name>
+    <servlet-class>com.action.InfoUpdateCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InfoUpdateCheck</servlet-name>
+    <url-pattern>/InfoUpdateCheck</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PassWdCheck</servlet-name>
+    <servlet-class>com.action.PassWdCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PassWdCheck</servlet-name>
+    <url-pattern>/PassWdCheck</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>inPracAction</servlet-name>
+    <servlet-class>com.action.inPracAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>inPracAction</servlet-name>
+    <url-pattern>/inTest/inPracAction</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoQuesAction</servlet-name>
+    <servlet-class>com.action.DoQuesAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoQuesAction</servlet-name>
+    <url-pattern>/inTest/DoQuesAction</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>ClickQuesAction</servlet-name>
+    <servlet-class>com.action.ClickQuesAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ClickQuesAction</servlet-name>
+    <url-pattern>/inTest/ClickQuesAction</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>HandInPrac</servlet-name>
+    <servlet-class>com.action.HandInPrac</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HandInPrac</servlet-name>
+    <url-pattern>/inTest/HandInPrac</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>inExamAction</servlet-name>
+    <servlet-class>com.action.inExamAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>inExamAction</servlet-name>
+    <url-pattern>/inTest/inExamAction</url-pattern>
+  </servlet-mapping>
+
+
+</web-app>

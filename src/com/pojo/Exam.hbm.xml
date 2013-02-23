@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.pojo">
+    <class name="Exam" table="T_EXAM">
+		<id name="id" column="id" type="java.lang.Integer">
+		  <generator class="native" />
+		</id>
+        <property name="examName" column="examName" type="java.lang.String"/>
+        <property name="startTime" column="startTime" type="java.lang.String"/>
+        <property name="endTime" column="endTime" type="java.lang.String"/>
+        <property name="singleNum" column="singleNum" type="java.lang.Integer"/>
+        <property name="singleScore" column="singleScore" type="java.lang.Integer"/>
+        <property name="mutliNum" column="mutliNum" type="java.lang.Integer"/>
+        <property name="mutliScore" column="mutliScore" type="java.lang.Integer"/>
+        <property name="judgeNum" column="judgeNum" type="java.lang.Integer"/>
+        <property name="judgeScore" column="judgeScore" type="java.lang.Integer"/>
+        <property name="passScore" column="passScore" type="java.lang.Integer"/>
+    </class>
+</hibernate-mapping>
