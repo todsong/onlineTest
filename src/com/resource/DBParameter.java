@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DBParameter
+public final class DBParameter
 {
     private String driver;
     private String url;
