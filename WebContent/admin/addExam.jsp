@@ -19,12 +19,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
-String login = (String)session.getAttribute("login");
+/* String login = (String)session.getAttribute("login");
 if(login==null||!login.equals("admin"))
 {
     out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
     return;
 }
+ */
 SubjectDAO sd = new SubjectDAOImpl();
 List<Subject> sjList = sd.getAllSubject();
 if(sjList==null || sjList.size()==0)
@@ -38,15 +39,19 @@ if(sjList==null || sjList.size()==0)
     return;
 }
 Exam exam = null;
+int[] subjects = new int[0];
+int subjectSum=1;
 int id=-1;
 String error = request.getParameter("error");
 if(error!=null)
 {
+    String errorSubject = request.getParameter("subject");
+    //System.out.println(errorSubject);
     if(error.equals("jFew"))
     {
         %>
         <script type="text/javascript">
-        alert("没有足够的判断题，操作失败");
+        alert("课目"+<%=errorSubject%>+"没有足够的判断题，操作失败");
         </script>
         <%
     }
@@ -54,7 +59,7 @@ if(error!=null)
     {
         %>
         <script type="text/javascript">
-        alert("没有足够的选择题，操作失败");
+        alert("课目"+<%=errorSubject%>+"没有足够的选择题，操作失败");
         </script>
         <%
     }
@@ -62,7 +67,7 @@ if(error!=null)
     {
         %>
         <script type="text/javascript">
-        alert("没有足够的多选题，操作失败");
+        alert("课目"+<%=errorSubject%>+"没有足够的多选题，操作失败");
         </script>
         <%
     }
@@ -71,6 +76,14 @@ if(error!=null)
     {
         session.removeAttribute("errorExam");
     }
+    String[] tmp = exam.getSubjectId().split("\\|");
+    //System.out.println(exam.getSubjectId());
+    subjects = new int[tmp.length];
+    for(int i=0;i<tmp.length;i++)
+    {
+        subjects[i] = Integer.parseInt(tmp[i]);
+    }
+    subjectSum = subjects.length;
 }
 String idStr = request.getParameter("id");
 if(idStr!=null)
@@ -86,6 +99,14 @@ if(idStr!=null)
             return;
         }
     }
+    String[] tmp = exam.getSubjectId().split("\\|");
+    //System.out.println(exam.getSubjectId());
+    subjects = new int[tmp.length];
+    for(int i=0;i<tmp.length;i++)
+    {
+        subjects[i] = Integer.parseInt(tmp[i]);
+    }
+    subjectSum = subjects.length;
 }
 
 
@@ -96,9 +117,15 @@ String deSHour = null;
 String deSMinute = null;
 String deEHour = null;
 String deEMinute = null;
+String deSubjectNum = null;
+int deSubjectNumInt = 1;
 SimpleDateFormat formatterFull = new SimpleDateFormat("yyyyMMddHHmm");
 String currentTime = formatterFull.format(new Date());
 String deSubject = null;
+String subject0 = "XX";
+String subject1 = "XX";
+String subject2 = "XX";
+
 if(exam==null)
 {
     Date date = new Date();
@@ -121,6 +148,8 @@ if(exam==null)
     deSMinute = "00";
     deEHour = "9";
     deEMinute = "00";
+    deSubjectNum = "1";
+    deSubjectNumInt = 1;
 }
 else
 {
@@ -128,6 +157,7 @@ else
     String endTime = exam.getEndTime();
     deYear = startTime.substring(0, 4);
     deMonth = startTime.substring(4, 6);
+    
     if(deMonth.charAt(0)=='0')
     {
         deMonth = deMonth.charAt(1)+"";   
@@ -149,14 +179,24 @@ else
         deEHour = deEHour.charAt(1)+"";
     }
     deEMinute = endTime.substring(10,12);
-    
-    deSubject = exam.getSubjectId()+"";
+    deSubject = exam.getSubjectId();
+    //System.out.println(deSubject);
+    deSubjectNum = deSubject.split("\\|").length+"";
+    deSubjectNumInt = Integer.parseInt(deSubjectNum);
+    subject0 = deSubject.split("\\|")[0];
+    if(deSubjectNumInt>=2)
+        subject1 = deSubject.split("\\|")[1];
+    if(deSubjectNumInt>=3)
+        subject2 = deSubject.split("\\|")[2];
+    //System.out.println(subject0+","+subject1+", "+subject2);
 }
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script>
+
+var globalSubjectNum=<%=deSubjectNumInt %>;
 	function check() {
 		with (document.all) {
 			var regex = new RegExp("^[0-9]*$");
@@ -164,38 +204,79 @@ else
 				alert("考试名称不能为空")
 			} else if (examName.value.length > 50) {
 				alert("考试名称不能超过50字")
-			} else if (judgeNum.value == null || judgeNum.value == "") {
-				alert("判断题数不能为空")
-			} else if (singleNum.value == null || singleNum.value == "") {
-                alert("单选题数不能为空")
-            } else if (multiNum.value == null || multiNum.value == "") {
-                alert("多选题数不能为空")
-            } else if (passScore.value == null || passScore.value == "") {
-				alert("及格分数不能为空")
-			} else if (!regex.test(judgeNum.value)) {
-				alert("判断题数只能输入数字")
-			} else if (!regex.test(judgeScore.value)) {
+			} else if (passScore.value == null || passScore.value == "") {
+                alert("及格分数不能为空")
+            }  else if (!regex.test(passScore.value)) {
+                alert("及格分数只能输入数字")
+            } else if (!regex.test(judgeScore.value)) {
 				alert("判断题分值只能输入数字")
-			} else if (!regex.test(singleNum.value)) {
-				alert("单选题数只能输入数字")
-			} else if (!regex.test(singleScore.value)) {
+			}  else if (!regex.test(singleScore.value)) {
 				alert("单选题分值只能输入数字")
-			} else if (!regex.test(multiNum.value)) {
-				alert("多选题数只能输入数字")
 			} else if (!regex.test(multiScore.value)) {
 				alert("多选题分值只能输入数字")
-			} else if (!regex.test(passScore.value)) {
-				alert("及格分数只能输入数字")
-			} else {
+			} 
+			
+			else {
+				
+				var jn = 0;
+                var sn = 0;
+                var mn = 0;
+                var arr = new Array();
+				for(var i=0; i<globalSubjectNum; i++)
+				{
+					var subjectName = "subject"+i;
+					var sjName = document.getElementById(subjectName).value;
+					if(sjName=="")
+			        {
+			            alert("请选择科目名称");
+			            return;
+			        }
+					for(var j=0;j<i;j++)
+					{
+						if(sjName==arr[j])
+						{
+							  alert("科目名称重复选择");
+							  return;
+						}
+					}
+					arr[i] = sjName;
+                    var jname = "judgeNum"+i;
+                    var jvalue = document.getElementById(jname);
+                    var sname = "singleNum"+i;
+                    var svalue = document.getElementById(sname);
+                    var mname = "multiNum"+i;
+                    var mvalue = document.getElementById(mname);
+					if (jvalue.value == null || jvalue.value == "") {
+		                alert("判断题数不能为空");
+		                return;
+		            } else if (svalue.value == null || svalue.value == "") {
+		                alert("单选题数不能为空");
+		                return;
+		            } else if (svalue.value == null || svalue.value == "") {
+		                alert("多选题数不能为空");
+		                return;
+		            }
+		            else if (!regex.test(jvalue.value)) {
+		                alert("判断题数只能输入数字");
+		                return;
+		            } 
+		            else if (!regex.test(svalue.value)) {
+		                alert("单选题数只能输入数字");
+		                return;
+		            }
+		            else if (!regex.test(mvalue.value)) {
+	                    alert("多选题数只能输入数字");
+	                    return;
+		            }
+					jn = jn + parseInt(jvalue.value, 10);
+					sn = sn + parseInt(svalue.value, 10);
+					mn = mn + parseInt(mvalue.value, 10);
+				}
 				var ps = parseInt(passScore.value, 10);
-				var jn = parseInt(judgeNum.value, 10);
 				var js = parseInt(judgeScore.value, 10);
-				var sn = parseInt(singleNum.value, 10);
 				var ss = parseInt(singleScore.value, 10);
-				var mn = parseInt(multiNum.value, 10);
 				var ms = parseInt(multiScore.value, 10);
 				var total = (jn * js) + (sn * ss) + (mn * ms);
-
 				var sh = startHour.value;
 				var sm = startMinute.value;
 				var eh = endHour.value;
@@ -215,16 +296,16 @@ else
             
 				var smi = sh + sm;
 				var emi = eh + em;
-				var tsmi = smi
+				var tsmi = smi;
 				if(tsmi.length==3)
                 {
-					tsmi="0"+tsmi
+					tsmi="0"+tsmi;
                 }	
 				var st = y + m + d + tsmi;
 				if (parseInt(smi) >= parseInt(emi)) {
                     alert("考试结束时间必须晚于开始时间")
-                } else if (parseInt(st) < parseInt(<%=currentTime%>)) {
-                    alert("考试开始时间必须晚于当前时间")
+                <%-- } else if (parseInt(st) < parseInt(<%=currentTime%>)) {
+                    alert("考试开始时间必须晚于当前时间") --%>
                 } else if (total != 100) {
 					alert("题目总分不是100")
 				} else if (ps > 100) {
@@ -305,21 +386,6 @@ else
 	
 	function defaultSelect()
 	{
-		var sj=<%=deSubject%>
-		var type = document.getElementById("subject");
-        if(sj!=null)
-      	{
-        	for( var i = 0;i<=type.options.length;i++)
-            {
-                if(type.options[i].value == sj)
-                {
-                     type.options[i].selected = 'selected';
-                     break;
-                }
-            }
-      	}
-        
-		
 		var year=<%=deYear%>
         type = document.getElementById("year");
         for( var i = 0;i<=type.options.length;i++)
@@ -385,7 +451,6 @@ else
             }
         }
 
-        
         var eMinute=<%=deEMinute%>
         type = document.getElementById("endMinute");
         for( var i = 0;i<=type.options.length;i++)
@@ -396,8 +461,62 @@ else
                  break;
             }
         }
+        
+        var subjectSum = <%=subjectSum %>;
+        if(subjectSum==0)
+        	subjectNum=1;
+        document.getElementById('subjectNum').options[subjectSum-1].selected = 'selected';
+        
+        var sj=<%=deSubject%>
+        if(sj!=null)
+        {
+            var sbnum = <%=subjectSum%>
+            for(var sid = 0; sid < sbnum; sid++)
+            {
+            	var val;
+                if(sid==0)
+                    val = <%=subject0%>;
+                else if(sid==1)
+                    val = <%=subject1%>;
+                else if(sid==2)
+                    val = <%=subject2%>;
+                type = document.getElementById("subject"+sid);
+            	for( var i = 0;i<=type.options.length;i++)
+                {
+                    if(type.options[i].value == val)
+                    {
+                         type.options[i].selected = 'selected';
+                         break;
+                    }
+                }
+           	}
+        }
+        if(subjectSum==1)
+       	{
+        	document.getElementById('t1').style.display = "none";
+            document.getElementById('t2').style.display = "none";
+       	}
+        else if(subjectSum==2)
+       	{
+            document.getElementById('t2').style.display = "none";
+       	}
+        
+	}
+	function setSubject()
+	{
+        document.getElementById('t1').style.display = "none";
+        document.getElementById('t2').style.display = "none";
+		var snum = document.getElementById("subjectNum").value;
+		globalSubjectNum = snum;
+	    for( var i = 0;i<snum;i++)
+        {
+            var name = "t" + i;
+            //alert(name);
+            document.getElementById(name).style.display = "block";
+        }
 
 	}
+	
 </script>
 
 </head>
@@ -431,27 +550,6 @@ else
 				%>"
 					style="width: 200px"></td>
 			</tr>
-
-			<tr>
-			 <td>科目</td>
-            <td colspan="2">
-            <select name="subject" id="subject">
-            
-			<%
-			for(int i=0;i<sjList.size();i++)
-			{
-			%>
-			<option value="<%=sjList.get(i).getId() %>" <%
-            if(exam!=null && exam.getSubjectId()==sjList.get(i).getId())
-            {
-                out.print("selected='selected'");
-            }
-            %>><%=sjList.get(i).getName() %></option>
-			<%
-			}
-			%>
-			</select>
-            </tr>
 			<tr>
 				<td>考试日期</td>
 				<td colspan="2"><select name="year" id="year">
@@ -594,76 +692,116 @@ else
 				</select>分</td>
 			</tr>
 			<tr>
-				<td>判断题数</td>
-				<td colspan="2"><input type=text name=judgeNum value="<%
-                if(exam!=null)
-                {
-                    out.print(exam.getJudgeNum());
-                }
-                %>"
-					style="width: 30px"></td>
-			</tr>
-			<tr>
-				<td>判断题分值</td>
-				<td colspan="2"><input type=text name=judgeScore value="<%
-                if(exam!=null)
-                {
-                    out.print(exam.getJudgeScore());
-                }
-                %>"
-					style="width: 30px"></td>
-			</tr>
-			<tr>
-				<td>单选题数</td>
-				<td colspan="2"><input type=text name=singleNum value="<%
-                if(exam!=null)
-                {
-                    out.print(exam.getSingleNum());
-                }
-                %>"
-					style="width: 30px"></td>
-			</tr>
-			<tr>
-				<td>单选题分值</td>
-				<td colspan="2"><input type=text name=singleScore value="<%
-                if(exam!=null)
-                {
-                    out.print(exam.getSingleScore());
-                }
-                %>"
-					style="width: 30px"></td>
-			</tr>
-			<tr>
-				<td>多选题数</td>
-				<td colspan="2"><input type=text name=multiNum value="<%
-                if(exam!=null)
-                {
-                    out.print(exam.getMutliNum());
-                }
-                %>"
-					style="width: 30px"></td>
-			</tr>
-			<tr>
-				<td>多选题分值</td>
-				<td colspan="2"><input type=text name=multiScore value="<%
-                if(exam!=null)
-                {
-                    out.print(exam.getMutliScore());
-                }
-                %>"
-					style="width: 30px"></td>
-			</tr>
-			<tr>
-				<td>及格分数</td>
-				<td colspan="2"><input type=text name=passScore value="<%
+                <td>及格分数</td>
+                <td colspan="2"><input type=text name=passScore value="<%
                 if(exam!=null)
                 {
                     out.print(exam.getPassScore());
                 }
                 %>"
-					style="width: 30px"></td>
+                 style="width: 30px"></td>
+            </tr>
+            <tr>
+                <td>判断题分值</td>
+                <td colspan="2"><input type=text name=judgeScore value="<%
+                if(exam!=null)
+                {
+                    out.print(exam.getJudgeScore());
+                }
+                %>"
+                    style="width: 30px"></td>
+            </tr>
+            <tr>
+                <td>单选题分值</td>
+                <td colspan="2"><input type=text name=singleScore value="<%
+                if(exam!=null)
+                {
+                    out.print(exam.getSingleScore());
+                }
+                %>"
+                    style="width: 30px"></td>
+            </tr>
+            <tr>
+                <td>多选题分值</td>
+                <td colspan="2"><input type=text name=multiScore value="<%
+                if(exam!=null)
+                {
+                    out.print(exam.getMutliScore());
+                }
+                %>"
+                    style="width: 30px"></td>
+            </tr>
+            
+			<tr>
+			  <td>科目数量</td>
+			  <td colspan="2">
+			    <select name="subjectNum" id="subjectNum" onchange="setSubject()">
+			      <option value="1">1
+                  <option value="2">2
+                  <option value="3">3
+			    </select>
+			  </td>
 			</tr>
-		</table>
+            </table>
+            <%for(int tid=0;tid<3;tid++) { %>
+            <table id="t<%=tid %>" align="left">			
+			<tr>
+             <td>科目<%=tid+1 %></td>
+            <td colspan="2">
+            <select name="subject<%=tid %>" id="subject<%=tid %>">
+                <option value="">--请选择--
+            <%
+            for(int i=0;i<sjList.size();i++)
+            {
+            %>
+            <option value="<%=sjList.get(i).getId() %>" <%
+            if(exam!=null && subjects[0] ==sjList.get(i).getId())
+            {
+                out.print("selected='selected'");
+            }
+            %>><%=sjList.get(i).getName() %></option>
+            <%
+            }
+            %>
+            </select>
+            </tr>
+            <tr>
+                <td>判断题数</td>
+                <td colspan="2"><input type=text name=judgeNum<%=tid %> id=judgeNum<%=tid %> value="<%
+                if(exam!=null && deSubjectNumInt > tid)
+                {
+                    out.print(exam.getJudgeNum().split("\\|")[tid]);
+                }
+                %>"
+                    style="width: 30px"></td>
+            </tr>
+            <tr>
+                <td>单选题数</td>
+                <td colspan="2"><input type=text name=singleNum<%=tid %> id=singleNum<%=tid %> value="<%
+                if(exam!=null  && deSubjectNumInt > tid)
+                {
+                    out.print(exam.getSingleNum().split("\\|")[tid]);
+                }
+                %>"
+                    style="width: 30px"></td>
+            </tr>
+            <tr>
+                <td>多选题数</td>
+                <td colspan="2"><input type=text name=multiNum<%=tid %> id=multiNum<%=tid %> value="<%
+                if(exam!=null  && deSubjectNumInt > tid)
+                {
+                    out.print(exam.getMutliNum().split("\\|")[tid]);
+                }
+                %>"
+                    style="width: 30px"></td>
+            </tr>
+          </table>
+            
+		<%
+            } %>
+        <table height="120">
+          <tr><td>&nbsp;</td></tr>
+        </table>
 		<%
 		if(idStr==null)
 		{
@@ -682,7 +820,6 @@ else
 		<%
 		}
 		%>
-		
 	</form>
 </body>
 </html>
