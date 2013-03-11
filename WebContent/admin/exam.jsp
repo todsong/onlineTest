@@ -115,7 +115,21 @@ else
         {
         	out.print("<tr><td><a href=\"examScore.jsp?id=" + exam.getId() + "&pass=" +exam.getPassScore()+"&name="+exam.getExamName()+"\">"+exam.getExamName()+"</a></td>");
         }
-        out.print("<td>"+ subjectMap.get(exam.getSubjectId()) +"</td>");
+        String subjectIdStr = exam.getSubjectId();
+        String[] subjectId = subjectIdStr.split("\\|");
+        String subjectNameStr = "";
+        for(int i=0; i< subjectId.length; i++)
+        {
+            if(i==0)
+            {
+                subjectNameStr += subjectMap.get(Integer.parseInt(subjectId[i]));
+            }
+            else
+            {
+                subjectNameStr += ","+subjectMap.get(Integer.parseInt(subjectId[i]));
+            }
+        }
+        out.print("<td>"+ subjectNameStr +"</td>");
         String year = exam.getStartTime().substring(0, 4);
         String month = exam.getStartTime().substring(4,6);
         String day = exam.getStartTime().substring(6,8);
