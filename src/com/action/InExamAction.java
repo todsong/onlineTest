@@ -32,7 +32,7 @@ import com.pojo.SingleQues;
 import com.pojo.UserExam;
 import com.util.RandomUtil;
 
-public class inExamAction extends HttpServlet
+public class InExamAction extends HttpServlet
 {
     private static final long serialVersionUID = 7116759219328286470L;
 
@@ -41,19 +41,18 @@ public class inExamAction extends HttpServlet
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e)
+        } catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
         }
 
         HttpSession hs = req.getSession();
         String checkType = (String) hs.getAttribute("examType");
-        if(checkType!=null && checkType.equals("1"))
+        if (checkType != null && checkType.equals("1"))
         {
-            String id = (String)hs.getAttribute("id");
-            String userName = (String)hs.getAttribute("userName");
-            String login = (String)hs.getAttribute("login");
+            String id = (String) hs.getAttribute("id");
+            String userName = (String) hs.getAttribute("userName");
+            String login = (String) hs.getAttribute("login");
             hs.invalidate();
             hs = req.getSession();
 
@@ -64,93 +63,111 @@ public class inExamAction extends HttpServlet
         String userId = (String) hs.getAttribute("id");
         String url = req.getQueryString();
         int examId = Integer.parseInt(url.split("&")[0].substring(3));
-        
+
         UserExamDAO ued = new UserExamDAOImpl();
         UserExam ue = ued.queryUniqueUserExam(examId, userId);
 
         ExamDAO ed = new ExamDAOImpl();
         Exam exam = ed.queryExamById(examId);
-        
+
         hs.setAttribute("exam", exam);
         hs.setAttribute("examType", "0");
-        if(ue==null) //第一次进入考试，需随机生成题目
+        if (ue == null) // 第一次进入考试，需随机生成题目
         {
             ue = new UserExam();
             ue.setExamId(examId);
             ue.setUserId(userId);
             ue.setScore(-1);
             JudgeQuesDAO jd = new JudgeQuesDAOImpl();
-            List<JudgeQues> jqList = jd.getAllJudgeQues();
             SingleQuesDAO sd = new SingleQuesDAOImpl();
-            List<SingleQues> sqList = sd.getAllSingleQues();
             MultiQuesDAO md = new MultiQuesDAOImpl();
-            List<MultiQues> mqList = md.getAllMultiQues();
-            
-            int judgeNumInt = exam.getJudgeNum();
-            int singleNumInt = exam.getSingleNum();
-            int multiNumInt = exam.getMutliNum();
 
-            int[] jqArray = RandomUtil.getRandomArray(judgeNumInt, jqList.size());
-            int[] sqArray = RandomUtil.getRandomArray(singleNumInt, sqList.size());
-            int[] mqArray = RandomUtil.getRandomArray(multiNumInt, mqList.size());
+            String subjectIdStr = exam.getSubjectId();
+            String judgeNumStr = exam.getJudgeNum();
+            String singleNumStr = exam.getSingleNum();
+            String multiNumStr = exam.getMutliNum();
+            String reg="\\|";
+            int[] subjectIdInt = InExamAction.Str2IntBySplit(subjectIdStr, reg);
+            int[] judgeNumInt = InExamAction.Str2IntBySplit(judgeNumStr, reg);
+            int[] singleNumInt = InExamAction.Str2IntBySplit(singleNumStr, reg);
+            int[] multiNumInt = InExamAction.Str2IntBySplit(multiNumStr, reg);
+            int subjectSum = subjectIdInt.length;
+            
+            int[][] jqArray = new int[subjectSum][];
+            int[][] sqArray = new int[subjectSum][];
+            int[][] mqArray = new int[subjectSum][];
 
             StringBuilder jqStr = new StringBuilder("");
             StringBuilder sqStr = new StringBuilder("");
             StringBuilder mqStr = new StringBuilder("");
+
             List<JudgeQues> jqAct = new ArrayList<JudgeQues>();
             List<SingleQues> sqAct = new ArrayList<SingleQues>();
             List<MultiQues> mqAct = new ArrayList<MultiQues>();
+            for(int sNum=0; sNum< subjectSum; sNum++)
+            {
+                List<JudgeQues> jqList = jd.getAllAvailableBySubjectId(subjectIdInt[sNum]);
+                List<SingleQues> sqList = sd.getAllAvailableBySubjectId(subjectIdInt[sNum]);
+                List<MultiQues> mqList = md.getAllAvailableBySubjectId(subjectIdInt[sNum]);
 
-            for(int i=0;i<judgeNumInt;i++)
-            {
-                jqStr.append(jqList.get(jqArray[i]).getId());
-                jqAct.add(jqList.get(jqArray[i]));
-                if(i!=judgeNumInt-1)
+                jqArray[sNum] = RandomUtil.getRandomArray(judgeNumInt[sNum],
+                        jqList.size());
+                sqArray[sNum] = RandomUtil.getRandomArray(singleNumInt[sNum],
+                        sqList.size());
+                mqArray[sNum] = RandomUtil.getRandomArray(multiNumInt[sNum],
+                        mqList.size());
+                for (int i = 0; i < judgeNumInt[sNum]; i++)
                 {
-                    jqStr.append('|');
+                    if(jqStr.length()==0)
+                        jqStr.append(jqList.get(jqArray[sNum][i]).getId());
+                    else
+                        jqStr.append('|').append(jqList.get(jqArray[sNum][i]).getId());
+                    jqAct.add(jqList.get(jqArray[sNum][i]));
+                    
+                }
+                for (int i = 0; i < singleNumInt[sNum]; i++)
+                {
+                    if(sqStr.length()==0)
+                        sqStr.append(sqList.get(sqArray[sNum][i]).getId());
+                    else
+                        sqStr.append('|').append(sqList.get(sqArray[sNum][i]).getId());
+                    sqAct.add(sqList.get(sqArray[sNum][i]));
+                }
+                for (int i = 0; i < multiNumInt[sNum]; i++)
+                {
+                    if(mqStr.length()==0)
+                        mqStr.append(mqList.get(mqArray[sNum][i]).getId());
+                    else
+                        mqStr.append('|').append(mqList.get(mqArray[sNum][i]).getId());
+                    mqAct.add(mqList.get(mqArray[sNum][i]));
                 }
             }
-            for(int i=0;i<singleNumInt;i++)
-            {
-                sqStr.append(sqList.get(sqArray[i]).getId());
-                sqAct.add(sqList.get(sqArray[i]));
-                if(i!=singleNumInt-1)
-                {
-                    sqStr.append('|');
-                }
-            }
-            for(int i=0;i<multiNumInt;i++)
-            {
-                mqStr.append(mqList.get(mqArray[i]).getId());
-                mqAct.add(mqList.get(mqArray[i]));
-                if(i!=multiNumInt-1)
-                {
-                    mqStr.append('|');
-                }
-            }
-            
+
             ue.setJudgeIdList(jqStr.toString());
             ue.setSingleIdList(sqStr.toString());
             ue.setMultiIdList(mqStr.toString());
             ued.addNewUserExam(ue);
 
             hs.setAttribute("judge", jqAct);
-            hs.setAttribute("judgeSum", judgeNumInt);
+            hs.setAttribute("judgeSum", jqAct.size());
             hs.setAttribute("single", sqAct);
-            hs.setAttribute("singleSum", judgeNumInt);
+            hs.setAttribute("singleSum", sqAct.size());
             hs.setAttribute("multi", mqAct);
-            hs.setAttribute("multiSum", multiNumInt);
-            
+            hs.setAttribute("multiSum", mqAct.size());
+
             hs.setAttribute("userExam", ue);
-            
-        }
-        else //非首次进入考试，已存在题目
+
+        } else
+        // 非首次进入考试，已存在题目
         {
-            List<JudgeQues> jqAct = (ArrayList<JudgeQues>) hs.getAttribute("judge");
-            List<SingleQues> sqAct = (ArrayList<SingleQues>) hs.getAttribute("single");
-            List<MultiQues> mqAct = (ArrayList<MultiQues>) hs.getAttribute("multi");
-            
-            if(jqAct==null)
+            List<JudgeQues> jqAct = (ArrayList<JudgeQues>) hs
+                    .getAttribute("judge");
+            List<SingleQues> sqAct = (ArrayList<SingleQues>) hs
+                    .getAttribute("single");
+            List<MultiQues> mqAct = (ArrayList<MultiQues>) hs
+                    .getAttribute("multi");
+
+            if (jqAct == null)
             {
                 String jqStr = ue.getJudgeIdList();
                 String[] jqArray = jqStr.split("\\|");
@@ -158,59 +175,59 @@ public class inExamAction extends HttpServlet
                 JudgeQuesDAO jd = new JudgeQuesDAOImpl();
                 List<JudgeQues> jqList = jd.getAllJudgeQues();
                 Map<Integer, JudgeQues> jqMap = new HashMap<Integer, JudgeQues>();
-                for(int i=0;i<jqList.size();i++)
+                for (int i = 0; i < jqList.size(); i++)
                 {
-                    jqMap.put(jqList.get(i).getId(),jqList.get(i));
+                    jqMap.put(jqList.get(i).getId(), jqList.get(i));
                 }
-                for(int i=0;i<jqArray.length;i++)
+                for (int i = 0; i < jqArray.length; i++)
                 {
                     jqAct.add(jqMap.get(Integer.parseInt(jqArray[i])));
                 }
-                
+
                 String sqStr = ue.getSingleIdList();
                 String[] sqArray = sqStr.split("\\|");
                 sqAct = new ArrayList<SingleQues>();
                 SingleQuesDAO sd = new SingleQuesDAOImpl();
                 List<SingleQues> sqList = sd.getAllSingleQues();
                 Map<Integer, SingleQues> sqMap = new HashMap<Integer, SingleQues>();
-                for(int i=0;i<sqList.size();i++)
+                for (int i = 0; i < sqList.size(); i++)
                 {
-                    sqMap.put(sqList.get(i).getId(),sqList.get(i));
+                    sqMap.put(sqList.get(i).getId(), sqList.get(i));
                 }
-                for(int i=0;i<sqArray.length;i++)
+                for (int i = 0; i < sqArray.length; i++)
                 {
                     sqAct.add(sqMap.get(Integer.parseInt(sqArray[i])));
                 }
-                
+
                 String mqStr = ue.getMultiIdList();
                 String[] mqArray = mqStr.split("\\|");
                 mqAct = new ArrayList<MultiQues>();
                 MultiQuesDAO md = new MultiQuesDAOImpl();
                 List<MultiQues> mqList = md.getAllMultiQues();
                 Map<Integer, MultiQues> mqMap = new HashMap<Integer, MultiQues>();
-                for(int i=0;i<mqList.size();i++)
+                for (int i = 0; i < mqList.size(); i++)
                 {
-                    mqMap.put(mqList.get(i).getId(),mqList.get(i));
+                    mqMap.put(mqList.get(i).getId(), mqList.get(i));
                 }
-                for(int i=0;i<mqArray.length;i++)
+                for (int i = 0; i < mqArray.length; i++)
                 {
                     mqAct.add(mqMap.get(Integer.parseInt(mqArray[i])));
                 }
-                
+
                 hs.setAttribute("userExam", ue);
                 hs.setAttribute("judge", jqAct);
                 hs.setAttribute("judgeSum", jqArray.length);
                 hs.setAttribute("single", sqAct);
                 hs.setAttribute("singleSum", sqArray.length);
                 hs.setAttribute("multi", mqAct);
-                hs.setAttribute("multiSum", mqArray.length);            }
+                hs.setAttribute("multiSum", mqArray.length);
+            }
         }
-        
+
         try
         {
             resp.sendRedirect("/onlineTest/inTest/inTest.jsp");
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -220,5 +237,14 @@ public class inExamAction extends HttpServlet
     {
         doGet(req, resp);
     }
-
+    public static int[] Str2IntBySplit(String src, String reg)
+    {
+        String[] tmp = src.split(reg);
+        int[] res = new int[tmp.length];
+        for(int i=0;i<res.length;i++)
+        {
+            res[i]=Integer.parseInt(tmp[i]);
+        }
+        return res;
+    }
 }
