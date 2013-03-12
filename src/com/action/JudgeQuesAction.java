@@ -33,8 +33,7 @@ public class JudgeQuesAction extends HttpServlet
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e1)
+        } catch (UnsupportedEncodingException e1)
         {
             e1.printStackTrace();
         }
@@ -47,41 +46,38 @@ public class JudgeQuesAction extends HttpServlet
             String addOne = req.getParameter("addOne");
             String addBatch = req.getParameter("addBatch");
             String id = req.getParameter("id");
+            System.out.println(id);
             String addJ = req.getParameter("addJ");
             String subjectId = req.getParameter("subject");
             String status = req.getParameter("status");
-            if(addOne !=null)
+            if (addOne != null)
             {
                 resp.sendRedirect("addOneJudgeQues.jsp");
-            }
-            else if(addBatch!=null)
+            } else if (addBatch != null)
             {
                 resp.sendRedirect("addBatchJudgeQues.jsp");
-            }
-            else if(del!=null) //删除操作
+            } else if (del != null) // 删除操作
             {
                 ExamDAO ed = new ExamDAOImpl();
                 int maxNeedInExam = ed.getMaxQuesNumByType("judge");
                 int maxNumInRepo = jqd.getCountSum();
-                
+
                 UserExamDAO ued = new UserExamDAOImpl();
                 PracQuesDAO qpd = new PracQuesDAOImpl();
-                
-                if(maxNumInRepo<=maxNeedInExam)
+
+                if (maxNumInRepo <= maxNeedInExam)
                 {
                     resp.sendRedirect("judge.jsp?delTooFew");
-                }
-                else if(!ued.queryNoQuesId("judge", id) || !qpd.queryNoQuesId("judge", id))
+                } else if (!ued.queryNoQuesId("judge", id)
+                        || !qpd.queryNoQuesId("judge", id))
                 {
                     resp.sendRedirect("judge.jsp?delUsed");
-                }
-                else
+                } else
                 {
                     jqd.deleteJudgeQues(Integer.parseInt(id));
                     resp.sendRedirect("judge.jsp");
                 }
-            }
-            else if(addJ!=null)
+            } else if (addJ != null)
             {
                 String ques = req.getParameter("ques");
                 String answer = req.getParameter("answer");
@@ -89,10 +85,10 @@ public class JudgeQuesAction extends HttpServlet
                 jq.setqName(ques);
                 jq.setSubjectId(Integer.parseInt(subjectId));
                 jq.setStatus(0);
-                String hash = MD5Util.getMD5(0+ques);
+                String hash = MD5Util.getMD5(0 + ques);
                 jq.setHash(hash);
                 int unique = jqd.checkUnique(jq.getHash());
-                if(unique!=-1 && unique!=Integer.parseInt(id))
+                if (unique != -1)
                 {
                     resp.sendRedirect("judge.jsp?unique");
                     return;
@@ -100,16 +96,15 @@ public class JudgeQuesAction extends HttpServlet
 
                 jqd.addJudgeQues(jq);
                 resp.sendRedirect("judge.jsp");
-            }
-            else //update
+            } else
+            // update
             {
                 String ques = req.getParameter("ques");
                 String answer = req.getParameter("answer");
                 if (ques == null || ques.equals(""))
                 {
                     resp.sendRedirect("judgeItem.jsp");
-                }
-                else if (answer == null || answer.equals(""))
+                } else if (answer == null || answer.equals(""))
                 {
                     resp.sendRedirect("judgeItem.jsp");
                 }
@@ -118,10 +113,10 @@ public class JudgeQuesAction extends HttpServlet
                 jq.setSubjectId(Integer.parseInt(subjectId));
                 int st = Integer.parseInt(status);
                 jq.setStatus(st);
-                String hash = MD5Util.getMD5(st+ques);
+                String hash = MD5Util.getMD5(st + ques);
                 jq.setHash(hash);
                 int unique = jqd.checkUnique(jq.getHash());
-                if(unique!=-1 && unique!=Integer.parseInt(id))
+                if (unique != -1 && unique != Integer.parseInt(id))
                 {
                     resp.sendRedirect("judge.jsp?unique");
                     return;
@@ -130,8 +125,7 @@ public class JudgeQuesAction extends HttpServlet
                 jqd.updateJudgeQues(Integer.parseInt(id), jq);
                 resp.sendRedirect("judge.jsp");
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -142,5 +136,4 @@ public class JudgeQuesAction extends HttpServlet
     {
         doGet(req, resp);
     }
-
 }

@@ -23,7 +23,7 @@ import com.pojo.MultiQues;
 import com.pojo.PracQues;
 import com.pojo.SingleQues;
 
-public class inPracAction extends HttpServlet
+public class InPracAction extends HttpServlet
 {
     private static final long serialVersionUID = 7116759219328286470L;
 
@@ -32,32 +32,31 @@ public class inPracAction extends HttpServlet
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e)
+        } catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
         }
         String url = req.getQueryString();
         int pracId = Integer.parseInt(url.split("&")[0].substring(3));
         int caseId = Integer.parseInt(url.split("&")[1].substring(2));
-        
+
         PracQuesDAO qpd = new PracQuesDAOImpl();
         PracQues pq = qpd.getPracQuesById(pracId, caseId);
-        
+
         List<JudgeQues> jqAct = new ArrayList<JudgeQues>();
         List<SingleQues> sqAct = new ArrayList<SingleQues>();
         List<MultiQues> mqAct = new ArrayList<MultiQues>();
-        
-        if(pq.getJudgeIdList()!=null&&!pq.getJudgeIdList().equals(""))
+
+        if (pq.getJudgeIdList() != null && !pq.getJudgeIdList().equals(""))
         {
             String[] jArray = pq.getJudgeIdList().split("\\|");
             JudgeQuesDAO jd = new JudgeQuesDAOImpl();
             List<JudgeQues> jqAll = jd.getAllJudgeQues();
             for (int i = 0; i < jArray.length; i++)
             {
-                for(int j=0;j<jqAll.size();j++)
+                for (int j = 0; j < jqAll.size(); j++)
                 {
-                    if(Integer.parseInt(jArray[i]) == (jqAll.get(j).getId()))
+                    if (Integer.parseInt(jArray[i]) == (jqAll.get(j).getId()))
                     {
                         jqAct.add(jqAll.get(j));
                         break;
@@ -65,16 +64,16 @@ public class inPracAction extends HttpServlet
                 }
             }
         }
-        if(pq.getSingleIdList()!=null&&!pq.getSingleIdList().equals(""))
+        if (pq.getSingleIdList() != null && !pq.getSingleIdList().equals(""))
         {
             String[] sArray = pq.getSingleIdList().split("\\|");
             SingleQuesDAO sd = new SingleQuesDAOImpl();
             List<SingleQues> sqAll = sd.getAllSingleQues();
             for (int i = 0; i < sArray.length; i++)
             {
-                for(int j=0;j<sqAll.size();j++)
+                for (int j = 0; j < sqAll.size(); j++)
                 {
-                    if(Integer.parseInt(sArray[i]) == (sqAll.get(j).getId()))
+                    if (Integer.parseInt(sArray[i]) == (sqAll.get(j).getId()))
                     {
                         sqAct.add(sqAll.get(j));
                         break;
@@ -82,16 +81,16 @@ public class inPracAction extends HttpServlet
                 }
             }
         }
-        if(pq.getMultiIdList()!=null&&!pq.getMultiIdList().equals(""))
+        if (pq.getMultiIdList() != null && !pq.getMultiIdList().equals(""))
         {
             String[] mArray = pq.getMultiIdList().split("\\|");
             MultiQuesDAO md = new MultiQuesDAOImpl();
             List<MultiQues> mqAll = md.getAllMultiQues();
             for (int i = 0; i < mArray.length; i++)
             {
-                for(int j=0;j<mqAll.size();j++)
+                for (int j = 0; j < mqAll.size(); j++)
                 {
-                    if(Integer.parseInt(mArray[i]) == (mqAll.get(j).getId()))
+                    if (Integer.parseInt(mArray[i]) == (mqAll.get(j).getId()))
                     {
                         mqAct.add(mqAll.get(j));
                         break;
@@ -99,18 +98,18 @@ public class inPracAction extends HttpServlet
                 }
             }
         }
-        
+
         HttpSession hs = req.getSession();
 
         String checkType = (String) hs.getAttribute("examType");
-        
-        if(checkType!=null)
+
+        if (checkType != null)
         {
-            String id = (String)hs.getAttribute("id");
-            String userName = (String)hs.getAttribute("userName");
-            String login = (String)hs.getAttribute("login");
+            String id = (String) hs.getAttribute("id");
+            String userName = (String) hs.getAttribute("userName");
+            String login = (String) hs.getAttribute("login");
             hs.invalidate();
-            hs = req.getSession();   
+            hs = req.getSession();
             hs.setAttribute("id", id);
             hs.setAttribute("userName", userName);
             hs.setAttribute("login", login);
@@ -121,13 +120,12 @@ public class inPracAction extends HttpServlet
         hs.setAttribute("singleSum", sqAct.size());
         hs.setAttribute("multi", mqAct);
         hs.setAttribute("multiSum", mqAct.size());
-        
+
         hs.setAttribute("examType", "1");
         try
         {
             resp.sendRedirect("/onlineTest/inTest/inTest.jsp");
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }

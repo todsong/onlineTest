@@ -21,15 +21,15 @@ public class DeptAction extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        doPost(req,resp);
+        doPost(req, resp);
     }
+
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e1)
+        } catch (UnsupportedEncodingException e1)
         {
             e1.printStackTrace();
         }
@@ -38,30 +38,27 @@ public class DeptAction extends HttpServlet
         String delD = req.getParameter("delD");
         String upD = req.getParameter("upD");
         DeptDAO dd = new DeptDAOImpl();
-        
-        if(addD!=null)
+
+        if (addD != null)
         {
             Dept dept = new Dept();
             dept.setName(deptName);
             dd.addDept(dept);
-        }
-        else if(upD!=null)
+        } else if (upD != null)
         {
             int id = Integer.parseInt(req.getParameter("deptId"));
             Dept dept = new Dept();
             dept.setName(deptName);
             dd.updateDeptById(id, dept);
-        }
-        else if(delD!=null)
+        } else if (delD != null)
         {
             int id = Integer.parseInt(req.getParameter("deptId"));
             UserDAO ud = new UserDAOImpl();
-            List<User> userList = ud.queryUserByDept(id) ;
-            if(userList==null || userList.size()==0)
+            List<User> userList = ud.queryUserByDept(id);
+            if (userList == null || userList.size() == 0)
             {
-                dd.deleteDeptById(id);   
-            }
-            else
+                dd.deleteDeptById(id);
+            } else
             {
                 try
                 {
@@ -76,12 +73,10 @@ public class DeptAction extends HttpServlet
         try
         {
             resp.sendRedirect("dept.jsp");
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
     }
 
-    
 }

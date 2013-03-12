@@ -25,8 +25,7 @@ public class LogOutAction extends HttpServlet
             hs.invalidate();
             PrintWriter out = resp.getWriter();
             out.write("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }

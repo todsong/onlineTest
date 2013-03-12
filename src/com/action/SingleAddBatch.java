@@ -53,14 +53,14 @@ public class SingleAddBatch extends HttpServlet
         ServletFileUpload upload = new ServletFileUpload(factory);
         String filename = null;
         String dir = null;
-        int subjectId=0;
-        
+        int subjectId = 0;
+
         try
         {
             List<FileItem> fileitems = upload.parseRequest(req);
             for (FileItem item : fileitems)
             {
-                if (item.isFormField()&&item.getFieldName().equals("subject"))
+                if (item.isFormField() && item.getFieldName().equals("subject"))
                 {
                     String value = item.getString();
 
@@ -71,16 +71,17 @@ public class SingleAddBatch extends HttpServlet
                 } else
                 {
                     filename = item.getName();
-                    if(filename.contains("\\"))
+                    if (filename.contains("\\"))
                     {
-                        filename=filename.substring(filename.lastIndexOf("\\"));
+                        filename = filename.substring(filename
+                                .lastIndexOf("\\"));
                     }
-                    
+
                     ServletContext context = getServletContext();
 
                     // 上传的文件存放路径为...\\WebRoot\\upload\\filename
                     dir = context.getRealPath("upload");
-                    //System.out.println(dir+"  , "+filename);
+                    // System.out.println(dir+"  , "+filename);
                     File file = new File(dir, filename);
                     file.createNewFile();
 
@@ -112,7 +113,7 @@ public class SingleAddBatch extends HttpServlet
             String sql = "select hash from t_single_ques where hash=?";
             PreparedStatement st = conn.prepareStatement(sql);
             List<SingleQues> sqList = new ArrayList<SingleQues>();
-            Map<String,String> hash = new HashMap<String,String>();
+            Map<String, String> hash = new HashMap<String, String>();
             String answerRegex = "[A-E]";
             // System.out.println(dir+"\\"+filename);
             Workbook book = Workbook
@@ -122,89 +123,103 @@ public class SingleAddBatch extends HttpServlet
             // 得到单元格
             for (int i = 1; i < sheet.getRows(); i++)
             {
-                String answer = sheet.getCell(0, i).getContents().trim().toUpperCase();;
+                String answer = sheet.getCell(0, i).getContents().trim()
+                        .toUpperCase();
+                ;
                 String ques = sheet.getCell(1, i).getContents();
-                if(answer==null||answer.length()!=1||!answer.matches(answerRegex)) // 答案符合A-E, 后面还要判断是否存在E
+                if (answer == null || answer.length() != 1
+                        || !answer.matches(answerRegex)) // 答案符合A-E, 后面还要判断是否存在E
                 {
-                    resp.sendRedirect("addBatchSingleQues.jsp?error=answer&row="+(i+1));
+                    resp.sendRedirect("addBatchSingleQues.jsp?error=answer&row="
+                            + (i + 1));
                     return;
                 }
-                if(ques==null)
+                if (ques == null)
                 {
-                    resp.sendRedirect("addBatchSingleQues.jsp?error=emptyQues&row="+(i+1));
+                    resp.sendRedirect("addBatchSingleQues.jsp?error=emptyQues&row="
+                            + (i + 1));
                     return;
-                }
-                else
+                } else
                 {
-                    String[] qName = ques.split("[\r\n]+"); //题干以第一个换行分割
-                    if(qName[0]==null || qName[0].equals(""))//题干为空
+                    String[] qName = ques.split("[\r\n]+"); // 题干以第一个换行分割
+                    if (qName[0] == null || qName[0].equals(""))// 题干为空
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyQName&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyQName&row="
+                                + (i + 1));
                         return;
-                    }
-                    else if(qName.length==1)
+                    } else if (qName.length == 1)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=oneLine&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=oneLine&row="
+                                + (i + 1));
                         return;
                     }
                     String[] optionSrc = ques.split("A((、)|(．))");
-                    if(optionSrc.length!=2)
+                    if (optionSrc.length != 2)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=A&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=A&row="
+                                + (i + 1));
                         return;
                     }
-                    
+
                     String[] optionA = optionSrc[1].split("B((、)|(．))");
-                    if(optionA.length!=2)
+                    if (optionA.length != 2)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=B&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=B&row="
+                                + (i + 1));
                         return;
                     }
                     String[] optionB = optionA[1].split("C((、)|(．))");
-                    if(optionB.length!=2)
+                    if (optionB.length != 2)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=C&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=C&row="
+                                + (i + 1));
                         return;
                     }
                     String[] optionC = optionB[1].split("D((、)|(．))");
-                    if(optionC.length!=2)
+                    if (optionC.length != 2)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=D&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=D&row="
+                                + (i + 1));
                         return;
                     }
                     String[] optionD = optionC[1].split("E((、)|(．))");
                     String optionE = null;
-                    if(optionD.length>=2)
-                     optionE = optionD[1];
-                    
-                    if(optionA[0]==null||optionA[0].equals(""))
+                    if (optionD.length >= 2)
+                        optionE = optionD[1];
+
+                    if (optionA[0] == null || optionA[0].equals(""))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyA&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyA&row="
+                                + (i + 1));
                         return;
                     }
-                    if(optionB[0]==null||optionB[0].equals(""))
+                    if (optionB[0] == null || optionB[0].equals(""))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyB&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyB&row="
+                                + (i + 1));
                         return;
                     }
-                    if(optionC[0]==null||optionC[0].equals(""))
+                    if (optionC[0] == null || optionC[0].equals(""))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyC&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyC&row="
+                                + (i + 1));
                         return;
                     }
-                    if(optionD[0]==null||optionD[0].equals(""))
+                    if (optionD[0] == null || optionD[0].equals(""))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyD&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyD&row="
+                                + (i + 1));
                         return;
                     }
-                    if(optionE!=null&&optionE.equals(""))
+                    if (optionE != null && optionE.equals(""))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyE&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=emptyE&row="
+                                + (i + 1));
                         return;
-                    }
-                    else if(answer.equals("E"))
+                    } else if (answer.equals("E"))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=answer&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=answer&row="
+                                + (i + 1));
                         return;
                     }
                     SingleQues sq = new SingleQues();
@@ -212,49 +227,56 @@ public class SingleAddBatch extends HttpServlet
                     sq.setStatus(0);
                     sq.setqAnswer(answer);
                     sq.setqName(qName[0]);
-                    if(sq.getqName().length()>300)
+                    if (sq.getqName().length() > 300)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=longQName&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=longQName&row="
+                                + (i + 1));
                         return;
                     }
                     sq.setOptionA(optionA[0]);
-                    if(sq.getOptionA().length()>300)
+                    if (sq.getOptionA().length() > 300)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=longA&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=longA&row="
+                                + (i + 1));
                         return;
                     }
                     sq.setOptionB(optionB[0]);
-                    if(sq.getOptionB().length()>300)
+                    if (sq.getOptionB().length() > 300)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=longB&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=longB&row="
+                                + (i + 1));
                         return;
                     }
                     sq.setOptionC(optionC[0]);
-                    if(sq.getOptionC().length()>300)
+                    if (sq.getOptionC().length() > 300)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=longC&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=longC&row="
+                                + (i + 1));
                         return;
                     }
                     sq.setOptionD(optionD[0]);
-                    if(sq.getOptionD().length()>300)
+                    if (sq.getOptionD().length() > 300)
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=longD&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=longD&row="
+                                + (i + 1));
                         return;
                     }
 
-                    StringBuilder sb = new StringBuilder(sq.getSubjectId()+sq.getqName()+sq.getOptionA()+sq.getOptionB()+sq.getOptionC()+sq.getOptionD());
-                    if(optionE!=null)
+                    StringBuilder sb = new StringBuilder(sq.getSubjectId()
+                            + sq.getqName() + sq.getOptionA() + sq.getOptionB()
+                            + sq.getOptionC() + sq.getOptionD());
+                    if (optionE != null)
                     {
-                        if(optionE.length()>300)
+                        if (optionE.length() > 300)
                         {
-                            resp.sendRedirect("addBatchSingleQues.jsp?error=longE&row="+(i+1));
+                            resp.sendRedirect("addBatchSingleQues.jsp?error=longE&row="
+                                    + (i + 1));
                             return;
                         }
                         sq.setOptionE(optionE);
                         sq.setOptNum(5);
                         sb.append(sq.getOptionE());
-                    }
-                    else
+                    } else
                     {
                         sq.setOptNum(4);
                     }
@@ -262,29 +284,30 @@ public class SingleAddBatch extends HttpServlet
                     st.setString(1, sq.getHash());
 
                     String same = hash.get(sq.getHash());
-                    if(same!=null && !same.equals(""))
+                    if (same != null && !same.equals(""))
                     {
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=same&row="+(i+1)+"&src="+same);
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=same&row="
+                                + (i + 1) + "&src=" + same);
                         return;
                     }
-                    
+
                     ResultSet rs = st.executeQuery();
-                    if(rs!=null && rs.next())
+                    if (rs != null && rs.next())
                     {
                         rs.close();
                         st.close();
                         conn.close();
-                        resp.sendRedirect("addBatchSingleQues.jsp?error=unique&row="+(i+1));
+                        resp.sendRedirect("addBatchSingleQues.jsp?error=unique&row="
+                                + (i + 1));
                         return;
-                    }
-                    else
+                    } else
                     {
-                        hash.put(sq.getHash(), (i+1)+"");
+                        hash.put(sq.getHash(), (i + 1) + "");
                         sqList.add(sq);
                         rs.close();
                     }
                 }
-                
+
             }
             book.close();
             st.close();
@@ -292,12 +315,12 @@ public class SingleAddBatch extends HttpServlet
 
             HttpSession hs = req.getSession();
             hs.setAttribute("singleBatch", sqList);
-            
+
             SingleQuesDAO sqd = new SingleQuesDAOImpl();
             sqd.addSingleQuesList(sqList);
-            resp.sendRedirect("single.jsp?batch="+sqList.size()+"&subjectId="+subjectId);
-        }
-        catch (Exception e)
+            resp.sendRedirect("single.jsp?batch=" + sqList.size()
+                    + "&subjectId=" + subjectId);
+        } catch (Exception e)
         {
             try
             {
@@ -308,9 +331,9 @@ public class SingleAddBatch extends HttpServlet
             }
             e.printStackTrace();
         }
-        
 
     }
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
         doPost(req, resp);

@@ -31,8 +31,7 @@ public class MultiQuesAction extends HttpServlet
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e1)
+        } catch (UnsupportedEncodingException e1)
         {
             e1.printStackTrace();
         }
@@ -46,146 +45,152 @@ public class MultiQuesAction extends HttpServlet
             String addBatch = req.getParameter("addBatch");
             String id = req.getParameter("id");
             String addM = req.getParameter("addM");
-            
-            if(addOne !=null)
+
+            if (addOne != null)
             {
                 resp.sendRedirect("addOneMultiQues.jsp");
-            }
-            else if(addBatch!=null)
+            } else if (addBatch != null)
             {
                 resp.sendRedirect("addBatchMultiQues.jsp");
-            }
-            else if(del!=null)
+            } else if (del != null)
             {
                 ExamDAO ed = new ExamDAOImpl();
                 int maxNeedInExam = ed.getMaxQuesNumByType("multi");
                 int maxNumInRepo = sqd.getCountSum();
                 UserExamDAO ued = new UserExamDAOImpl();
                 PracQuesDAO qpd = new PracQuesDAOImpl();
-                
-                if(maxNumInRepo<=maxNeedInExam)
+
+                if (maxNumInRepo <= maxNeedInExam)
                 {
                     resp.sendRedirect("multi.jsp?delTooFew");
-                }
-                else if(!ued.queryNoQuesId("multi", id) || !qpd.queryNoQuesId("multi", id))
+                } else if (!ued.queryNoQuesId("multi", id)
+                        || !qpd.queryNoQuesId("multi", id))
                 {
                     resp.sendRedirect("multi.jsp?delUsed");
-                }
-                else
+                } else
                 {
                     sqd.deleteMultiQues(Integer.parseInt(id));
                     resp.sendRedirect("multi.jsp");
-                }            
-            }
-            else if(addM!=null)
+                }
+            } else if (addM != null)
             {
                 String[] answers = req.getParameterValues("answer");
                 StringBuilder answer = new StringBuilder("");
-                for(int i=0; i<answers.length; i++)
+                for (int i = 0; i < answers.length; i++)
                 {
                     answer.append(answers[i]);
                 }
                 sq.setqAnswer(answer.toString());
-                
+
                 StringBuilder sb = new StringBuilder("");
                 sq.setqName(req.getParameter("ques"));
                 sq.setSubjectId(Integer.parseInt(req.getParameter("subject")));
-                sb.append(sq.getSubjectId()+sq.getqName());
-                int optNum=0;
-                if(req.getParameter("tA")!=null && !req.getParameter("tA").equals(""))
+                sb.append(sq.getSubjectId() + sq.getqName());
+                int optNum = 0;
+                if (req.getParameter("tA") != null
+                        && !req.getParameter("tA").equals(""))
                 {
                     sq.setOptionA(req.getParameter("tA"));
                     optNum++;
                     sb.append(sq.getOptionA());
                 }
-                if(req.getParameter("tB")!=null && !req.getParameter("tB").equals(""))
+                if (req.getParameter("tB") != null
+                        && !req.getParameter("tB").equals(""))
                 {
                     sq.setOptionB(req.getParameter("tB"));
                     optNum++;
                     sb.append(sq.getOptionB());
                 }
-                if(req.getParameter("tC")!=null && !req.getParameter("tC").equals(""))
+                if (req.getParameter("tC") != null
+                        && !req.getParameter("tC").equals(""))
                 {
                     sq.setOptionC(req.getParameter("tC"));
                     optNum++;
                     sb.append(sq.getOptionC());
                 }
-                if(req.getParameter("tD")!=null && !req.getParameter("tD").equals(""))
+                if (req.getParameter("tD") != null
+                        && !req.getParameter("tD").equals(""))
                 {
                     sq.setOptionD(req.getParameter("tD"));
                     optNum++;
                     sb.append(sq.getOptionD());
                 }
-                if(req.getParameter("tE")!=null && !req.getParameter("tE").equals(""))
+                if (req.getParameter("tE") != null
+                        && !req.getParameter("tE").equals(""))
                 {
                     sq.setOptionE(req.getParameter("tE"));
                     optNum++;
                     sb.append(sq.getOptionE());
                 }
                 sq.setOptNum(optNum);
-//                System.out.println(sb.toString());
+                // System.out.println(sb.toString());
                 sq.setHash(MD5Util.getMD5(sb.toString()));
-                if(sqd.checkUnique(sq.getHash())!=-1)
+                if (sqd.checkUnique(sq.getHash()) != -1)
                 {
                     resp.sendRedirect("multi.jsp?unique");
                     return;
                 }
                 sq.setStatus(0);
-                
+
                 sqd.addMultiQues(sq);
                 resp.sendRedirect("multi.jsp");
-            }
-            else //update
+            } else
+            // update
             {
                 String[] answers = req.getParameterValues("answer");
                 StringBuilder answer = new StringBuilder("");
-                for(int i=0; i<answers.length; i++)
+                for (int i = 0; i < answers.length; i++)
                 {
                     answer.append(answers[i]);
                 }
                 sq.setSubjectId(Integer.parseInt(req.getParameter("subject")));
                 sq.setqAnswer(answer.toString());
                 sq.setqName(req.getParameter("ques"));
-                int optNum=0;
+                int optNum = 0;
                 StringBuilder sb = new StringBuilder("");
                 sb.append(sq.getSubjectId()).append(sq.getqName());
-                if(req.getParameter("tA")!=null && !req.getParameter("tA").equals(""))
+                if (req.getParameter("tA") != null
+                        && !req.getParameter("tA").equals(""))
                 {
                     sq.setOptionA(req.getParameter("tA"));
                     optNum++;
                     sb.append(sq.getOptionA());
                 }
-                if(req.getParameter("tB")!=null && !req.getParameter("tB").equals(""))
+                if (req.getParameter("tB") != null
+                        && !req.getParameter("tB").equals(""))
                 {
                     sq.setOptionB(req.getParameter("tB"));
                     optNum++;
                     sb.append(sq.getOptionB());
                 }
-                if(req.getParameter("tC")!=null && !req.getParameter("tC").equals(""))
+                if (req.getParameter("tC") != null
+                        && !req.getParameter("tC").equals(""))
                 {
                     sq.setOptionC(req.getParameter("tC"));
                     optNum++;
                     sb.append(sq.getOptionC());
                 }
-                if(req.getParameter("tD")!=null && !req.getParameter("tD").equals(""))
+                if (req.getParameter("tD") != null
+                        && !req.getParameter("tD").equals(""))
                 {
                     sq.setOptionD(req.getParameter("tD"));
                     optNum++;
                     sb.append(sq.getOptionD());
                 }
-                if(req.getParameter("tE")!=null && !req.getParameter("tE").equals(""))
+                if (req.getParameter("tE") != null
+                        && !req.getParameter("tE").equals(""))
                 {
                     sq.setOptionE(req.getParameter("tE"));
                     optNum++;
                     sb.append(sq.getOptionE());
                 }
                 sq.setOptNum(optNum);
-//                System.out.println(sb.toString());
-                
+                // System.out.println(sb.toString());
+
                 sq.setHash(MD5Util.getMD5(sb.toString()));
                 int unique = sqd.checkUnique(sq.getHash());
- //               System.out.println(unique);
-                if(unique!=-1 && unique!=Integer.parseInt(id))
+                // System.out.println(unique);
+                if (unique != -1 && unique != Integer.parseInt(id))
                 {
                     resp.sendRedirect("multi.jsp?unique");
                     return;
@@ -196,8 +201,7 @@ public class MultiQuesAction extends HttpServlet
                 sqd.updateMultiQues(Integer.parseInt(id), sq);
                 resp.sendRedirect("multi.jsp");
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -147,11 +147,11 @@ public class GenericPagingQueryDAOImpl implements GenericPagingQueryDAO
                         exam.setExamName(rs.getString("examName"));
                         exam.setStartTime(rs.getString("startTime"));
                         exam.setEndTime(rs.getString("endTime"));
-                        exam.setSingleNum(rs.getInt("singleNum"));
+                        exam.setSingleNum(rs.getString("singleNum"));
                         exam.setSingleScore(rs.getInt("singleScore"));
-                        exam.setMutliNum(rs.getInt("multiNum"));
+                        exam.setMutliNum(rs.getString("multiNum"));
                         exam.setMutliScore(rs.getInt("multiscore"));
-                        exam.setJudgeNum(rs.getInt("judgeNum"));
+                        exam.setJudgeNum(rs.getString("judgeNum"));
                         exam.setJudgeScore(rs.getInt("judgeScore"));
                         exam.setPassScore(rs.getInt("passScore"));
                         exam.setExamType(rs.getString("examType"));

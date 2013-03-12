@@ -5,19 +5,53 @@ public class Exam {
 	private String examName;
 	private String startTime;
 	private String endTime;
-	private int singleNum;
+	private String singleNum;
 	private int singleScore;
-	private int mutliNum;
+	private String mutliNum;
 	private int mutliScore;
-	private int judgeNum;
+	private String judgeNum;
 	private int judgeScore;
 	private int passScore;
 	private String examType;
-	private int subjectId;
+	
+	//2013年3月3日，支持一exam多subject
+	private String subjectId;
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public String getSubjectId()
+    {
+        return subjectId;
+    }
+    public void setSubjectId(String subjectId)
+    {
+        this.subjectId = subjectId;
+    }
+    public String getSingleNum()
+    {
+        return singleNum;
+    }
+    public void setSingleNum(String singleNum)
+    {
+        this.singleNum = singleNum;
+    }
+    public String getMutliNum()
+    {
+        return mutliNum;
+    }
+    public void setMutliNum(String mutliNum)
+    {
+        this.mutliNum = mutliNum;
+    }
+    public String getJudgeNum()
+    {
+        return judgeNum;
+    }
+    public void setJudgeNum(String judgeNum)
+    {
+        this.judgeNum = judgeNum;
+    }
+    public void setId(int id) {
 		this.id = id;
 	}
 	public String getExamName() {
@@ -38,35 +72,17 @@ public class Exam {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public int getSingleNum() {
-		return singleNum;
-	}
-	public void setSingleNum(int singleNum) {
-		this.singleNum = singleNum;
-	}
 	public int getSingleScore() {
 		return singleScore;
 	}
 	public void setSingleScore(int singleScore) {
 		this.singleScore = singleScore;
 	}
-	public int getMutliNum() {
-		return mutliNum;
-	}
-	public void setMutliNum(int mutliNum) {
-		this.mutliNum = mutliNum;
-	}
 	public int getMutliScore() {
 		return mutliScore;
 	}
 	public void setMutliScore(int mutliScore) {
 		this.mutliScore = mutliScore;
-	}
-	public int getJudgeNum() {
-		return judgeNum;
-	}
-	public void setJudgeNum(int judgeNum) {
-		this.judgeNum = judgeNum;
 	}
 	public int getJudgeScore() {
 		return judgeScore;
@@ -88,15 +104,4 @@ public class Exam {
     {
         this.examType = examType;
     }
-    public int getSubjectId()
-    {
-        return subjectId;
-    }
-    public void setSubjectId(int subjectId)
-    {
-        this.subjectId = subjectId;
-    }
-    
-	
-	
 }

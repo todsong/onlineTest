@@ -31,13 +31,13 @@ public class PracAction extends HttpServlet
 {
     private static final long serialVersionUID = 1920148121391326440L;
     public static int caseSum = 3;
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e1)
+        } catch (UnsupportedEncodingException e1)
         {
             e1.printStackTrace();
         }
@@ -46,15 +46,14 @@ public class PracAction extends HttpServlet
             ExamDAO ed = new ExamDAOImpl();
             String addP = req.getParameter("addP");
             String upP = req.getParameter("upP");
-            if(req.getParameter("del")!=null)
+            if (req.getParameter("del") != null)
             {
                 String id = req.getParameter("id");
                 PracQuesDAO pqd = new PracQuesDAOImpl();
                 pqd.deletePracQuesByPracId(Integer.parseInt(id));
                 ed.deleteExam(Integer.parseInt(id));
                 resp.sendRedirect("practise.jsp");
-            }
-            else if(addP!=null || upP!=null )
+            } else if (addP != null || upP != null)
             {
                 String examName = req.getParameter("examName");
                 String judgeNum = req.getParameter("judgeNum");
@@ -68,7 +67,7 @@ public class PracAction extends HttpServlet
                 String eyear = req.getParameter("eyear");
                 String emonth = req.getParameter("emonth");
                 String eday = req.getParameter("eday");
-                int subjectId = Integer.parseInt(req.getParameter("subject"));
+                String subjectId = req.getParameter("subject");
                 String examType = "1";
                 Exam exam = new Exam();
                 String startTime = syear + smonth + sday + shour + "00";
@@ -78,81 +77,86 @@ public class PracAction extends HttpServlet
                 exam.setExamName(examName);
                 exam.setStartTime(startTime);
                 exam.setEndTime(endTime);
+                int subjectIdInt = Integer.parseInt(subjectId);
                 int singleNumInt = Integer.parseInt(singleNum);
                 int judgeNumInt = Integer.parseInt(judgeNum);
                 int multiNumInt = Integer.parseInt(multiNum);
-                exam.setSingleNum(singleNumInt);
-                exam.setJudgeNum(judgeNumInt);
-                exam.setMutliNum(multiNumInt);
+                exam.setSingleNum(singleNum);
+                exam.setJudgeNum(judgeNum);
+                exam.setMutliNum(multiNum);
                 exam.setExamType(examType);
-                
-                if(addP!=null)//新增练习
+
+                if (addP != null)// 新增练习
                 {
                     JudgeQuesDAO jd = new JudgeQuesDAOImpl();
-                    List<JudgeQues> jqList = jd.getAllAvailableBySubjectId(subjectId);
+                    List<JudgeQues> jqList = jd
+                            .getAllAvailableBySubjectId(subjectIdInt);
                     SingleQuesDAO sd = new SingleQuesDAOImpl();
-                    List<SingleQues> sqList = sd.getAllAvailableBySubjectId(subjectId);
+                    List<SingleQues> sqList = sd
+                            .getAllAvailableBySubjectId(subjectIdInt);
                     MultiQuesDAO md = new MultiQuesDAOImpl();
-                    List<MultiQues> mqList = md.getAllAvailableBySubjectId(subjectId);
-                    
-                    if(judgeNumInt> jqList.size())
+                    List<MultiQues> mqList = md
+                            .getAllAvailableBySubjectId(subjectIdInt);
+
+                    if (judgeNumInt > jqList.size())
                     {
                         resp.sendRedirect("addPrac.jsp?error=jFew");
                         HttpSession hs = req.getSession();
                         hs.setAttribute("errorExam", exam);
                         return;
-                    }
-                    else if(singleNumInt> sqList.size())
+                    } else if (singleNumInt > sqList.size())
                     {
                         resp.sendRedirect("addPrac.jsp?error=sFew");
                         HttpSession hs = req.getSession();
                         hs.setAttribute("errorExam", exam);
                         return;
-                    }
-                    else if(multiNumInt> mqList.size())
+                    } else if (multiNumInt > mqList.size())
                     {
                         resp.sendRedirect("addPrac.jsp?error=mFew");
                         HttpSession hs = req.getSession();
                         hs.setAttribute("errorExam", exam);
                         return;
                     }
-                    
+
                     PracQues[] pq = new PracQues[caseSum];
-                    for(int caseId=0; caseId<caseSum; caseId++)
+                    for (int caseId = 0; caseId < caseSum; caseId++)
                     {
-                        int[] jqArray = RandomUtil.getRandomArray(judgeNumInt, jqList.size());
-                        int[] sqArray = RandomUtil.getRandomArray(singleNumInt, sqList.size());
-                        int[] mqArray = RandomUtil.getRandomArray(multiNumInt, mqList.size());
-                        
+                        int[] jqArray = RandomUtil.getRandomArray(judgeNumInt,
+                                jqList.size());
+                        int[] sqArray = RandomUtil.getRandomArray(singleNumInt,
+                                sqList.size());
+                        int[] mqArray = RandomUtil.getRandomArray(multiNumInt,
+                                mqList.size());
+
                         StringBuilder jqStr = new StringBuilder("");
                         StringBuilder sqStr = new StringBuilder("");
                         StringBuilder mqStr = new StringBuilder("");
-                        
-                        for(int i=0;i<judgeNumInt;i++)
+
+                        for (int i = 0; i < judgeNumInt; i++)
                         {
                             jqStr.append(jqList.get(jqArray[i]).getId());
-                            if(i!=judgeNumInt-1)
+                            if (i != judgeNumInt - 1)
                             {
                                 jqStr.append('|');
                             }
                         }
-                        for(int i=0;i<singleNumInt;i++)
+                        for (int i = 0; i < singleNumInt; i++)
                         {
                             sqStr.append(sqList.get(sqArray[i]).getId());
-                            if(i!=singleNumInt-1)
+                            if (i != singleNumInt - 1)
                             {
                                 sqStr.append('|');
                             }
                         }
-                        for(int i=0;i<multiNumInt;i++)
+                        for (int i = 0; i < multiNumInt; i++)
                         {
                             mqStr.append(mqList.get(mqArray[i]).getId());
-                            if(i!=multiNumInt-1)
+                            if (i != multiNumInt - 1)
                             {
                                 mqStr.append('|');
                             }
                         }
-                        
+
                         pq[caseId] = new PracQues();
                         pq[caseId].setCaseId(caseId);
                         pq[caseId].setJudgeIdList(jqStr.toString());
@@ -161,78 +165,83 @@ public class PracAction extends HttpServlet
                     }
                     PracQuesDAO pqd = new PracQuesDAOImpl();
                     int pracId = ed.addExam(exam);
-                    for(int i=0;i<caseSum;i++)
+                    for (int i = 0; i < caseSum; i++)
                     {
                         pq[i].setPracId(pracId);
                         pqd.addPracQues(pq[i]);
                     }
-                }
-                else if(upP!=null)//更新练习
+                } else if (upP != null)// 更新练习
                 {
                     int id = Integer.parseInt(req.getParameter("id"));
                     exam.setId(id);
                     Exam e = ed.queryExamById(id);
-                    if(e.getJudgeNum()!=exam.getJudgeNum() || e.getSingleNum()!=exam.getSingleNum()
-                            || e.getMutliNum()!=exam.getMutliNum() || e.getSubjectId()!=exam.getSubjectId())
+                    if (e.getJudgeNum() != exam.getJudgeNum()
+                            || e.getSingleNum() != exam.getSingleNum()
+                            || e.getMutliNum() != exam.getMutliNum()
+                            || e.getSubjectId() != exam.getSubjectId())
                     {
                         JudgeQuesDAO jd = new JudgeQuesDAOImpl();
-                        List<JudgeQues> jqList = jd.getAllAvailableBySubjectId(subjectId);
+                        List<JudgeQues> jqList = jd
+                                .getAllAvailableBySubjectId(subjectIdInt);
                         SingleQuesDAO sd = new SingleQuesDAOImpl();
-                        List<SingleQues> sqList = sd.getAllAvailableBySubjectId(subjectId);
+                        List<SingleQues> sqList = sd
+                                .getAllAvailableBySubjectId(subjectIdInt);
                         MultiQuesDAO md = new MultiQuesDAOImpl();
-                        List<MultiQues> mqList = md.getAllAvailableBySubjectId(subjectId);
-                    
-                        if(judgeNumInt> jqList.size())
+                        List<MultiQues> mqList = md
+                                .getAllAvailableBySubjectId(subjectIdInt);
+
+                        if (judgeNumInt > jqList.size())
                         {
-                            resp.sendRedirect("addPrac.jsp?error=jFew&id="+id);
+                            resp.sendRedirect("addPrac.jsp?error=jFew&id=" + id);
+                            HttpSession hs = req.getSession();
+                            hs.setAttribute("errorExam", exam);
+                            return;
+                        } else if (singleNumInt > sqList.size())
+                        {
+                            resp.sendRedirect("addPrac.jsp?error=sFew&id=" + id);
+                            HttpSession hs = req.getSession();
+                            hs.setAttribute("errorExam", exam);
+                            return;
+                        } else if (multiNumInt > mqList.size())
+                        {
+                            resp.sendRedirect("addPrac.jsp?error=mFew&id=" + id);
                             HttpSession hs = req.getSession();
                             hs.setAttribute("errorExam", exam);
                             return;
                         }
-                        else if(singleNumInt> sqList.size())
-                        {
-                            resp.sendRedirect("addPrac.jsp?error=sFew&id="+id);
-                            HttpSession hs = req.getSession();
-                            hs.setAttribute("errorExam", exam);
-                            return;
-                        }
-                        else if(multiNumInt> mqList.size())
-                        {
-                            resp.sendRedirect("addPrac.jsp?error=mFew&id="+id);
-                            HttpSession hs = req.getSession();
-                            hs.setAttribute("errorExam", exam);
-                            return;
-                        }
-                        
+
                         PracQues[] pq = new PracQues[caseSum];
-                        for(int caseId=0; caseId<caseSum; caseId++)
+                        for (int caseId = 0; caseId < caseSum; caseId++)
                         {
-                            int[] jqArray = RandomUtil.getRandomArray(judgeNumInt, jqList.size());
-                            int[] sqArray = RandomUtil.getRandomArray(singleNumInt, sqList.size());
-                            int[] mqArray = RandomUtil.getRandomArray(multiNumInt, mqList.size());
+                            int[] jqArray = RandomUtil.getRandomArray(
+                                    judgeNumInt, jqList.size());
+                            int[] sqArray = RandomUtil.getRandomArray(
+                                    singleNumInt, sqList.size());
+                            int[] mqArray = RandomUtil.getRandomArray(
+                                    multiNumInt, mqList.size());
                             StringBuilder jqStr = new StringBuilder("");
                             StringBuilder sqStr = new StringBuilder("");
                             StringBuilder mqStr = new StringBuilder("");
-                            for(int i=0;i<judgeNumInt;i++)
+                            for (int i = 0; i < judgeNumInt; i++)
                             {
                                 jqStr.append(jqList.get(jqArray[i]).getId());
-                                if(i!=judgeNumInt-1)
+                                if (i != judgeNumInt - 1)
                                 {
                                     jqStr.append('|');
                                 }
                             }
-                            for(int i=0;i<singleNumInt;i++)
+                            for (int i = 0; i < singleNumInt; i++)
                             {
                                 sqStr.append(sqList.get(sqArray[i]).getId());
-                                if(i!=singleNumInt-1)
+                                if (i != singleNumInt - 1)
                                 {
                                     sqStr.append('|');
                                 }
                             }
-                            for(int i=0;i<multiNumInt;i++)
+                            for (int i = 0; i < multiNumInt; i++)
                             {
                                 mqStr.append(mqList.get(mqArray[i]).getId());
-                                if(i!=multiNumInt-1)
+                                if (i != multiNumInt - 1)
                                 {
                                     mqStr.append('|');
                                 }
@@ -244,25 +253,25 @@ public class PracAction extends HttpServlet
                             pq[caseId].setMultiIdList(mqStr.toString());
                         }
                         PracQuesDAO pqd = new PracQuesDAOImpl();
-                        
-                        for(int i=0;i<caseSum;i++)
+
+                        for (int i = 0; i < caseSum; i++)
                         {
                             pq[i].setPracId(id);
                             pqd.updatePracQues(pq[i]);
                         }
                     }
                     exam.setId(id);
-                    
+
                     ed.updateExam(id, exam);
                 }
                 resp.sendRedirect("practise.jsp");
-            }            
-        }
-        catch (IOException e)
+            }
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
     }
+
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
         doGet(req, resp);

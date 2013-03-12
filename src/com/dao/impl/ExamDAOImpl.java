@@ -32,15 +32,15 @@ public class ExamDAOImpl implements ExamDAO {
 			st.setString(1, exam.getExamName());
 			st.setString(2, exam.getStartTime());
 			st.setString(3, exam.getEndTime());
-			st.setInt(4, exam.getSingleNum());
+			st.setString(4, exam.getSingleNum());
 			st.setInt(5, exam.getSingleScore());
-			st.setInt(6, exam.getMutliNum());
+			st.setString(6, exam.getMutliNum());
 			st.setInt(7, exam.getMutliScore());
-			st.setInt(8, exam.getJudgeNum());
+			st.setString(8, exam.getJudgeNum());
 			st.setInt(9, exam.getJudgeScore());
             st.setInt(10, exam.getPassScore());
             st.setString(11, exam.getExamType());
-            st.setInt(12, exam.getSubjectId());
+            st.setString(12, exam.getSubjectId());
 			st.execute();
 			sql = "select @@IDENTITY";
 			st = conn.prepareStatement(sql);
@@ -115,15 +115,15 @@ public class ExamDAOImpl implements ExamDAO {
 			st.setString(1, exam.getExamName());
 			st.setString(2, exam.getStartTime());
 			st.setString(3, exam.getEndTime());
-			st.setInt(4, exam.getSingleNum());
+			st.setString(4, exam.getSingleNum());
 			st.setInt(5, exam.getSingleScore());
-			st.setInt(6, exam.getMutliNum());
+			st.setString(6, exam.getMutliNum());
 			st.setInt(7, exam.getMutliScore());
-			st.setInt(8, exam.getJudgeNum());
+			st.setString(8, exam.getJudgeNum());
 			st.setInt(9, exam.getJudgeScore());
             st.setInt(10, exam.getPassScore());
             st.setString(11, exam.getExamType());
-            st.setInt(12, exam.getSubjectId());
+            st.setString(12, exam.getSubjectId());
             st.setInt(13, id);
 			st.execute();
 			conn.commit();
@@ -166,15 +166,15 @@ public class ExamDAOImpl implements ExamDAO {
 				exam.setExamName(rs.getString(2));
 				exam.setStartTime(rs.getString(3));
 				exam.setEndTime(rs.getString(4));
-				exam.setSingleNum(rs.getInt(5));
+				exam.setSingleNum(rs.getString(5));
 				exam.setSingleScore(rs.getInt(6));
-				exam.setMutliNum(rs.getInt(7));
+				exam.setMutliNum(rs.getString(7));
 				exam.setMutliScore(rs.getInt(8));
-				exam.setJudgeNum(rs.getInt(9));
+				exam.setJudgeNum(rs.getString(9));
 				exam.setJudgeScore(rs.getInt(10));
 				exam.setPassScore(rs.getInt(11));
                 exam.setExamType(rs.getString(12));
-                exam.setSubjectId(rs.getInt(13));
+                exam.setSubjectId(rs.getString(13));
 			}
 		}
 		catch (SQLException e)
@@ -221,15 +221,15 @@ public class ExamDAOImpl implements ExamDAO {
 					exam.setExamName(rs.getString(2));
 					exam.setStartTime(rs.getString(3));
 					exam.setEndTime(rs.getString(4));
-					exam.setSingleNum(rs.getInt(5));
+					exam.setSingleNum(rs.getString(5));
 					exam.setSingleScore(rs.getInt(6));
-					exam.setMutliNum(rs.getInt(7));
+					exam.setMutliNum(rs.getString(7));
 					exam.setMutliScore(rs.getInt(8));
-					exam.setJudgeNum(rs.getInt(9));
+					exam.setJudgeNum(rs.getString(9));
 					exam.setJudgeScore(rs.getInt(10));
                     exam.setPassScore(rs.getInt(11));
                     exam.setExamType(rs.getString(12));
-                    exam.setSubjectId(rs.getInt(13));
+                    exam.setSubjectId(rs.getString(13));
 					examList.add(exam);
 				}
 			}
@@ -286,15 +286,15 @@ public class ExamDAOImpl implements ExamDAO {
                     exam.setExamName(rs.getString(2));
                     exam.setStartTime(rs.getString(3));
                     exam.setEndTime(rs.getString(4));
-                    exam.setSingleNum(rs.getInt(5));
+                    exam.setSingleNum(rs.getString(5));
                     exam.setSingleScore(rs.getInt(6));
-                    exam.setMutliNum(rs.getInt(7));
+                    exam.setMutliNum(rs.getString(7));
                     exam.setMutliScore(rs.getInt(8));
-                    exam.setJudgeNum(rs.getInt(9));
+                    exam.setJudgeNum(rs.getString(9));
                     exam.setJudgeScore(rs.getInt(10));
                     exam.setPassScore(rs.getInt(11));
                     exam.setExamType(rs.getString(12));
-                    exam.setSubjectId(rs.getInt(13));
+                    exam.setSubjectId(rs.getString(13));
                     examList.add(exam);
                 }
             }
@@ -342,15 +342,15 @@ public class ExamDAOImpl implements ExamDAO {
                     exam.setExamName(rs.getString(2));
                     exam.setStartTime(rs.getString(3));
                     exam.setEndTime(rs.getString(4));
-                    exam.setSingleNum(rs.getInt(5));
+                    exam.setSingleNum(rs.getString(5));
                     exam.setSingleScore(rs.getInt(6));
-                    exam.setMutliNum(rs.getInt(7));
+                    exam.setMutliNum(rs.getString(7));
                     exam.setMutliScore(rs.getInt(8));
-                    exam.setJudgeNum(rs.getInt(9));
+                    exam.setJudgeNum(rs.getString(9));
                     exam.setJudgeScore(rs.getInt(10));
                     exam.setPassScore(rs.getInt(11));
                     exam.setExamType(rs.getString(12));
-                    exam.setSubjectId(rs.getInt(13));
+                    exam.setSubjectId(rs.getString(13));
                     examList.add(exam);
                 }
             }
@@ -435,15 +435,15 @@ public class ExamDAOImpl implements ExamDAO {
                     exam.setExamName(rs.getString(2));
                     exam.setStartTime(rs.getString(3));
                     exam.setEndTime(rs.getString(4));
-                    exam.setSingleNum(rs.getInt(5));
+                    exam.setSingleNum(rs.getString(5));
                     exam.setSingleScore(rs.getInt(6));
-                    exam.setMutliNum(rs.getInt(7));
+                    exam.setMutliNum(rs.getString(7));
                     exam.setMutliScore(rs.getInt(8));
-                    exam.setJudgeNum(rs.getInt(9));
+                    exam.setJudgeNum(rs.getString(9));
                     exam.setJudgeScore(rs.getInt(10));
                     exam.setPassScore(rs.getInt(11));
                     exam.setExamType(rs.getString(12));
-                    exam.setSubjectId(rs.getInt(13));
+                    exam.setSubjectId(rs.getString(13));
                     examList.add(exam);
                 }
             }

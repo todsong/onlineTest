@@ -24,8 +24,7 @@ public class InfoUpdateCheck extends HttpServlet
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e1)
+        } catch (UnsupportedEncodingException e1)
         {
             e1.printStackTrace();
         }
@@ -34,49 +33,44 @@ public class InfoUpdateCheck extends HttpServlet
             UserDAO ud = new UserDAOImpl();
             HttpSession hs = req.getSession();
             String login = (String) hs.getAttribute("login");
-            if(login==null||login.equals(""))
+            if (login == null || login.equals(""))
             {
                 return;
             }
             String id = req.getParameter("userId");
             User user = ud.queryUserById(id);
-            
+
             String delete = req.getParameter("delete");
             String active = req.getParameter("active");
             String inactive = req.getParameter("inactive");
             String update = req.getParameter("update");
             String repwd = req.getParameter("repwd");
-            
-            
+
             if (user != null)
             {
-                if(delete!=null)
+                if (delete != null)
                 {
                     ud.deleteUserById(id);
                     resp.sendRedirect("admin/userAdmin.jsp");
-                }
-                else if(active!=null)
+                } else if (active != null)
                 {
                     user.setStatus("0");
                     ud.updateUserById(id, user);
                     resp.sendRedirect("admin/userAdmin.jsp");
-                }
-                else if(inactive!=null)
+                } else if (inactive != null)
                 {
                     user.setStatus("1");
                     ud.updateUserById(id, user);
                     resp.sendRedirect("admin/userAdmin.jsp");
-                }
-                else if(repwd!=null)
+                } else if (repwd != null)
                 {
                     String defaultPwd = "000000";
-                    String pwd = MD5Util.getMD5(id+defaultPwd);
+                    String pwd = MD5Util.getMD5(id + defaultPwd);
                     user.setPasswd(pwd);
 
                     ud.updateUserById(id, user);
                     resp.sendRedirect("admin/userAdmin.jsp");
-                }
-                else
+                } else
                 {
                     user.setName(req.getParameter("userName"));
                     user.setDept(Integer.parseInt(req.getParameter("dept")));
@@ -85,21 +79,19 @@ public class InfoUpdateCheck extends HttpServlet
                     if (login.equals("user"))
                     {
                         hs.removeAttribute("userName");
-                        hs.setAttribute("userName", req.getParameter("userName"));
+                        hs.setAttribute("userName",
+                                req.getParameter("userName"));
                         resp.sendRedirect("examinee/examMain.jsp");
-                    }
-                    else
+                    } else
                     {
                         resp.sendRedirect("admin/userAdmin.jsp");
                     }
                 }
-            }
-            else
+            } else
             {
                 return;
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }

@@ -53,14 +53,14 @@ public class JudgeAddBatch extends HttpServlet
         ServletFileUpload upload = new ServletFileUpload(factory);
         String filename = null;
         String dir = null;
-        int subjectId=0;
-        
+        int subjectId = 0;
+
         try
         {
             List<FileItem> fileitems = upload.parseRequest(req);
             for (FileItem item : fileitems)
             {
-                if (item.isFormField()&&item.getFieldName().equals("subject"))
+                if (item.isFormField() && item.getFieldName().equals("subject"))
                 {
                     String value = item.getString();
 
@@ -71,16 +71,17 @@ public class JudgeAddBatch extends HttpServlet
                 } else
                 {
                     filename = item.getName();
-                    if(filename.contains("\\"))
+                    if (filename.contains("\\"))
                     {
-                        filename=filename.substring(filename.lastIndexOf("\\"));
+                        filename = filename.substring(filename
+                                .lastIndexOf("\\"));
                     }
-                    
+
                     ServletContext context = getServletContext();
 
                     // 上传的文件存放路径为...\\WebRoot\\upload\\filename
                     dir = context.getRealPath("upload");
-                    //System.out.println(dir+"  , "+filename);
+                    // System.out.println(dir+"  , "+filename);
                     File file = new File(dir, filename);
                     file.createNewFile();
 
@@ -111,7 +112,7 @@ public class JudgeAddBatch extends HttpServlet
             String sql = "select hash from t_judge_ques where hash=?";
             PreparedStatement st = conn.prepareStatement(sql);
             List<JudgeQues> sqList = new ArrayList<JudgeQues>();
-            Map<String,String> hash = new HashMap<String,String>();
+            Map<String, String> hash = new HashMap<String, String>();
             String answerRegex = "[TFtf]";
             // System.out.println(dir+"\\"+filename);
             Workbook book = Workbook
@@ -121,23 +122,28 @@ public class JudgeAddBatch extends HttpServlet
             // 得到单元格
             for (int i = 1; i < sheet.getRows(); i++)
             {
-                String answer = sheet.getCell(0, i).getContents().trim().toUpperCase();;
+                String answer = sheet.getCell(0, i).getContents().trim()
+                        .toUpperCase();
+                ;
                 String ques = sheet.getCell(1, i).getContents();
-                if(answer==null||answer.length()!=1||!answer.matches(answerRegex)) // 答案符合TF
+                if (answer == null || answer.length() != 1
+                        || !answer.matches(answerRegex)) // 答案符合TF
                 {
-                    resp.sendRedirect("addBatchJudgeQues.jsp?error=answer&row="+(i+1));
+                    resp.sendRedirect("addBatchJudgeQues.jsp?error=answer&row="
+                            + (i + 1));
                     return;
                 }
-                if(ques==null)
+                if (ques == null)
                 {
-                    resp.sendRedirect("addBatchJudgeQues.jsp?error=emptyQues&row="+(i+1));
+                    resp.sendRedirect("addBatchJudgeQues.jsp?error=emptyQues&row="
+                            + (i + 1));
                     return;
-                }
-                else
+                } else
                 {
-                    if(ques==null || ques.equals(""))//题干为空
+                    if (ques == null || ques.equals(""))// 题干为空
                     {
-                        resp.sendRedirect("addBatchJudgeQues.jsp?error=emptyQName&row="+(i+1));
+                        resp.sendRedirect("addBatchJudgeQues.jsp?error=emptyQName&row="
+                                + (i + 1));
                         return;
                     }
                     JudgeQues sq = new JudgeQues();
@@ -145,38 +151,40 @@ public class JudgeAddBatch extends HttpServlet
                     sq.setStatus(0);
                     sq.setqAnswer(answer);
                     sq.setqName(ques);
-                    if(sq.getqName().length()>300)
+                    if (sq.getqName().length() > 300)
                     {
-                        resp.sendRedirect("addBatchJudgeQues.jsp?error=longQName&row="+(i+1));
+                        resp.sendRedirect("addBatchJudgeQues.jsp?error=longQName&row="
+                                + (i + 1));
                         return;
                     }
-                    sq.setHash(MD5Util.getMD5(sq.getSubjectId()+ques));
+                    sq.setHash(MD5Util.getMD5(sq.getSubjectId() + ques));
                     st.setString(1, sq.getHash());
 
                     String same = hash.get(sq.getHash());
-                    if(same!=null && !same.equals(""))
+                    if (same != null && !same.equals(""))
                     {
-                        resp.sendRedirect("addBatchJudgeQues.jsp?error=same&row="+(i+1)+"&src="+same);
+                        resp.sendRedirect("addBatchJudgeQues.jsp?error=same&row="
+                                + (i + 1) + "&src=" + same);
                         return;
                     }
-                    
+
                     ResultSet rs = st.executeQuery();
-                    if(rs!=null && rs.next())
+                    if (rs != null && rs.next())
                     {
                         rs.close();
                         st.close();
                         conn.close();
-                        resp.sendRedirect("addBatchJudgeQues.jsp?error=unique&row="+(i+1));
+                        resp.sendRedirect("addBatchJudgeQues.jsp?error=unique&row="
+                                + (i + 1));
                         return;
-                    }
-                    else
+                    } else
                     {
-                        hash.put(sq.getHash(), (i+1)+"");
+                        hash.put(sq.getHash(), (i + 1) + "");
                         sqList.add(sq);
                         rs.close();
                     }
                 }
-                
+
             }
             book.close();
             st.close();
@@ -184,12 +192,12 @@ public class JudgeAddBatch extends HttpServlet
 
             HttpSession hs = req.getSession();
             hs.setAttribute("judgeBatch", sqList);
-            
+
             JudgeQuesDAO sqd = new JudgeQuesDAOImpl();
             sqd.addJudgeQuesList(sqList);
-            resp.sendRedirect("judge.jsp?batch="+sqList.size()+"&subjectId="+subjectId);
-        }
-        catch (Exception e)
+            resp.sendRedirect("judge.jsp?batch=" + sqList.size()
+                    + "&subjectId=" + subjectId);
+        } catch (Exception e)
         {
             try
             {
@@ -200,9 +208,9 @@ public class JudgeAddBatch extends HttpServlet
             }
             e.printStackTrace();
         }
-        
 
     }
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
         doPost(req, resp);

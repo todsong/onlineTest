@@ -30,15 +30,15 @@ public class SubjectAction extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        doPost(req,resp);
+        doPost(req, resp);
     }
+
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
         try
         {
             req.setCharacterEncoding("utf-8");
-        }
-        catch (UnsupportedEncodingException e1)
+        } catch (UnsupportedEncodingException e1)
         {
             e1.printStackTrace();
         }
@@ -47,26 +47,24 @@ public class SubjectAction extends HttpServlet
         String delD = req.getParameter("delD");
         String upD = req.getParameter("upD");
         SubjectDAO dd = new SubjectDAOImpl();
-        
-        if(addD!=null)
+
+        if (addD != null)
         {
             Subject subject = new Subject();
             subject.setName(subjectName);
             dd.addSubject(subject);
-        }
-        else if(upD!=null)
+        } else if (upD != null)
         {
             int id = Integer.parseInt(req.getParameter("subjectId"));
             Subject subject = new Subject();
             subject.setName(subjectName);
             dd.updateSubjectById(id, subject);
-        }
-        else if(delD!=null)
+        } else if (delD != null)
         {
             int id = Integer.parseInt(req.getParameter("subjectId"));
             JudgeQuesDAO jd = new JudgeQuesDAOImpl();
             List<JudgeQues> jqList = jd.queryJudgeQuesBySubject(id);
-            if(jqList!=null && jqList.size()!=0)
+            if (jqList != null && jqList.size() != 0)
             {
                 try
                 {
@@ -79,7 +77,7 @@ public class SubjectAction extends HttpServlet
             }
             SingleQuesDAO sd = new SingleQuesDAOImpl();
             List<SingleQues> sqList = sd.querySingleQuesBySubject(id);
-            if(sqList!=null && sqList.size()!=0)
+            if (sqList != null && sqList.size() != 0)
             {
                 try
                 {
@@ -90,11 +88,10 @@ public class SubjectAction extends HttpServlet
                 }
                 return;
             }
-            
-            
+
             MultiQuesDAO md = new MultiQuesDAOImpl();
             List<MultiQues> mqList = md.queryMultiQuesBySubject(id);
-            if(mqList!=null && mqList.size()!=0)
+            if (mqList != null && mqList.size() != 0)
             {
                 try
                 {
@@ -110,8 +107,7 @@ public class SubjectAction extends HttpServlet
         try
         {
             resp.sendRedirect("subject.jsp");
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
