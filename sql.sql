@@ -123,3 +123,9 @@ create table T_USER_EXAM(
 alter table T_USER_EXAM  add foreign key(examId) references T_EXAM(id); 
 alter table T_USER_EXAM  add foreign key(userId) references T_USER(id); 
 
+--2013年3月3日，为支持一exam多subject
+alter table t_exam drop foreign key t_exam_ibfk_1;
+alter table t_exam modify column subjectId varchar(30);
+alter table t_exam modify column judgeNum varchar(30);
+alter table t_exam modify column multiNum varchar(30);
+alter table t_exam modify column singleNum varchar(30);
