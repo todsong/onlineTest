@@ -53,7 +53,7 @@ if(res!=null)
 <script>
     function check()
     { 
-        document.login.action="loginCheck";
+        document.login.action="LoginCheck";
         with(document.all)
         {
             if(id.value==null||id.value=="")
@@ -90,7 +90,8 @@ if(res!=null)
 </head>
 <body onkeypress="BindEnter(event)">
 <form name="login" action="" method=post>
-<table border="0px" width="664" height="406" align=center cellspacing="0" style="margin-top:50px;" background="image/login.png">
+<table border="0px" width="664" height="406" align=center cellspacing="0"
+     style="margin-top:50px;" background="image/login.png">
   <tr><td height="228px">&nbsp;</td><td height="228px">&nbsp;</td></tr>
   <tr><td height="178px" width="140px">&nbsp;</td><td height="178px">
    工号：<input type=text name=id  style="width:120px">

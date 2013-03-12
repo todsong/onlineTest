@@ -52,10 +52,18 @@ if(deptList==null || deptList.size()==0)
             {
                 alert("部门不能为空")
             }
-			else document.forms[0].submit();
+			else 
+			{
+		        document.login.action="RegCheck";
+				document.forms[0].submit();
+			}
 		}
 	}
-
+	function gotoLogin()
+    {
+        document.login.action="login.jsp";
+        document.forms[0].submit();
+    }
 	function BindEnter(obj)
 	{
 	    //使用document.getElementById获取到按钮对象
@@ -71,37 +79,45 @@ if(deptList==null || deptList.size()==0)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>在线考试系统</title>
 </head>
-<body onkeydown="BindEnter(event)">
-  <h1>用户注册</h1>
-  <form name=login action=regCheck method=post>
- <table>
+<body leftmargin="0" rightmargin="0" topmargin="0" onkeydown="BindEnter(event)">
+<table border="0px" width="2000" height="100" align=center cellspacing="0" background="image/top.png" >
+<tr><td></td></tr>
+</table>
+  <h2 style="text-indent:7%">用户注册</h2>
+  <hr width="90%">  
+  <form name=login action="" method=post>
+ <table style="position:absolute; top:180px; left:10%">
  <tr>
- <td>工号</td>
+ <td align="right"><font color="red">*</font>工号：</td>
  <td colspan="2"><input type=text name=id>
   <%
   String res = (String) session.getAttribute("reg");
   if(res!=null && res.equals("fail"))
   {
-    out.print("工号已存在！<br>");
+      %>
+      <script type="text/javascript">
+      alert("工号已存在，注册失败！");
+      </script>
+      <%
     session.removeAttribute("reg");
   }
   %></td>
  </tr>
  <tr>
- <td>姓名</td>
+ <td align="right"><font color="red">*</font>姓名：</td>
  <td colspan="2"><input type=text name=userName>
   </td>
  </tr>
  <tr>
- <td>密码</td>
+ <td align="right"><font color="red">*</font>密码：</td>
  <td colspan="2"><input type=password name=passWd></td>
  </tr>
  <tr>
- <td>重复密码</td>
+ <td align="right"><font color="red">*</font>重复密码：</td>
  <td colspan="2"><input type=password name=passWdAg></td>
  </tr>
  <tr>
- <td>部门</td>
+ <td align="right"><font color="red">*</font>部门：</td>
  <td colspan="2">
  <select name="dept" id="dept">
 	<option value="">--请选择--</option>
@@ -115,16 +131,18 @@ if(deptList==null || deptList.size()==0)
 </td>
  </tr>
  <tr>
- <td>电话</td>
+ <td align="right">电话：</td>
  <td colspan="2"><input type=text name=telNo></td>
  </tr>
  <tr>
- <td></td>
- <td><input type=button value=提交 onclick="check()" id="reg"></td>
- <td></td>
+  <td></td>
+  <td>
+   <input type=button value=提交 onclick="check()" id="reg">&nbsp;&nbsp;
+   <input type=button value=返回 onclick="gotoLogin()" id="back">
+  </td>
  </tr>
  
  </table>
- </form>  
+ </form>
 </body>
 </html>
