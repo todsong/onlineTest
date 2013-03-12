@@ -163,10 +163,12 @@ if(para!=null)
     int pageSize = resp.getPageSize();
     int pageNum = resp.getPageNum();
     
+    int index = (pageNum-1)*pageSize+1; 
     for(Iterator<SingleQues> iter=sList.iterator(); iter.hasNext(); )
     {
         SingleQues sq = iter.next();
-        out.print("<tr><td><a href=\"singleItem.jsp?id=" + sq.getId() + "\">"+sq.getId()+"</a></td>");
+        out.print("<tr><td><a href=\"singleItem.jsp?id=" + sq.getId() + "\">"+index+"</a></td>");
+        index++;
         out.print("<td>"+sq.getqAnswer()+"</td>");
         StringBuilder sb = new StringBuilder(sq.getqName());
         String optionA = sq.getOptionA();

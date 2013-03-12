@@ -43,7 +43,6 @@ if(login==null||!login.equals("admin"))
 <h3>判断题管理</h3>
 <hr>
 <form name=upd id=upd action=JudgeQuesAction method=post onsubmit="return delAlert()">
-<table>
 <%
 
 SubjectDAO sjd = new SubjectDAOImpl();
@@ -60,7 +59,11 @@ int id = Integer.parseInt(para.substring(3));
 JudgeQuesDAO jd = new JudgeQuesDAOImpl();
 JudgeQues jq = jd.queryJudgeQuesById(id);
 %>
-<tr><td>编号：</td><td colspan="2"><% out.print(id); %></td></tr>
+
+<input type="hidden" name="id" value=<%=id %> >
+<table>
+<%-- <tr><td>编号：</td><td colspan="2"><% out.print(id); %></td></tr> --%>
+
 <tr><td>答案：</td><td colspan="2">
     <select name="answer">
         <option value="T"

@@ -19,13 +19,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
-/* String login = (String)session.getAttribute("login");
+String login = (String)session.getAttribute("login");
 if(login==null||!login.equals("admin"))
 {
     out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
     return;
 }
- */
 SubjectDAO sd = new SubjectDAOImpl();
 List<Subject> sjList = sd.getAllSubject();
 if(sjList==null || sjList.size()==0)
@@ -303,7 +302,7 @@ var globalSubjectNum=<%=deSubjectNumInt %>;
                 }	
 				var st = y + m + d + tsmi;
 				if (parseInt(smi) >= parseInt(emi)) {
-                    alert("考试结束时间必须晚于开始时间")
+                    alert("考试结束时间必须晚于开始时间");
                 <%-- } else if (parseInt(st) < parseInt(<%=currentTime%>)) {
                     alert("考试开始时间必须晚于当前时间") --%>
                 } else if (total != 100) {

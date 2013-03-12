@@ -20,6 +20,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
+request.setCharacterEncoding("utf-8");
 String login = (String)session.getAttribute("login");
 if(login==null||!login.equals("admin"))
 {
@@ -140,11 +141,12 @@ if(para!=null)
     int pageSize = resp.getPageSize();
     int pageNum = resp.getPageNum();
 
-    
+    int index = (pageNum-1)*pageSize+1; 
     for(Iterator<MultiQues> iter=mList.iterator(); iter.hasNext(); )
     {
         MultiQues sq = iter.next();   
-        out.print("<tr><td><a href=\"multiItem.jsp?id=" + sq.getId() + "\">"+sq.getId()+"</a></td>");
+        out.print("<tr><td><a href=\"multiItem.jsp?id=" + sq.getId() + "\">"+index+"</a></td>");
+        index++;
         out.print("<td>"+sq.getqAnswer()+"</td>");
         StringBuilder sb = new StringBuilder(sq.getqName());
         String optionA = sq.getOptionA();

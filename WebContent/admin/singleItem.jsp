@@ -95,26 +95,29 @@ List<Subject> sjList = sjd.getAllSubject();
 <hr>
 	<form name=upd id=upd action=SingleQuesAction method=post
 		onsubmit="return delAlert()">
-		<table>
-			<%
-				String para = request.getQueryString();
-			            if (para == null || para.equals(""))
-			            {
+            <%
+                String para = request.getQueryString();
+                        if (para == null || para.equals(""))
+                        {
 
-			            } else
-			            {
-			                int id = Integer.parseInt(para.substring(3));
-			                SingleQuesDAO sd = new SingleQuesDAOImpl();
-			                SingleQues sq = sd.querySingleQuesById(id);
-			%>
-			<tr>
+                        } else
+                        {
+                            int id = Integer.parseInt(para.substring(3));
+                            SingleQuesDAO sd = new SingleQuesDAOImpl();
+                            SingleQues sq = sd.querySingleQuesById(id);
+            %>
+		<input type="hidden" name="id" value=<%=id %> >
+		<table>
+
+			<!-- 2013年3月3日，客户不关心后台的id，页面不予显示 -->
+			<%-- <tr>
 				<td>编号：</td>
 				<td colspan="2">
 					<%
 						out.print(id);
 					%>
 				</td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<td>题目：</td>
 				<td colspan="2"><textarea rows="4" cols="80" name="ques" id="ques"><%

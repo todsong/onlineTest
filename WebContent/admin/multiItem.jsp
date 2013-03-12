@@ -31,26 +31,27 @@ int optNum = 0;
 <hr>
 	<form name=upd id=upd action=MultiQuesAction method=post
 		onsubmit="return delAlert()">
-		<table>
-			<%
-				String para = request.getQueryString();
-			            if (para == null || para.equals(""))
-			            {
+            <%
+                String para = request.getQueryString();
+                        if (para == null || para.equals(""))
+                        {
 
-			            } else
-			            {
-			                int id = Integer.parseInt(para.substring(3));
-			                MultiQuesDAO sd = new MultiQuesDAOImpl();
-			                MultiQues sq = sd.queryMultiQuesById(id);
-			%>
-			<tr>
+                        } else
+                        {
+                            int id = Integer.parseInt(para.substring(3));
+                            MultiQuesDAO sd = new MultiQuesDAOImpl();
+                            MultiQues sq = sd.queryMultiQuesById(id);
+            %>
+		      <input type="hidden" name="id" value=<%=id %> >
+		<table>
+			<%-- <tr>
 				<td>编号：</td>
 				<td colspan="2">
 					<%
 						out.print(id);
 					%>
 				</td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<td>题目：</td>
 				<td colspan="2"><textarea rows="4" cols="80" name="ques" id="ques"><%

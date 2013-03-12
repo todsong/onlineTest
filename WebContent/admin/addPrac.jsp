@@ -105,10 +105,11 @@ if(exam==null)
     Date date = new Date();
     long current = date.getTime();
     long dayLSecond = (long)(24*3600)*(long)1000;
+    String today = formatter.format(new Date(current));
     String tomorrow = formatter.format(new Date(current + dayLSecond));
-    deSYear = tomorrow.substring(0,4);
-    deSMonth = tomorrow.substring(4,6);
-    deSDay = tomorrow.substring(6,8);
+    deSYear = today.substring(0,4);
+    deSMonth = today.substring(4,6);
+    deSDay = today.substring(6,8);
     deSHour = "08";
     deEYear  = tomorrow.substring(0,4);
     deEMonth = tomorrow.substring(4,6);
@@ -153,6 +154,14 @@ else
 			} else if (!regex.test(multiNum.value)) {
 				alert("多选题数只能输入数字")
 			} else {
+				var subjectName = "subject";
+                var sjName = document.getElementById(subjectName).value;
+                if(sjName=="")
+                {
+                    alert("请选择科目名称");
+                    return;
+                }
+				
 				var sy = syear.value;
 				var sm = smonth.value;
 				var sd = sday.value;
@@ -387,13 +396,13 @@ else
              <td>科目</td>
             <td colspan="2">
             <select name="subject" id="subject">
-            
+            <option value="">--请选择--
             <%
             for(int i=0;i<sjList.size();i++)
             {
             %>
             <option value="<%=sjList.get(i).getId() %>" <%
-            if(exam!=null && exam.getSubjectId()==sjList.get(i).getId())
+            if(exam!=null && Integer.parseInt(exam.getSubjectId())==sjList.get(i).getId())
             {
                 out.print("selected='selected'");
             }

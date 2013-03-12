@@ -134,11 +134,12 @@ if(para!=null)
   int pageSize = resp.getPageSize();
   int pageNum = resp.getPageNum();
 
-  
+  int index = (pageNum-1)*pageSize+1; 
 	for(Iterator<JudgeQues> iter=jList.iterator(); iter.hasNext(); )
 	{
 	    JudgeQues jq = iter.next();   
-	    out.print("<tr><td><a href=\"judgeItem.jsp?id=" + jq.getId() + "\">"+jq.getId()+"</a></td>");
+	    out.print("<tr><td><a href=\"judgeItem.jsp?id=" + jq.getId() + "\">"+index+"</a></td>");
+	    index++;
 	    out.print("<td>"+jq.getqAnswer()+"</td>");
 	    out.print("<td>"+jq.getqName()+"</td>");
         out.print("<td>"+subjectMap.get(jq.getSubjectId())+"</td>");

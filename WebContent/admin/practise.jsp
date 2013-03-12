@@ -86,7 +86,7 @@ else
     {
         Exam exam = iter.next();
         out.print("<tr><td><a href=\"addPrac.jsp?id=" + exam.getId() + "\">"+exam.getExamName()+"</a></td>");
-        out.print("<td>"+subjectMap.get(exam.getSubjectId())+"</td>");
+        out.print("<td>"+subjectMap.get(Integer.parseInt(exam.getSubjectId()))+"</td>");
         String startYear = exam.getStartTime().substring(0, 4);
         String startMonth = exam.getStartTime().substring(4,6);
         String startDay = exam.getStartTime().substring(6,8);
