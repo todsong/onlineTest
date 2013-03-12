@@ -2,12 +2,12 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>onlineTest</display-name>
   <servlet>
-    <servlet-name>loginCheck</servlet-name>
-    <servlet-class>com.action.loginCheck</servlet-class>
+    <servlet-name>LoginCheck</servlet-name>
+    <servlet-class>com.action.LoginCheck</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>loginCheck</servlet-name>
-    <url-pattern>/loginCheck</url-pattern>
+    <servlet-name>LoginCheck</servlet-name>
+    <url-pattern>/LoginCheck</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>LogOutAction</servlet-name>
@@ -18,12 +18,12 @@
     <url-pattern>/LogOutAction</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>regCheck</servlet-name>
-    <servlet-class>com.action.regCheck</servlet-class>
+    <servlet-name>RegCheck</servlet-name>
+    <servlet-class>com.action.RegCheck</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>regCheck</servlet-name>
-    <url-pattern>/regCheck</url-pattern>
+    <servlet-name>RegCheck</servlet-name>
+    <url-pattern>/RegCheck</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -132,12 +132,12 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>inPracAction</servlet-name>
-    <servlet-class>com.action.inPracAction</servlet-class>
+    <servlet-name>InPracAction</servlet-name>
+    <servlet-class>com.action.InPracAction</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>inPracAction</servlet-name>
-    <url-pattern>/inTest/inPracAction</url-pattern>
+    <servlet-name>InPracAction</servlet-name>
+    <url-pattern>/inTest/InPracAction</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -167,12 +167,12 @@
   </servlet-mapping>
   
     <servlet>
-    <servlet-name>inExamAction</servlet-name>
-    <servlet-class>com.action.inExamAction</servlet-class>
+    <servlet-name>InExamAction</servlet-name>
+    <servlet-class>com.action.InExamAction</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>inExamAction</servlet-name>
-    <url-pattern>/inTest/inExamAction</url-pattern>
+    <servlet-name>InExamAction</servlet-name>
+    <url-pattern>/inTest/InExamAction</url-pattern>
   </servlet-mapping>
 
 
