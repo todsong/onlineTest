@@ -24,7 +24,7 @@ function doPrac(id,c)
 {   
 	if(confirm("确定进入练习?")==true)
     {
-		top.location = "/onlineTest/inTest/inPracAction?id="+id+"\&c="+c;
+		top.location = "/onlineTest/inTest/InPracAction?id="+id+"\&c="+c;
     }
 }
 </script>

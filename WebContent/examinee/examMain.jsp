@@ -29,7 +29,7 @@ function doExam(id)
 {   
     if(confirm("确定进入考试?")==true)
     {
-        top.location = "/onlineTest/inTest/inExamAction?id="+id;
+        top.location = "/onlineTest/inTest/InExamAction?id="+id;
     }
 }
 </script>
