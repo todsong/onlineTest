@@ -182,7 +182,11 @@ for(int i=0;i<deptList.size();i++)
 	    out.print("<tr><td><a href=\"userScore.jsp?id="+user.getId()+"\">"+user.getId()+"</a></td>");
 	    out.print("<td>"+user.getName()+"</td>");
 	    out.print("<td>"+deptMap.get(user.getDept())  +"</td>");
-           out.print("<td>"+user.getTelephone()+"</td>");
+	    String tel = user.getTelephone();
+	    if(tel==null || tel.isEmpty())
+	        out.print("<td>&nbsp;</td>");
+	    else
+           out.print("<td>"+tel+"</td>");
            
            if(user.getStatus().equals("0"))
            {
