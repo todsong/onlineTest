@@ -129,3 +129,4 @@ alter table t_exam modify column subjectId varchar(30);
 alter table t_exam modify column judgeNum varchar(30);
 alter table t_exam modify column multiNum varchar(30);
 alter table t_exam modify column singleNum varchar(30);
+
