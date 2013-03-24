@@ -53,7 +53,7 @@ public class ExamDAOImpl implements ExamDAO {
                     res = Integer.parseInt(resStr);
                 }
             }
-			conn.commit();
+			//conn.commit();
 		}
 		catch (SQLException e)
 		{
@@ -83,7 +83,7 @@ public class ExamDAOImpl implements ExamDAO {
 			st = conn.prepareStatement(sql);
 			st.setInt(1, id);
 			st.execute();
-			conn.commit();
+			//conn.commit();
 		}
 		catch (SQLException e)
 		{
@@ -126,7 +126,7 @@ public class ExamDAOImpl implements ExamDAO {
             st.setString(12, exam.getSubjectId());
             st.setInt(13, id);
 			st.execute();
-			conn.commit();
+			//conn.commit();
 		}
 		catch (SQLException e)
 		{

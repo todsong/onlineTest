@@ -31,7 +31,7 @@ public class JudgeQuesDAOImpl implements JudgeQuesDAO
             st.setString(4, jq.getHash());
             st.setInt(5, jq.getStatus());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -74,7 +74,7 @@ public class JudgeQuesDAOImpl implements JudgeQuesDAO
                 st.addBatch();
             }
             st.executeBatch();
-            conn.commit();
+            //conn.commit();
             st.clearBatch();
         }
         catch (SQLException e)
@@ -108,7 +108,7 @@ public class JudgeQuesDAOImpl implements JudgeQuesDAO
             st = conn.prepareStatement(sql);
             st.setInt(1, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -146,7 +146,7 @@ public class JudgeQuesDAOImpl implements JudgeQuesDAO
             st.setInt(5, jq.getStatus());
             st.setInt(6, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }// UPDATE t_user SET passwd = 'Fred' WHERE passwd = 'asd';
         catch (SQLException e)
         {

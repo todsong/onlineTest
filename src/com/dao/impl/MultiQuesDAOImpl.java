@@ -38,7 +38,7 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
             st.setString(10, jq.getHash());
             st.setInt(11, jq.getStatus());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -88,7 +88,7 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
                 st.addBatch();
             }
             st.executeBatch();
-            conn.commit();
+            //conn.commit();
             st.clearBatch();
         }
         catch (SQLException e)
@@ -122,7 +122,7 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
             st = conn.prepareStatement(sql);
             st.setInt(1, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -167,7 +167,7 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
             st.setInt(11, jq.getStatus());
             st.setInt(12, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {

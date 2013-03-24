@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO
             st.setString(5, user.getTelephone());
             st.setString(6, user.getStatus());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -70,7 +70,7 @@ public class UserDAOImpl implements UserDAO
             st.setString(5, user.getStatus());
             st.setString(6, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }// UPDATE t_user SET passwd = 'Fred' WHERE passwd = 'asd';
         catch (SQLException e)
         {
@@ -103,7 +103,7 @@ public class UserDAOImpl implements UserDAO
             st = conn.prepareStatement(sql);
             st.setString(1, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {

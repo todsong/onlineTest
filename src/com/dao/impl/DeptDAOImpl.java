@@ -28,7 +28,7 @@ public class DeptDAOImpl implements DeptDAO
             st.setInt(1, sj.getId());
             st.setString(2, sj.getName());
             st.execute();
-            conn.commit();
+            ////conn.commit();
         }
         catch (SQLException e)
         {
@@ -61,7 +61,7 @@ public class DeptDAOImpl implements DeptDAO
             st = conn.prepareStatement(sql);
             st.setInt(1, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -95,7 +95,7 @@ public class DeptDAOImpl implements DeptDAO
             st.setString(1, sj.getName());
             st.setInt(2, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {

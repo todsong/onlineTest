@@ -33,7 +33,7 @@ public class UserExamDAOImpl implements UserExamDAO
             st.setString(5, ue.getSingleIdList());
             st.setString(6, ue.getMultiIdList());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -71,7 +71,7 @@ public class UserExamDAOImpl implements UserExamDAO
             st.setInt(5, ue.getExamId());
             st.setString(6, ue.getUserId());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {

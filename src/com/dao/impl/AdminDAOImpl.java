@@ -66,7 +66,7 @@ public class AdminDAOImpl implements AdminDAO
             st.setString(1, admin.getPasswd());
             st.setString(2, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {

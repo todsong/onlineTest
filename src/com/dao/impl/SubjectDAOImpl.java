@@ -29,7 +29,7 @@ public class SubjectDAOImpl implements SubjectDAO
             st.setInt(1, sj.getId());
             st.setString(2, sj.getName());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -62,7 +62,7 @@ public class SubjectDAOImpl implements SubjectDAO
             st = conn.prepareStatement(sql);
             st.setInt(1, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -96,7 +96,7 @@ public class SubjectDAOImpl implements SubjectDAO
             st.setString(1, sj.getName());
             st.setInt(2, id);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {

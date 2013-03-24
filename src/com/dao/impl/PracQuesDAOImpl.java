@@ -30,7 +30,7 @@ public class PracQuesDAOImpl implements PracQuesDAO
             st.setString(4, pq.getSingleIdList());
             st.setString(5, pq.getMultiIdList());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -63,7 +63,7 @@ public class PracQuesDAOImpl implements PracQuesDAO
             st = conn.prepareStatement(sql);
             st.setInt(1, pracId);
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
@@ -100,7 +100,7 @@ public class PracQuesDAOImpl implements PracQuesDAO
             st.setInt(4, pq.getPracId());
             st.setInt(5, pq.getCaseId());
             st.execute();
-            conn.commit();
+            //conn.commit();
         }
         catch (SQLException e)
         {
