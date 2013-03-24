@@ -54,7 +54,23 @@ if(para!=null)
         </script>
 <%
     }
+    else
+    {
+        String batch = request.getParameter("batch");
+        String subjectId =request.getParameter("subjectId");
+   
+        if(batch!=null && subjectId!=null)
+        {
+            SubjectDAO sd = new SubjectDAOImpl();
+            String subjectName = sd.quertSubjectById(Integer.parseInt(subjectId)).getName();
 
+            %>
+            <script type="text/javascript">
+            alert("成功在“<%=subjectName%>”中添加<%=batch%>道判断题");
+            </script>
+    <%        
+        }
+    }
 }
 %>
 <head>

@@ -46,7 +46,7 @@ public class JudgeQuesAction extends HttpServlet
             String addOne = req.getParameter("addOne");
             String addBatch = req.getParameter("addBatch");
             String id = req.getParameter("id");
-            System.out.println(id);
+            //System.out.println(id);
             String addJ = req.getParameter("addJ");
             String subjectId = req.getParameter("subject");
             String status = req.getParameter("status");

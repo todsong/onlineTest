@@ -351,7 +351,7 @@ public class MultiAddBatch extends HttpServlet
             {
                 e1.printStackTrace();
             }
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }

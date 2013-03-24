@@ -206,7 +206,7 @@ public class JudgeAddBatch extends HttpServlet
             {
                 e1.printStackTrace();
             }
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }

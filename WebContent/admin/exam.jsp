@@ -39,7 +39,7 @@ for(int i=0;i<sjList.size();i++)
 <title>Insert title here</title>
 </head>
 
-<body bgcolor="#FFF6FA">
+<body>
 
 <h3>考试管理</h3>
 <hr>
