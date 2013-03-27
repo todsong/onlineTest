@@ -13,16 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.dao.ExamDAO;
-import com.dao.JudgeQuesDAO;
-import com.dao.MultiQuesDAO;
-import com.dao.PracQuesDAO;
-import com.dao.SingleQuesDAO;
 import com.dao.UserExamDAO;
 import com.dao.impl.ExamDAOImpl;
-import com.dao.impl.JudgeQuesDAOImpl;
-import com.dao.impl.MultiQuesDAOImpl;
-import com.dao.impl.PracQuesDAOImpl;
-import com.dao.impl.SingleQuesDAOImpl;
 import com.dao.impl.UserExamDAOImpl;
 import com.pojo.Exam;
 import com.pojo.JudgeQues;
@@ -30,6 +22,7 @@ import com.pojo.MultiQues;
 import com.pojo.PracQues;
 import com.pojo.SingleQues;
 import com.pojo.UserExam;
+import com.resource.Cache;
 import com.util.RandomUtil;
 
 public class InExamAction extends HttpServlet
@@ -67,8 +60,7 @@ public class InExamAction extends HttpServlet
         UserExamDAO ued = new UserExamDAOImpl();
         UserExam ue = ued.queryUniqueUserExam(examId, userId);
 
-        ExamDAO ed = new ExamDAOImpl();
-        Exam exam = ed.queryExamById(examId);
+        Exam exam = Cache.getExamMap().get(examId);
 
         hs.setAttribute("exam", exam);
         hs.setAttribute("examType", "0");
@@ -78,9 +70,6 @@ public class InExamAction extends HttpServlet
             ue.setExamId(examId);
             ue.setUserId(userId);
             ue.setScore(-1);
-            JudgeQuesDAO jd = new JudgeQuesDAOImpl();
-            SingleQuesDAO sd = new SingleQuesDAOImpl();
-            MultiQuesDAO md = new MultiQuesDAOImpl();
 
             String subjectIdStr = exam.getSubjectId();
             String judgeNumStr = exam.getJudgeNum();
@@ -106,9 +95,9 @@ public class InExamAction extends HttpServlet
             List<MultiQues> mqAct = new ArrayList<MultiQues>();
             for(int sNum=0; sNum< subjectSum; sNum++)
             {
-                List<JudgeQues> jqList = jd.getAllAvailableBySubjectId(subjectIdInt[sNum]);
-                List<SingleQues> sqList = sd.getAllAvailableBySubjectId(subjectIdInt[sNum]);
-                List<MultiQues> mqList = md.getAllAvailableBySubjectId(subjectIdInt[sNum]);
+                List<JudgeQues> jqList = Cache.getJqMap().get(subjectIdInt[sNum]);
+                List<SingleQues> sqList = Cache.getSqMap().get(subjectIdInt[sNum]);
+                List<MultiQues> mqList = Cache.getMqMap().get(subjectIdInt[sNum]);
 
                 jqArray[sNum] = RandomUtil.getRandomArray(judgeNumInt[sNum],
                         jqList.size());
@@ -172,13 +161,7 @@ public class InExamAction extends HttpServlet
                 String jqStr = ue.getJudgeIdList();
                 String[] jqArray = jqStr.split("\\|");
                 jqAct = new ArrayList<JudgeQues>();
-                JudgeQuesDAO jd = new JudgeQuesDAOImpl();
-                List<JudgeQues> jqList = jd.getAllJudgeQues();
-                Map<Integer, JudgeQues> jqMap = new HashMap<Integer, JudgeQues>();
-                for (int i = 0; i < jqList.size(); i++)
-                {
-                    jqMap.put(jqList.get(i).getId(), jqList.get(i));
-                }
+                Map<Integer, JudgeQues> jqMap = Cache.getAllJqMap();
                 for (int i = 0; i < jqArray.length; i++)
                 {
                     jqAct.add(jqMap.get(Integer.parseInt(jqArray[i])));
@@ -187,13 +170,7 @@ public class InExamAction extends HttpServlet
                 String sqStr = ue.getSingleIdList();
                 String[] sqArray = sqStr.split("\\|");
                 sqAct = new ArrayList<SingleQues>();
-                SingleQuesDAO sd = new SingleQuesDAOImpl();
-                List<SingleQues> sqList = sd.getAllSingleQues();
-                Map<Integer, SingleQues> sqMap = new HashMap<Integer, SingleQues>();
-                for (int i = 0; i < sqList.size(); i++)
-                {
-                    sqMap.put(sqList.get(i).getId(), sqList.get(i));
-                }
+                Map<Integer, SingleQues> sqMap = Cache.getAllSqMap();
                 for (int i = 0; i < sqArray.length; i++)
                 {
                     sqAct.add(sqMap.get(Integer.parseInt(sqArray[i])));
@@ -202,13 +179,7 @@ public class InExamAction extends HttpServlet
                 String mqStr = ue.getMultiIdList();
                 String[] mqArray = mqStr.split("\\|");
                 mqAct = new ArrayList<MultiQues>();
-                MultiQuesDAO md = new MultiQuesDAOImpl();
-                List<MultiQues> mqList = md.getAllMultiQues();
-                Map<Integer, MultiQues> mqMap = new HashMap<Integer, MultiQues>();
-                for (int i = 0; i < mqList.size(); i++)
-                {
-                    mqMap.put(mqList.get(i).getId(), mqList.get(i));
-                }
+                Map<Integer, MultiQues> mqMap = Cache.getAllMqMap();
                 for (int i = 0; i < mqArray.length; i++)
                 {
                     mqAct.add(mqMap.get(Integer.parseInt(mqArray[i])));

@@ -33,6 +33,7 @@ import com.dao.SubjectDAO;
 import com.dao.impl.SingleQuesDAOImpl;
 import com.dao.impl.SubjectDAOImpl;
 import com.pojo.SingleQues;
+import com.resource.Cache;
 import com.resource.DBConnection;
 import com.util.MD5Util;
 
@@ -318,6 +319,7 @@ public class SingleAddBatch extends HttpServlet
 
             SingleQuesDAO sqd = new SingleQuesDAOImpl();
             sqd.addSingleQuesList(sqList);
+            Cache.initSingleQuesCache();
             resp.sendRedirect("single.jsp?batch=" + sqList.size()
                     + "&subjectId=" + subjectId);
         } catch (Exception e)

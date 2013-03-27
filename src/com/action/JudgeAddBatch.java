@@ -33,6 +33,7 @@ import com.dao.SubjectDAO;
 import com.dao.impl.JudgeQuesDAOImpl;
 import com.dao.impl.SubjectDAOImpl;
 import com.pojo.JudgeQues;
+import com.resource.Cache;
 import com.resource.DBConnection;
 import com.util.MD5Util;
 
@@ -197,7 +198,9 @@ public class JudgeAddBatch extends HttpServlet
             sqd.addJudgeQuesList(sqList);
             resp.sendRedirect("judge.jsp?batch=" + sqList.size()
                     + "&subjectId=" + subjectId);
-        } catch (Exception e)
+            Cache.initJudgeQuesCache();
+        }
+        catch (Exception e)
         {
             try
             {

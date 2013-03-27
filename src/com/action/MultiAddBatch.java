@@ -33,6 +33,7 @@ import com.dao.SubjectDAO;
 import com.dao.impl.MultiQuesDAOImpl;
 import com.dao.impl.SubjectDAOImpl;
 import com.pojo.MultiQues;
+import com.resource.Cache;
 import com.resource.DBConnection;
 import com.util.MD5Util;
 
@@ -342,6 +343,7 @@ public class MultiAddBatch extends HttpServlet
             sqd.addMultiQuesList(sqList);
             resp.sendRedirect("multi.jsp?batch=" + sqList.size()
                     + "&subjectId=" + subjectId);
+            Cache.initMultiQuesCache();
         } catch (Exception e)
         {
             try

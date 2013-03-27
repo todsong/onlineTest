@@ -20,6 +20,7 @@ import com.dao.impl.UserDAOImpl;
 import com.dao.impl.UserExamDAOImpl;
 import com.pojo.MultiQues;
 import com.pojo.User;
+import com.resource.Cache;
 import com.util.MD5Util;
 
 public class MultiQuesAction extends HttpServlet
@@ -70,6 +71,7 @@ public class MultiQuesAction extends HttpServlet
                 } else
                 {
                     sqd.deleteMultiQues(Integer.parseInt(id));
+                    Cache.initMultiQuesCache();
                     resp.sendRedirect("multi.jsp");
                 }
             } else if (addM != null)
@@ -133,6 +135,7 @@ public class MultiQuesAction extends HttpServlet
                 sq.setStatus(0);
 
                 sqd.addMultiQues(sq);
+                Cache.initMultiQuesCache();
                 resp.sendRedirect("multi.jsp");
             } else
             // update
@@ -199,6 +202,7 @@ public class MultiQuesAction extends HttpServlet
                 sq.setStatus(status);
 
                 sqd.updateMultiQues(Integer.parseInt(id), sq);
+                Cache.initMultiQuesCache();
                 resp.sendRedirect("multi.jsp");
             }
         } catch (IOException e)

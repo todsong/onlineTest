@@ -25,6 +25,7 @@ import com.pojo.JudgeQues;
 import com.pojo.MultiQues;
 import com.pojo.PracQues;
 import com.pojo.SingleQues;
+import com.resource.Cache;
 import com.util.RandomUtil;
 
 public class PracAction extends HttpServlet
@@ -52,6 +53,7 @@ public class PracAction extends HttpServlet
                 PracQuesDAO pqd = new PracQuesDAOImpl();
                 pqd.deletePracQuesByPracId(Integer.parseInt(id));
                 ed.deleteExam(Integer.parseInt(id));
+                Cache.initPracCache();
                 resp.sendRedirect("practise.jsp");
             } else if (addP != null || upP != null)
             {
@@ -264,6 +266,7 @@ public class PracAction extends HttpServlet
 
                     ed.updateExam(id, exam);
                 }
+                Cache.initPracCache();
                 resp.sendRedirect("practise.jsp");
             }
         } catch (IOException e)

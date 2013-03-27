@@ -23,6 +23,7 @@ import com.pojo.JudgeQues;
 import com.pojo.MultiQues;
 import com.pojo.SingleQues;
 import com.pojo.Subject;
+import com.resource.Cache;
 
 public class SubjectAction extends HttpServlet
 {
@@ -106,6 +107,7 @@ public class SubjectAction extends HttpServlet
         }
         try
         {
+            Cache.initSubjectCache();
             resp.sendRedirect("subject.jsp");
         } catch (IOException e)
         {

@@ -20,6 +20,7 @@ import com.dao.impl.UserDAOImpl;
 import com.dao.impl.UserExamDAOImpl;
 import com.pojo.SingleQues;
 import com.pojo.User;
+import com.resource.Cache;
 import com.util.MD5Util;
 
 public class SingleQuesAction extends HttpServlet
@@ -70,6 +71,7 @@ public class SingleQuesAction extends HttpServlet
                 } else
                 {
                     sqd.deleteSingleQues(Integer.parseInt(id));
+                    Cache.initSingleQuesCache();
                     resp.sendRedirect("single.jsp");
                 }
             } else if (addS != null)
@@ -125,6 +127,7 @@ public class SingleQuesAction extends HttpServlet
                 }
                 sq.setStatus(0);
                 sqd.addSingleQues(sq);
+                Cache.initSingleQuesCache();
                 resp.sendRedirect("single.jsp");
             } else
             // update
@@ -182,6 +185,7 @@ public class SingleQuesAction extends HttpServlet
                 int status = Integer.parseInt(req.getParameter("status"));
                 sq.setStatus(status);
                 sqd.updateSingleQues(Integer.parseInt(id), sq);
+                Cache.initSingleQuesCache();
                 resp.sendRedirect("single.jsp");
             }
         } catch (IOException e)

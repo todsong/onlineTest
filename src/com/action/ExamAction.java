@@ -21,6 +21,7 @@ import com.pojo.Exam;
 import com.pojo.JudgeQues;
 import com.pojo.MultiQues;
 import com.pojo.SingleQues;
+import com.resource.Cache;
 
 public class ExamAction extends HttpServlet
 {
@@ -181,14 +182,13 @@ public class ExamAction extends HttpServlet
                 {
                     ed.addExam(exam);
                     resp.sendRedirect("exam.jsp");
-                    return;
                 } else if (upE != null)
                 {
                     ed.updateExam(id, exam);
                     resp.sendRedirect("exam.jsp");
-                    return;
                 }
             }
+            Cache.initExamCache();
         } catch (IOException e)
         {
             e.printStackTrace();

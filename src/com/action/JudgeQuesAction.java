@@ -22,6 +22,7 @@ import com.dao.impl.UserDAOImpl;
 import com.dao.impl.UserExamDAOImpl;
 import com.pojo.JudgeQues;
 import com.pojo.User;
+import com.resource.Cache;
 import com.util.MD5Util;
 
 public class JudgeQuesAction extends HttpServlet
@@ -75,6 +76,7 @@ public class JudgeQuesAction extends HttpServlet
                 } else
                 {
                     jqd.deleteJudgeQues(Integer.parseInt(id));
+                    Cache.initJudgeQuesCache();
                     resp.sendRedirect("judge.jsp");
                 }
             } else if (addJ != null)
@@ -95,6 +97,7 @@ public class JudgeQuesAction extends HttpServlet
                 }
 
                 jqd.addJudgeQues(jq);
+                Cache.initJudgeQuesCache();
                 resp.sendRedirect("judge.jsp");
             } else
             // update
@@ -123,6 +126,7 @@ public class JudgeQuesAction extends HttpServlet
                 }
 
                 jqd.updateJudgeQues(Integer.parseInt(id), jq);
+                Cache.initJudgeQuesCache();
                 resp.sendRedirect("judge.jsp");
             }
         } catch (IOException e)
