@@ -1,4 +1,5 @@
-﻿<%@page import="java.util.Date"%>
+﻿<%@page import="com.resource.Cache"%>
+<%@page import="java.util.Date"%>
 <%@page import="com.pojo.UserExam"%>
 <%@page import="com.dao.impl.UserExamDAOImpl"%>
 <%@page import="com.dao.UserExamDAO"%>
@@ -39,18 +40,21 @@ function doExam(id)
 <h4>考试信息</h4>
 <hr>
 <%
-ExamDAO ed = new ExamDAOImpl();
-List<Exam> todayList = null;
-List<Exam> recentList = null;
+if (Cache.getExamCacheDate().getDate() != (new Date().getDate()))
+{
+    Cache.initExamCache();
+}
+
+List<Exam> todayList = Cache.getTodayExam();
+List<Exam> recentList = Cache.getRecentExam();
+
 ExamSorter comparator = null;
-recentList = ed.getRecentEaxm("0",30);
 if(recentList==null || recentList.size()==0)
 {
     out.println("最近一个月没有考试");
 }
 else
 {
-	todayList = ed.queryExamByTime(TimeUtil.getTodayDate(), "0");
 	comparator = new ExamSorter();
 	if(todayList==null || todayList.size()==0)
 	{

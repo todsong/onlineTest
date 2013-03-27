@@ -3,16 +3,12 @@
 <%@page import="com.dao.UserScoreDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.pojo.UserExam"%>
-<%@page import="com.dao.impl.UserExamDAOImpl"%>
 <%@page import="com.dao.UserExamDAO"%>
 <%@page import="com.util.ExamSorter"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Collections"%>
-<%@page import="com.dao.ExamDAO"%>
-<%@page import="com.pojo.Exam"%>
-<%@page import="com.dao.impl.ExamDAOImpl"%>
 <%@page import="com.util.TimeUtil"%>
 
 <%@ page language="java" contentType="text/html; charset=utf-8"

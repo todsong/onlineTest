@@ -178,5 +178,8 @@
 <listener>
   <listener-class>com.resource.DBConnection</listener-class>
  </listener>
+<listener>
+  <listener-class>com.resource.Cache</listener-class>
+ </listener>
 
 </web-app>

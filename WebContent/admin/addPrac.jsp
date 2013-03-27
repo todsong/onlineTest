@@ -153,7 +153,14 @@ else
 				alert("单选题数只能输入数字")
 			} else if (!regex.test(multiNum.value)) {
 				alert("多选题数只能输入数字")
-			} else {
+			} else if (judgeNum.value > 100) {
+                alert("判断题数不能超过100")
+            } else if (singleNum.value > 100) {
+                alert("单选题数不能超过100")
+            } else if (multiNum.value > 100) {
+                alert("多选题数不能超过100")
+            }
+			else {
 				var subjectName = "subject";
                 var sjName = document.getElementById(subjectName).value;
                 if(sjName=="")

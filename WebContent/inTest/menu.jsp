@@ -15,7 +15,7 @@ if(login==null||!login.equals("user"))
     return;
 }
 %>
-<a>判断题</a><br/>
+<b>判断题</b><br/>
 <%
 List<JudgeQues> jqList = (ArrayList<JudgeQues>) session.getAttribute("judge");
 
@@ -34,7 +34,7 @@ for(int i=0;i<jqList.size();i++)
     out.print("<br/>");
 }
 %>
-<a>单选题</a><br/>
+<br/><b>单选题</b><br/>
 <%
 List<SingleQues> sqList = (ArrayList<SingleQues>) session.getAttribute("single");
 
@@ -53,7 +53,7 @@ for(int i=0;i<sqList.size();i++)
     out.print("<br/>");
 }
 %>
-<a>多选题</a><br/>
+<br/><b>多选题</b><br/>
 <%
 
 List<MultiQues> mqList = (ArrayList<MultiQues>) session.getAttribute("multi");

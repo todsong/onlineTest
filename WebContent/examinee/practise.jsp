@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="com.resource.Cache"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -41,8 +43,11 @@ function doPrac(id,c)
   <td  width="150">结束时间</td>
 </tr>
 <%
-    ExamDAO ed = new ExamDAOImpl();
-    List<Exam> eList = ed.getRecentEaxm("1",0);
+if (Cache.getPracCacheDate().getDate() != (new Date().getDate()))
+{
+    Cache.initPracCache();
+}
+    List<Exam> eList = Cache.getAvailablePrac();
     for(Iterator<Exam> iter=eList.iterator(); iter.hasNext(); )
     {
         Exam exam = iter.next();
