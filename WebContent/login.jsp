@@ -2,6 +2,10 @@
     pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="js/md5.js"></script>
+<title>在线考试系统</title>
 <%
 String login = (String)session.getAttribute("login");
 if(login!=null)
@@ -64,7 +68,15 @@ if(res!=null)
             {
                 alert("密码不能为空")
             }
-            else document.forms[0].submit();
+            else 
+           	{
+           	   var rand=Math.random();
+               document.getElementById("rand").value=rand;
+           	   var tmp = MD5(document.getElementById("userId").value+document.getElementById("passwd").value);
+           	   document.getElementById("token").value=MD5(tmp+rand);
+            	document.getElementById("passwd").value="";
+             	document.forms[0].submit();
+           	}
         }
     }
     function gotoReg()
@@ -84,9 +96,7 @@ if(res!=null)
     }    
 </script>
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>在线考试系统</title>
+
 </head>
 <body onkeypress="BindEnter(event)">
 <form name="login" action="" method=post>
@@ -94,8 +104,10 @@ if(res!=null)
      style="margin-top:50px;" background="image/login.png">
   <tr><td height="228px">&nbsp;</td><td height="228px">&nbsp;</td></tr>
   <tr><td height="178px" width="140px">&nbsp;</td><td height="178px">
-   工号：<input type=text name=id  style="width:120px">
-   密码：<input type=password name=passWd  style="width:120px">
+   工号：<input type=text name=id id="userId" style="width:120px">
+   密码：<input type=password name=passWd id=passwd  style="width:120px">
+   <input type="hidden" name=rand id=rand value="">
+   <input type="hidden" name=token id=token value="">
   <input type=button value=登陆 name="log" onclick="check()" id="log">
   <input type=button value=注册 name="reg" onclick="gotoReg()" id="reg">
   </td>

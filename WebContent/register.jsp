@@ -5,7 +5,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
+<head>
+<script type="text/javascript" src="js/md5.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>在线考试系统</title>
 <%
 DeptDAO dd = new DeptDAOImpl();
 List<Dept> deptList = dd.getAllDept();
@@ -54,6 +57,11 @@ if(deptList==null || deptList.size()==0)
             }
 			else 
 			{
+				var p1 = document.getElementById("id").value;
+				var p2 = document.getElementById("passwd").value;
+	            document.getElementById("token").value=MD5(p1+p2);
+				document.getElementById("passwd").value="";
+				document.getElementById("passwdAg").value="";
 		        document.login.action="RegCheck";
 				document.forms[0].submit();
 			}
@@ -75,9 +83,6 @@ if(deptList==null || deptList.size()==0)
 	        }
 	}
 </script>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>在线考试系统</title>
 </head>
 <body leftmargin="0" rightmargin="0" topmargin="0" onkeydown="BindEnter(event)">
 <table border="0px" width="2000" height="100" align=center cellspacing="0" background="image/top.png" >
@@ -89,7 +94,7 @@ if(deptList==null || deptList.size()==0)
  <table style="position:absolute; top:180px; left:10%">
  <tr>
  <td align="right"><font color="red">*</font>工号：</td>
- <td colspan="2"><input type=text name=id>
+ <td colspan="2"><input type=text name=id id="id">
   <%
   String res = (String) session.getAttribute("reg");
   if(res!=null && res.equals("fail"))
@@ -110,11 +115,11 @@ if(deptList==null || deptList.size()==0)
  </tr>
  <tr>
  <td align="right"><font color="red">*</font>密码：</td>
- <td colspan="2"><input type=password name=passWd></td>
+ <td colspan="2"><input type=password name=passWd id="passwd"></td>
  </tr>
  <tr>
  <td align="right"><font color="red">*</font>重复密码：</td>
- <td colspan="2"><input type=password name=passWdAg></td>
+ <td colspan="2"><input type=password name=passWdAg id="passwdAg"></td>
  </tr>
  <tr>
  <td align="right"><font color="red">*</font>部门：</td>
@@ -137,6 +142,7 @@ if(deptList==null || deptList.size()==0)
  <tr>
   <td></td>
   <td>
+   <input type="hidden" name=token id=token value="">
    <input type=button value=提交 onclick="check()" id="reg">&nbsp;&nbsp;
    <input type=button value=返回 onclick="gotoLogin()" id="back">
   </td>

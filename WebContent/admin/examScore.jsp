@@ -1,3 +1,6 @@
+<%@page import="com.pojo.Exam"%>
+<%@page import="com.dao.impl.ExamDAOImpl"%>
+<%@page import="com.dao.ExamDAO"%>
 <%@page import="com.dao.impl.DeptDAOImpl"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.pojo.ExamScore"%>
@@ -43,8 +46,11 @@ function printpage()
 	//System.out.println(request.getQueryString());
 	ExamScoreDAO esd = new ExamScoreDAOImpl();
     int examId = Integer.parseInt(request.getQueryString().split("&")[0].substring(3));
-    int passScore = Integer.parseInt(request.getQueryString().split("&")[1].substring(5));
-    String examName = request.getQueryString().split("&")[2].substring(5);
+    ExamDAO ed = new ExamDAOImpl();
+    Exam exam = ed.queryExamById(examId);
+    int passScore = exam.getPassScore();
+    String examName = exam.getExamName();
+    
     List<ExamScore> esList = esd.queryExamScoreByExamId(examId);
     out.print("<h4>\""+examName+"\"成绩表</h4>");
     if(esList==null || esList.size()==0)

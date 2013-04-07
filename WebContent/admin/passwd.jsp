@@ -2,6 +2,10 @@
     pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="../js/md5.js"></script>
+<title>在线考试系统</title>
 <%
 String login = (String)session.getAttribute("login");
 if(login==null||!login.equals("admin"))
@@ -31,7 +35,23 @@ if(login==null||!login.equals("admin"))
             {
                 alert("输入的两个新密码不一致，请重新输入！")
             }
-            else document.forms[0].submit();
+            else
+           	{
+            	var rand=Math.random();
+                var userId = "<%=session.getAttribute("id")%>";
+                var pNew = document.getElementById("passwdNew").value;
+                var pOld = document.getElementById("passwdOld").value;
+                
+                document.getElementById("rand").value=rand;
+                var tmp = MD5(userId+pOld);
+                document.getElementById("verifyToken").value=MD5(tmp+rand);
+                 document.getElementById("updateToken").value=MD5(userId+pNew);
+                 document.getElementById("passwdNew").value="";
+                 document.getElementById("passwdAg").value="";
+                 document.getElementById("passwdOld").value="";
+                
+            	document.forms[0].submit();
+           	}
         }
     }
     function failCheck()
@@ -48,9 +68,6 @@ if(login==null||!login.equals("admin"))
      %>   
     }
 </script>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>在线考试系统</title>
 </head>
 <body onload=failCheck()>
 <h3>修改密码</h3>
@@ -59,18 +76,23 @@ if(login==null||!login.equals("admin"))
  <table>
  <tr>
  <td>旧密码</td>
- <td colspan="2"><input type=password name=passWdOld></td>
+ <td colspan="2"><input type=password name=passWdOld id="passwdOld"></td>
  </tr>
  <tr>
  <td>新密码</td>
- <td colspan="2"><input type=password name=passWdNew></td>
+ <td colspan="2"><input type=password name=passWdNew id="passwdNew"></td>
  </tr>
  <tr>
  <td>重复密码</td>
- <td colspan="2"><input type=password name=passWdAg></td>
+ <td colspan="2"><input type=password name=passWdAg id="passwdAg"></td>
  </tr>
  <tr>
-  <td><input type=button value=提交 onclick="passwdCheck()" id="passUp"></td>
+  <td>
+    <input type="hidden" name=rand id=rand value="">
+   <input type="hidden" name=updateToken id=updateToken value="">
+   <input type="hidden" name=verifyToken id=verifyToken value="">
+   <input type=button value=提交 onclick="passwdCheck()" id="passUp">
+</td>
  </tr>
  </table>
  </form>  

@@ -113,7 +113,7 @@ else
         }
         else
         {
-        	out.print("<tr><td><a href=\"examScore.jsp?id=" + exam.getId() + "&pass=" +exam.getPassScore()+"&name="+exam.getExamName()+"\">"+exam.getExamName()+"</a></td>");
+        	out.print("<tr><td><a href=\"examScore.jsp?id=" + exam.getId()+"\">"+exam.getExamName()+"</a></td>");
         }
         String subjectIdStr = exam.getSubjectId();
         String[] subjectId = subjectIdStr.split("\\|");
