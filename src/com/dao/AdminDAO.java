@@ -4,6 +4,6 @@ import com.pojo.Admin;
 
 public interface AdminDAO
 {
-    Admin queryAdminByPwd(String id, String passwd);
+    Admin queryAdminById(String id);
     int updateAdminById(String id, Admin admin);
 }

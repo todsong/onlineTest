@@ -1,8 +1,14 @@
 package com.pojo;
 
+import java.io.Serializable;
 
-public class Paras
+
+public class Paras implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3975728961689416571L;
     private String paraKey;
     private String paraValue;
     private String paraOptr;

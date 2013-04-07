@@ -1,7 +1,13 @@
 package com.pojo;
 
-public class PracQues
+import java.io.Serializable;
+
+public class PracQues implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6553898571581610115L;
     private int pracId;
     private int caseId;
     private String singleIdList;

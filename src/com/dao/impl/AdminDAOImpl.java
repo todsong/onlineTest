@@ -14,9 +14,9 @@ public class AdminDAOImpl implements AdminDAO
 
     private Connection conn;
     @Override
-    public Admin queryAdminByPwd(String id, String passwd)
+    public Admin queryAdminById(String id)
     {
-        String sql = "select id,passwd from T_ADMIN where id=? and passwd=?";
+        String sql = "select id,passwd from T_ADMIN where id=?";
         PreparedStatement st = null;
         ResultSet rs = null;
         Admin admin = null;
@@ -25,7 +25,6 @@ public class AdminDAOImpl implements AdminDAO
             conn = DBConnection.getConnection();
             st = conn.prepareStatement(sql);
             st.setString(1, id);
-            st.setString(2, passwd);
             rs = st.executeQuery();
             if (rs != null && rs.next())
             {

@@ -71,7 +71,8 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
             conn = DBConnection.getConnection();
             st = conn.prepareStatement(sql);
             MultiQues jq = null;
-            for(Iterator<MultiQues> iter = jqList.iterator(); iter.hasNext(); )
+            int count=0;
+            for(Iterator<MultiQues> iter = jqList.iterator(); iter.hasNext(); count++)
             {
                 jq = iter.next();
                 st.setString(1, jq.getqName());
@@ -86,6 +87,11 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
                 st.setString(10, jq.getHash());
                 st.setInt(11, jq.getStatus());
                 st.addBatch();
+                if(count%500==0)
+                {
+                    st.executeBatch();
+                    st.clearBatch();
+                }
             }
             st.executeBatch();
             //conn.commit();

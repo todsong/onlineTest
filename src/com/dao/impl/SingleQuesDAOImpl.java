@@ -71,7 +71,8 @@ public class SingleQuesDAOImpl implements SingleQuesDAO
             conn = DBConnection.getConnection();
             st = conn.prepareStatement(sql);
             SingleQues jq = null;
-            for(Iterator<SingleQues> iter = jqList.iterator(); iter.hasNext(); )
+            int count=0;
+            for(Iterator<SingleQues> iter = jqList.iterator(); iter.hasNext(); count++)
             {
                 jq = iter.next();
                 st.setString(1, jq.getqName());
@@ -86,6 +87,11 @@ public class SingleQuesDAOImpl implements SingleQuesDAO
                 st.setString(10, jq.getHash());
                 st.setInt(11, jq.getStatus());
                 st.addBatch();
+                if(count%500==0)
+                {
+                    st.executeBatch();
+                    st.clearBatch();
+                }
             }
             st.executeBatch();
             //conn.commit();

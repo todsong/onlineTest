@@ -1,7 +1,13 @@
 package com.pojo;
 
-public class UserExam
+import java.io.Serializable;
+
+public class UserExam implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -362157682418546871L;
     private int examId;
     private String userId;
     private int score;

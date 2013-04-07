@@ -1,8 +1,14 @@
 package com.pojo;
 
-public class MultiQues
+import java.io.Serializable;
+
+public class MultiQues implements Serializable
 {
-	private int id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 2941046886063203676L;
+    private int id;
 	private String qName;
 	private String qAnswer;
 	private String optionA;

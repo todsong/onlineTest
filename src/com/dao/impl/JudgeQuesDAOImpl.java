@@ -63,7 +63,8 @@ public class JudgeQuesDAOImpl implements JudgeQuesDAO
             conn = DBConnection.getConnection();
             st = conn.prepareStatement(sql);
             JudgeQues jq = null;
-            for(Iterator<JudgeQues> iter = jqList.iterator(); iter.hasNext(); )
+            int count=0;
+            for(Iterator<JudgeQues> iter = jqList.iterator(); iter.hasNext(); count++)
             {
                 jq = iter.next();
                 st.setString(1, jq.getqName());
@@ -72,6 +73,11 @@ public class JudgeQuesDAOImpl implements JudgeQuesDAO
                 st.setString(4, jq.getHash());
                 st.setInt(5, jq.getStatus());
                 st.addBatch();
+                if(count%500==0)
+                {
+                    st.executeBatch();
+                    st.clearBatch();
+                }
             }
             st.executeBatch();
             //conn.commit();

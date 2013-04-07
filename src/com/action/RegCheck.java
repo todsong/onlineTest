@@ -31,13 +31,13 @@ public class RegCheck extends HttpServlet
         if (ud.queryUserById(id) == null)
         {
             String userName = req.getParameter("userName");
-            String passwd = req.getParameter("passWd");
+            String passwd = req.getParameter("token");
             String dept = req.getParameter("dept");
             String telNo = req.getParameter("telNo");
             User user = new User();
             user.setId(id);
             user.setName(userName);
-            user.setPasswd(MD5Util.getMD5(id + passwd));
+            user.setPasswd(passwd);
             user.setDept(Integer.parseInt(dept));
             user.setTelephone(telNo);
             user.setStatus("1");

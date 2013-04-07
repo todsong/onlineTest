@@ -125,6 +125,7 @@ public class HandInPrac extends HttpServlet
         hs.removeAttribute("examId");
         if (examType.equals("0"))
         {
+            hs.removeAttribute("count");
             UserExam ue = (UserExam) hs.getAttribute("userExam");
             Exam exam = (Exam) hs.getAttribute("exam");
             int userScore = exam.getJudgeScore() * jright

@@ -33,40 +33,64 @@ public class LoginCheck extends HttpServlet
             }
             UserDAO ud = new UserDAOImpl();
             String id = req.getParameter("id");
-            String passWd = req.getParameter("passWd");
-            String passMd5 = MD5Util.getMD5(id + passWd);
-            User user = ud.queryUserByPwd(id, passMd5);
+            String passWd = req.getParameter("token");
+            String rand = req.getParameter("rand");
+            User user = ud.queryUserById(id);
             HttpSession hs = req.getSession();
 
             if (user != null)
             {
-                if (user.getStatus().equals("1"))
+                String passMd5 = MD5Util.getMD5(user.getPasswd()+rand);
+//                System.out.println(user.getPasswd()+","+rand);
+//                System.out.println(passMd5+"="+passWd);
+                
+                if(passMd5.equals(passWd))
                 {
-                    hs = req.getSession();
-                    hs.setAttribute("login", "inactive");
-                    resp.sendRedirect("login.jsp");
-                } else
-                {
-                    hs.setAttribute("id", user.getId());
-                    hs.setAttribute("userName", user.getName());
-                    hs.setAttribute("login", "user");
-                    resp.sendRedirect("examinee/examinee.jsp");
+                    if (user.getStatus().equals("1"))
+                    {
+                        hs = req.getSession();
+                        hs.setAttribute("login", "inactive");
+                        resp.sendRedirect("login.jsp");
+                    } else
+                    {
+                        hs.setAttribute("id", user.getId());
+                        hs.setAttribute("userName", user.getName());
+                        hs.setAttribute("login", "user");
+                        resp.sendRedirect("examinee/examinee.jsp");
+                    }    
                 }
-            } else
+                else
+                {
+                    hs.setAttribute("login", "fail");
+                    resp.sendRedirect("login.jsp");
+                }
+            }
+            else
             {
                 AdminDAO ad = new AdminDAOImpl();
-                Admin admin = ad.queryAdminByPwd(id, passMd5);
+                Admin admin = ad.queryAdminById(id);
                 if (admin != null)
                 {
-                    hs.setAttribute("id", admin.getId());
-                    hs.setAttribute("userName", admin.getId());
-                    hs.setAttribute("login", "admin");
-                    resp.sendRedirect("admin/admin.jsp");
+                    String passMd5 = MD5Util.getMD5(admin.getPasswd()+rand);
+                    if(passMd5.equals(passWd))
+                    {
+                        hs.setAttribute("id", admin.getId());
+                        hs.setAttribute("userName", admin.getId());
+                        hs.setAttribute("login", "admin");
+                        resp.sendRedirect("admin/admin.jsp");
+                    }
+                    else
+                    {
+                        hs.setAttribute("login", "fail");
+                        resp.sendRedirect("login.jsp");    
+                    }
+                    
                 } else
                 {
                     hs.setAttribute("login", "fail");
                     resp.sendRedirect("login.jsp");
                 }
+         
             }
         } catch (IOException e)
         {

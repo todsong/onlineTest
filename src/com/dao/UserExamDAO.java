@@ -12,4 +12,5 @@ public interface UserExamDAO
     public List<UserExam> queryUserExamByExamId(int examId);
     public UserExam queryUniqueUserExam(int examId, String userId);
     public boolean queryNoQuesId(String type, String id);
+    public void updateUserExamAnswer(UserExam ue);
 }

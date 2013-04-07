@@ -1,7 +1,13 @@
 package com.pojo;
 
-public class Subject
+import java.io.Serializable;
+
+public class Subject implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8563863354215129843L;
     private int id;
     private String name;
     public int getId()

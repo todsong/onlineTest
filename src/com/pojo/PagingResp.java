@@ -1,9 +1,14 @@
 package com.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PagingResp
+public class PagingResp implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9163299824967136210L;
     private List<?> resList;
     private int totalCount;
     private int totalPage;

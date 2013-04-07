@@ -1,9 +1,14 @@
 package com.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PagingReq
+public class PagingReq implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8691346982680982868L;
     private String orderKey;
     private String orderValue;
     private int pageSize;

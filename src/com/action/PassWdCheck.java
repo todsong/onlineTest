@@ -22,7 +22,6 @@ public class PassWdCheck extends HttpServlet
     {
         try
         {
-
             HttpSession hs = req.getSession();
             String login = (String) hs.getAttribute("login");
             if (login == null || login.equals(""))
@@ -30,18 +29,17 @@ public class PassWdCheck extends HttpServlet
                 return;
             }
             String id = (String) hs.getAttribute("id");
-            String passWdOld = req.getParameter("passWdOld");
-            String passMd5 = MD5Util.getMD5(id + passWdOld);
-            String passWdNew = req.getParameter("passWdNew");
-            String passwd = MD5Util.getMD5(id + passWdNew);
+            String verifyToken = req.getParameter("verifyToken");
+            String passWdNew = req.getParameter("updateToken");
+            String rand = req.getParameter("rand");
 
             if (login.equals("user"))
             {
                 UserDAO ud = new UserDAOImpl();
-                User user = ud.queryUserByPwd(id, passMd5);
-                if (user != null)
+                User user = ud.queryUserById(id);
+                if (user != null && MD5Util.getMD5(user.getPasswd()+rand).equals(verifyToken))
                 {
-                    user.setPasswd(passwd);
+                    user.setPasswd(passWdNew);
                     ud.updateUserById(id, user);
                     resp.sendRedirect("examinee/examMain.jsp");
                 } else
@@ -52,15 +50,14 @@ public class PassWdCheck extends HttpServlet
             } else if (login.equals("admin"))
             {
                 AdminDAO ad = new AdminDAOImpl();
-                Admin admin = ad.queryAdminByPwd(id, passMd5);
-                if (admin != null)
+                Admin admin = ad.queryAdminById(id);
+                if (admin != null && MD5Util.getMD5(admin.getPasswd()+rand).equals(verifyToken))
                 {
-                    admin.setPasswd(passwd);
+                    admin.setPasswd(passWdNew);
                     ad.updateAdminById(id, admin);
                     resp.sendRedirect("admin/main.jsp");
                 } else
                 {
-                    // System.out.println("xx");
                     hs.setAttribute("passUp", "fail");
                     resp.sendRedirect("admin/passwd.jsp");
                 }

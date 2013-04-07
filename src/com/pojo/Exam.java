@@ -1,7 +1,11 @@
 package com.pojo;
 
-public class Exam {
-	private int id;
+import java.io.Serializable;
+
+public class Exam implements Serializable
+{
+    private static final long serialVersionUID = 7971198495558427799L;
+    private int id;
 	private String examName;
 	private String startTime;
 	private String endTime;

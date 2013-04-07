@@ -1,7 +1,10 @@
 package com.pojo;
 
-public class Dept
+import java.io.Serializable;
+
+public class Dept  implements Serializable
 {
+    private static final long serialVersionUID = 5504603969138043929L;
     private int id;
     private String name;
     public int getId()

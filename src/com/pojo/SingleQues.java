@@ -1,8 +1,14 @@
 package com.pojo;
 
-public class SingleQues
+import java.io.Serializable;
+
+public class SingleQues implements Serializable
 {
-	private int id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 529224451663271634L;
+    private int id;
 	private String qName;
 	private String qAnswer;
 	private String optionA;

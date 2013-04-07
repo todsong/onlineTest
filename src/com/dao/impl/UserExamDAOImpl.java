@@ -300,5 +300,38 @@ public class UserExamDAOImpl implements UserExamDAO
         }
         return res;
     }
-}
 
+    @Override
+    public void updateUserExamAnswer(UserExam ue)
+    {
+        String sql = "update T_USER_EXAM SET judgeAnswerList=?, singleAnswerList=?, multiAnswerList=? where examId=? and userId=?";
+        PreparedStatement st = null;
+        try
+        {
+            conn = DBConnection.getConnection();
+            st = conn.prepareStatement(sql);
+            st.setString(1, ue.getJudgeAnswerList());
+            st.setString(2, ue.getSingleAnswerList());
+            st.setString(3, ue.getMultiAnswerList());
+            st.setInt(4, ue.getExamId());
+            st.setString(5, ue.getUserId());
+            st.execute();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                st.close();
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+}

@@ -143,9 +143,8 @@ public class InExamAction extends HttpServlet
             hs.setAttribute("singleSum", sqAct.size());
             hs.setAttribute("multi", mqAct);
             hs.setAttribute("multiSum", mqAct.size());
-
             hs.setAttribute("userExam", ue);
-
+            hs.setAttribute("count", 0);
         } else
         // 非首次进入考试，已存在题目
         {
@@ -192,6 +191,38 @@ public class InExamAction extends HttpServlet
                 hs.setAttribute("singleSum", sqArray.length);
                 hs.setAttribute("multi", mqAct);
                 hs.setAttribute("multiSum", mqArray.length);
+                int count=0;
+                if(ue.getJudgeAnswerList()!=null)
+                {
+                    String[] jAnswer = ue.getJudgeAnswerList().split("\\|");
+                    String[] sAnswer = ue.getSingleAnswerList().split("\\|");
+                    String[] mAnswer = ue.getMultiAnswerList().split("\\|");
+                    count+=jAnswer.length;
+                    count+=sAnswer.length;
+                    count+=mAnswer.length;
+                    for(int i=0;i<jAnswer.length; i++)
+                    {
+                        if(!jAnswer.equals(""))
+                        {
+                            hs.setAttribute("judge"+i, jAnswer[i]);
+                        }
+                    }
+                    for(int i=0;i<sAnswer.length; i++)
+                    {
+                        if(!sAnswer.equals(""))
+                        {
+                            hs.setAttribute("single"+i, sAnswer[i]);
+                        }
+                    }
+                    for(int i=0;i<mAnswer.length; i++)
+                    {
+                        if(!mAnswer.equals(""))
+                        {
+                            hs.setAttribute("multi"+i, mAnswer[i]);
+                        }
+                    }
+                }
+                hs.setAttribute("count", count);
             }
         }
 
