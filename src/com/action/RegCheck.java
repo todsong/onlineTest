@@ -28,7 +28,7 @@ public class RegCheck extends HttpServlet
         }
         UserDAO ud = new UserDAOImpl();
         String id = req.getParameter("id");
-        if (ud.queryUserById(id) == null)
+        if (!id.startsWith("admin") && ud.queryUserById(id) == null)
         {
             String userName = req.getParameter("userName");
             String passwd = req.getParameter("token");
