@@ -15,7 +15,8 @@ if(login==null||!login.equals("user"))
     return;
 }
 %>
-<b>判断题</b><br/>
+<a id="judge" name="judge"><b>判断题</b></a><br/>
+
 <%
 List<JudgeQues> jqList = (ArrayList<JudgeQues>) session.getAttribute("judge");
 
@@ -23,6 +24,7 @@ for(int i=0;i<jqList.size();i++)
 {
     out.print("&nbsp;&nbsp;<a href=\"ClickQuesAction?type=judge&id="+i+"\" target=\"ques\">第"+ (i+1) +"题</a>");
     String answer = (String) session.getAttribute("judge"+i);
+    out.print("<a id=\"judge"+i+"\">");
     if(answer==null || answer.equals(""))
     {
         out.println("[<font color=\"red\">■</font>]");
@@ -31,10 +33,11 @@ for(int i=0;i<jqList.size();i++)
     {
         out.println("[<font color=\"green\">●</font>]");
     }
-    out.print("<br/>");
+    out.print("</a><br/>");
 }
 %>
-<br/><b>单选题</b><br/>
+<br/>
+<a name="single"><b>单选题</b></a><br/>
 <%
 List<SingleQues> sqList = (ArrayList<SingleQues>) session.getAttribute("single");
 
@@ -42,6 +45,7 @@ for(int i=0;i<sqList.size();i++)
 {
     out.print("&nbsp;&nbsp;<a href=\"ClickQuesAction?type=single&id="+i+"\" target=\"ques\">第"+ (i+1) +"题</a>");
     String answer = (String) session.getAttribute("single"+i);
+    out.print("<a id=\"single"+i+"\">");
     if(answer==null || answer.equals(""))
     {
         out.println("[<font color=\"red\">■</font>]");
@@ -50,20 +54,19 @@ for(int i=0;i<sqList.size();i++)
     {
         out.println("[<font color=\"green\">●</font>]");
     }
-    out.print("<br/>");
+    out.print("</a><br/>");
 }
 %>
-<br/><b>多选题</b><br/>
+<br/>
+<a name="multi"><b>多选题</b></a><br/>
 <%
 
 List<MultiQues> mqList = (ArrayList<MultiQues>) session.getAttribute("multi");
-/* if(mqList==null)
-    System.out.println("xxx");
- */
 for(int i=0;i<mqList.size();i++)
 {
     out.print("&nbsp;&nbsp;<a href=\"ClickQuesAction?type=multi&id="+i+"\" target=\"ques\">第"+ (i+1) +"题</a>");
     String answer = (String) session.getAttribute("multi"+i);
+    out.print("<a id=\"multi"+i+"\">");
     if(answer==null || answer.equals(""))
     {
         out.println("[<font color=\"red\">■</font>]");
@@ -72,6 +75,6 @@ for(int i=0;i<mqList.size();i++)
     {
         out.println("[<font color=\"green\">●</font>]");
     }
-    out.print("<br/>");
+    out.print("</a><br/>");
 }
 %>

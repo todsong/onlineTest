@@ -24,19 +24,28 @@ function back()
 ques.action = "DoQuesAction";
 ques.submit();
 }  
-function topicReload()
-{  
-    window.parent.frames["menu"].location.reload();  
-}
 </script>
 </head>
-<body onload="topicReload()">
+<body>
 
 <%
 String para = request.getQueryString();
 String type = "multi";
 String[] url = para.split("&");
 int id = Integer.parseInt(url[0].substring(3));
+String src = request.getParameter("src");
+String mdf = request.getParameter("mdf");
+if(src!=null && mdf!=null)
+{
+    if(mdf.equals("1"))
+    {
+        %>
+        <script>
+        parent.frames["menu"].document.getElementById("<%=src%>").innerHTML="[<font color=\"green\">●</font>]";
+        </script>
+        <%
+    }
+}
 List<MultiQues> sqList = (ArrayList<MultiQues>) session.getAttribute("multi");
 out.println("<font size=\"2\" face=\"verdana\">多选题第"+(id+1)+"题</font><br/><br/>");
 MultiQues sq = sqList.get(id);
