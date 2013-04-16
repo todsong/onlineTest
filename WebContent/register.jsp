@@ -26,17 +26,26 @@ if(deptList==null || deptList.size()==0)
 <html>
 <script>
 	function check()
-	{ 
-		with(document.all)
-		{
+	{
+		var id = document.getElementById("id");
+		var passWd = document.getElementById("passwd");
+		var passWdAg = document.getElementById("passwdAg");
+        var dept = document.getElementById("dept");
+        var userName = document.getElementById("userName");
+        var telNo = document.getElementById("telNo");
+
 			if(id.value==null||id.value=="")
             {
                 alert("工号不能为空")
             }
 			else if(userName.value==null||userName.value=="")
-			{
-				alert("姓名不能为空")
-			}
+            {
+                alert("姓名不能为空")
+            }
+			else if(userName.value.length>20)
+            {
+                alert("姓名过长")
+            }
 			else if(passWd.value==null||passWd.value=="")
             {
                 alert("密码不能为空")
@@ -44,6 +53,10 @@ if(deptList==null || deptList.size()==0)
 			else if(passWd.value.length<6)
             {
                 alert("密码长度至少6位")
+            }
+			else if(passWd.value.length>30)
+            {
+                alert("密码长度过长")
             }
 			else if(passWd.value!=passWdAg.value)
 			{
@@ -55,6 +68,10 @@ if(deptList==null || deptList.size()==0)
             {
                 alert("部门不能为空")
             }
+			else if(telNo.value.length>30)
+            {
+                alert("电话号码过长")
+            }
 			else 
 			{
 				var p1 = document.getElementById("id").value;
@@ -65,7 +82,6 @@ if(deptList==null || deptList.size()==0)
 		        document.login.action="RegCheck";
 				document.forms[0].submit();
 			}
-		}
 	}
 	function gotoLogin()
     {
@@ -110,7 +126,7 @@ if(deptList==null || deptList.size()==0)
  </tr>
  <tr>
  <td align="right"><font color="red">*</font>姓名：</td>
- <td colspan="2"><input type=text name=userName>
+ <td colspan="2"><input type=text name=userName id="userName">
   </td>
  </tr>
  <tr>
@@ -137,7 +153,7 @@ if(deptList==null || deptList.size()==0)
  </tr>
  <tr>
  <td align="right">电话：</td>
- <td colspan="2"><input type=text name=telNo></td>
+ <td colspan="2"><input type=text name=telNo id=telNo></td>
  </tr>
  <tr>
   <td></td>

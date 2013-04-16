@@ -1,3 +1,4 @@
+<%@page import="java.util.Random"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -58,26 +59,25 @@ if(res!=null)
     function check()
     { 
         document.login.action="LoginCheck";
-        with(document.all)
-        {
+        var id = document.getElementById("userId");
+        var passWd = document.getElementById("passwd");
             if(id.value==null||id.value=="")
             {
-                alert("工号不能为空")
+                alert("工号不能为空");
             }
             else if(passWd.value==null||passWd.value=="")
             {
-                alert("密码不能为空")
+                alert("密码不能为空");
             }
             else 
            	{
-           	   var rand=Math.random();
+           	   var rand=<%=new Random().nextInt()%>;
                document.getElementById("rand").value=rand;
            	   var tmp = MD5(document.getElementById("userId").value+document.getElementById("passwd").value);
            	   document.getElementById("token").value=MD5(tmp+rand);
             	document.getElementById("passwd").value="";
              	document.forms[0].submit();
            	}
-        }
     }
     function gotoReg()
     {

@@ -16,9 +16,11 @@ if(login==null||!login.equals("admin"))
 %>
 <script>
     function passwdCheck()
-    { 
-        with(document.all)
-        {
+    {
+    	var passWdOld = document.getElementById("passwdOld");
+    	var passWdNew = document.getElementById("passwdNew");
+    	var passWdAg = document.getElementById("passwdAg");
+    	
         	if(passWdOld.value==null||passWdOld.value=="")
             {
                 alert("旧密码不能为空")
@@ -26,6 +28,10 @@ if(login==null||!login.equals("admin"))
         	else if(passWdNew.value==null||passWdNew.value=="")
             {
                 alert("新密码不能为空")
+            }
+        	else if(passWdNew.value.length>30)
+            {
+                   alert("新密码长度过长");
             }
         	else if(passWdNew.value.length<6)
             {
@@ -37,7 +43,7 @@ if(login==null||!login.equals("admin"))
             }
             else
            	{
-            	var rand=Math.random();
+            	var rand=<%=Math.random()%>;
                 var userId = "<%=session.getAttribute("id")%>";
                 var pNew = document.getElementById("passwdNew").value;
                 var pOld = document.getElementById("passwdOld").value;
@@ -52,7 +58,6 @@ if(login==null||!login.equals("admin"))
                 
             	document.forms[0].submit();
            	}
-        }
     }
     function failCheck()
     {
