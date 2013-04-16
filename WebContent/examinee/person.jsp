@@ -30,9 +30,17 @@ List<Dept> deptList = dd.getAllDept();
             {
                 alert("姓名不能为空")
             }
+            else if(userName.value.length>20)
+            {
+                alert("姓名过长")
+            }
             else if(dept.value==null||dept.value=="")
             {
                 alert("部门不能为空")
+            }
+            else if(telNo.value.length>30)
+            {
+                alert("电话号码过长")
             }
             else document.forms[0].submit();
         }
