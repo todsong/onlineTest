@@ -11,4 +11,5 @@ public interface DeptDAO
     public int updateDeptById(int id, Dept sj);
     public List<Dept> getAllDept();
     public Dept quertDeptById(int id);
+    public Dept quertDeptByName(String name);
 }

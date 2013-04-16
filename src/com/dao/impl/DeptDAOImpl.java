@@ -204,4 +204,45 @@ public class DeptDAOImpl implements DeptDAO
         return dept;
 
     }
+
+    @Override
+    public Dept quertDeptByName(String name)
+    {
+        String sql = "select id,name from T_DEPT where name=?";
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Dept dept = null;
+        try
+        {
+            conn = DBConnection.getConnection();
+            st = conn.prepareStatement(sql);
+            st.setString(1, name);
+            rs = st.executeQuery();
+            if (rs != null && rs.next())
+            {
+                dept = new Dept();
+                dept.setId(rs.getInt(1));
+                dept.setName(rs.getString(2));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        finally
+        {
+            try
+            {
+                rs.close();
+                st.close();
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return dept;
+    }
 }
