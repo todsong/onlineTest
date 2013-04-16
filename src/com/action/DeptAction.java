@@ -43,7 +43,19 @@ public class DeptAction extends HttpServlet
         {
             Dept dept = new Dept();
             dept.setName(deptName);
-            dd.addDept(dept);
+            if(dd.quertDeptByName(deptName)==null)
+                dd.addDept(dept);
+            else
+            {
+                try
+                {
+                    resp.sendRedirect("dept.jsp?addError=name");
+                    return;
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         } else if (upD != null)
         {
             int id = Integer.parseInt(req.getParameter("deptId"));
