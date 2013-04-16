@@ -94,7 +94,7 @@ public class Cache
                     sbMqList.add(mq);
                 }
             }
-            mqMap.put(subjectId, mqList);
+            mqMap.put(subjectId, sbMqList);
         }
         //System.out.println("initMultiCache");
     }
@@ -121,7 +121,7 @@ public class Cache
                     sbSqList.add(sq);
                 }
             }
-            sqMap.put(subjectId, sqList);
+            sqMap.put(subjectId, sbSqList);
         }
         //System.out.println("initSingleCache");
     }
