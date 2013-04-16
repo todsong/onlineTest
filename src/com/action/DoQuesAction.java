@@ -28,6 +28,7 @@ public class DoQuesAction extends HttpServlet
         String id = req.getParameter("id");
         String type = req.getParameter("type");
         String answer = null;
+        int mdf = 0; //标记答案是否有修改 
         if (type.equals("multi"))
         {
             String[] answers = req.getParameterValues("answer");
@@ -40,6 +41,7 @@ public class DoQuesAction extends HttpServlet
                 }
             }
             answer = new String(sb.toString());
+            //System.out.println(answer);
         } else
         {
             answer = req.getParameter("answer");
@@ -48,8 +50,9 @@ public class DoQuesAction extends HttpServlet
         String oldAnswer = (String) hs.getAttribute(type+id);
         
         //只有在新旧不一样时才做count计数
-        if( (oldAnswer==null && answer!=null) || (oldAnswer!=null && answer!=null && !oldAnswer.equals(answer)))
+        if( (oldAnswer==null && answer!=null && !answer.equals("")) || (oldAnswer!=null && answer!=null && !oldAnswer.equals(answer)))
         {
+            mdf=1;
             Integer count = (Integer) hs.getAttribute("count");
             if(count!=null)
             {
@@ -216,6 +219,8 @@ public class DoQuesAction extends HttpServlet
                 url.append("&next");
             if (backButton)
                 url.append("&back");
+            url.append("&src="+type+id);
+            url.append("&mdf="+mdf);
             resp.sendRedirect(url.toString());
         } catch (IOException e)
         {
