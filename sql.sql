@@ -130,3 +130,7 @@ alter table t_exam modify column judgeNum varchar(30);
 alter table t_exam modify column multiNum varchar(30);
 alter table t_exam modify column singleNum varchar(30);
 
+--2013年3月24日，支持题库至万数量级
+create index idx_exam_type on t_exam(examType); 
+create index idx_exam_start_time on t_exam(startTime);
+create index idx_exam_end_time on t_exam(endTime); 
