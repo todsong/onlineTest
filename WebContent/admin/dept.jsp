@@ -13,6 +13,7 @@ if(login==null||!login.equals("admin"))
     return;
 }
 String para = request.getParameter("delError");
+String addError = request.getParameter("addError");
 if(para!=null && para.equals("user"))
 {
     %>
@@ -20,6 +21,14 @@ if(para!=null && para.equals("user"))
     alert("该部门已存在注册用户，无法删除");
     </script>
 <%
+}
+else if(addError!=null && addError.equals("name"))
+{
+    %>
+    <script type="text/javascript">
+    alert("该部门已存在");
+    </script>
+<%  
 }
 %>
 
