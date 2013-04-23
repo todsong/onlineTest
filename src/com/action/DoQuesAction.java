@@ -3,6 +3,7 @@ package com.action;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +26,13 @@ public class DoQuesAction extends HttpServlet
         {
             e1.printStackTrace();
         }
-        String id = req.getParameter("id");
-        String type = req.getParameter("type");
+
+        HttpSession hs = req.getSession();
+        int quesId = (Integer)hs.getAttribute("quesId");
+        String quesType = req.getParameter("quesType");
         String answer = null;
-        int mdf = 0; //标记答案是否有修改 
-        if (type.equals("multi"))
+        boolean mdf = false; //标记答案是否有修改 
+        if (quesType.equals("multi"))
         {
             String[] answers = req.getParameterValues("answer");
             StringBuilder sb = new StringBuilder("");
@@ -46,13 +49,12 @@ public class DoQuesAction extends HttpServlet
         {
             answer = req.getParameter("answer");
         }
-        HttpSession hs = req.getSession();
-        String oldAnswer = (String) hs.getAttribute(type+id);
+        String oldAnswer = (String) hs.getAttribute(quesType+quesId);
         
         //只有在新旧不一样时才做count计数
         if( (oldAnswer==null && answer!=null && !answer.equals("")) || (oldAnswer!=null && answer!=null && !oldAnswer.equals(answer)))
         {
-            mdf=1;
+            mdf=true;
             Integer count = (Integer) hs.getAttribute("count");
             if(count!=null)
             {
@@ -117,7 +119,7 @@ public class DoQuesAction extends HttpServlet
                 }
             }
         }
-        hs.setAttribute(type + id, answer);
+        hs.setAttribute(quesType + quesId, answer);
         
         Boolean nextButton = false;
         Boolean backButton = false;
@@ -130,11 +132,11 @@ public class DoQuesAction extends HttpServlet
         int smLine = judgeSum + singleSum;
 
         int totleSum = judgeSum + singleSum + multiSum;
-        int globalId = Integer.parseInt(id);
-        if (type.equals("single"))
+        int globalId = quesId;
+        if (quesType.equals("single"))
         {
             globalId += jsLine;
-        } else if (type.equals("multi"))
+        } else if (quesType.equals("multi"))
         {
             globalId += smLine;
         }
@@ -170,8 +172,8 @@ public class DoQuesAction extends HttpServlet
             }
         } else if (req.getParameter("handIn") != null)// 点击保存
         {
-            resType = type;
-            resId = Integer.parseInt(id);
+            resType = quesType;
+            resId = quesId;
             if (globalId == totleSum - 1)
             {
                 nextButton = false;
@@ -213,15 +215,41 @@ public class DoQuesAction extends HttpServlet
         }
         try
         {
-            StringBuffer url = new StringBuffer(resType + "Ques.jsp?id="
-                    + resId);
+//            StringBuffer url = new StringBuffer(resType + "Ques.jsp?id="
+//                    + resId);
+            String url = resType + "Ques.jsp";
+            hs.setAttribute("quesId", resId);
             if (nextButton)
-                url.append("&next");
+            {
+                //url.append("&next");
+                hs.setAttribute("next", true);
+            }
+            else
+            {
+                hs.setAttribute("next", false);
+            }
             if (backButton)
-                url.append("&back");
-            url.append("&src="+type+id);
-            url.append("&mdf="+mdf);
-            resp.sendRedirect(url.toString());
+            {
+                //url.append("&back");
+                hs.setAttribute("back", true);
+            }
+            else
+            {
+                hs.setAttribute("back", false);
+            }
+                
+//            url.append("&src="+type+id);
+//            url.append("&mdf="+mdf);
+            hs.setAttribute("src", quesType+quesId);
+            hs.setAttribute("mdf", mdf);
+            //resp.sendRedirect(url);
+            try
+            {
+                req.getRequestDispatcher(url).forward(req, resp);
+            } catch (ServletException e)
+            {
+                e.printStackTrace();
+            }
         } catch (IOException e)
         {
             // TODO Auto-generated catch block

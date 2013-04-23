@@ -28,15 +28,13 @@ ques.submit();
 <body>
 
 <%
-String para = request.getQueryString();
-String type = "judge";
-String[] url = para.split("&");
-int id = Integer.parseInt(url[0].substring(3));
-String src = request.getParameter("src");
-String mdf = request.getParameter("mdf");
+String quesType = "judge";
+int quesId = (Integer) request.getSession().getAttribute("quesId");
+String src = (String)request.getSession().getAttribute("src");
+Boolean mdf = (Boolean)request.getSession().getAttribute("mdf");
 if(src!=null && mdf!=null)
 {
-    if(mdf.equals("1"))
+    if(mdf.equals(true))
     {
         %>
         <script>
@@ -46,9 +44,9 @@ if(src!=null && mdf!=null)
     }
 }
 List<JudgeQues> jqList = (ArrayList<JudgeQues>) session.getAttribute("judge");
-out.println("<font size=\"2\" face=\"verdana\">判断题第"+(id+1)+"题</font><br/><br/>");
-out.println(jqList.get(id).getqName());
-String answer = (String)session.getAttribute(type+id);
+out.println("<font size=\"2\" face=\"verdana\">判断题第"+(quesId+1)+"题</font><br/><br/>");
+out.println(jqList.get(quesId).getqName());
+String answer = (String)session.getAttribute(quesType+quesId);
 if(answer==null)
 {
     answer="";
@@ -60,16 +58,21 @@ if(answer==null)
 <br>
 <input type="radio" name="answer" value="F" <%if(answer.equals("F")) out.print("checked");%>/>错
 <br>
-  <input type="hidden" name="id" value="<%=id %>" >
-  <input type="hidden" name="type" value="<%=type %>" >
+  <%-- <input type="hidden" name="quesId" value="<%=quesId %>" > --%>
+  <input type="hidden" name="quesType" value="<%=quesType %>" >
   <%
-  if(para.contains("back"))
+  boolean back = (Boolean)request.getSession().getAttribute("back");
+  boolean next = (Boolean)request.getSession().getAttribute("next");
+  //if(para.contains("back"))
+  if(back==true)
   {
   %>
   <input type="button" name="up" value="上一题" onclick="back();">
   <%
   }
-  if(para.contains("next")){
+  //if(para.contains("next"))
+  if(next==true)
+  {
   %>
   <input type="submit" name="next" value="下一题">
   <%

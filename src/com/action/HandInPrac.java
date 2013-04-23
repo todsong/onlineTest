@@ -123,6 +123,11 @@ public class HandInPrac extends HttpServlet
         hs.removeAttribute("multi");
         hs.removeAttribute("multiSum");
         hs.removeAttribute("examId");
+        hs.removeAttribute("quesId");
+        hs.removeAttribute("next");
+        hs.removeAttribute("back");
+        hs.removeAttribute("src");
+        hs.removeAttribute("mdf");
         if (examType.equals("0"))
         {
             hs.removeAttribute("count");

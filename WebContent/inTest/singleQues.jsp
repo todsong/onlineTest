@@ -28,15 +28,20 @@ ques.submit();
 <body>
 
 <%
-String para = request.getQueryString();
-String type = "single";
-String[] url = para.split("&");
-int id = Integer.parseInt(url[0].substring(3));
+//String para = request.getQueryString();
+String quesType = "single";
+//String[] url = para.split("&");
+/* int id = Integer.parseInt(url[0].substring(3));
 String src = request.getParameter("src");
 String mdf = request.getParameter("mdf");
-if(src!=null && mdf!=null)
+ */
+ int quesId = (Integer) request.getSession().getAttribute("quesId");
+ String src = (String)request.getSession().getAttribute("src");
+ Boolean mdf = (Boolean)request.getSession().getAttribute("mdf");
+
+ if(src!=null && mdf!=null)
 {
-    if(mdf.equals("1"))
+    if(mdf==true)
     {
         %>
         <script>
@@ -46,10 +51,10 @@ if(src!=null && mdf!=null)
     }
 }
 List<SingleQues> sqList = (ArrayList<SingleQues>) session.getAttribute("single");
-out.println("<font size=\"2\" face=\"verdana\">单选题第"+(id+1)+"题</font><br/><br/>");
-SingleQues sq = sqList.get(id);
+out.println("<font size=\"2\" face=\"verdana\">单选题第"+(quesId+1)+"题</font><br/><br/>");
+SingleQues sq = sqList.get(quesId);
 out.println(sq.getqName());
-String answer = (String)session.getAttribute(type+id);
+String answer = (String)session.getAttribute(quesType+quesId);
 if(answer==null)
 {
     answer="";
@@ -75,16 +80,18 @@ for(int i=0; i<optNum; i++)
 }
 %>
 
-  <input type="hidden" name="id" value="<%=id %>" >
-  <input type="hidden" name="type" value="<%=type %>" >
+<%--   <input type="hidden" name="quesId" value="<%=quesId %>" > --%>
+  <input type="hidden" name="quesType" value="<%=quesType %>" >
   <%
-  if(para.contains("back"))
+  boolean back = (Boolean)request.getSession().getAttribute("back");
+  boolean next = (Boolean)request.getSession().getAttribute("next");
+  if(back==true)
   {
   %>
   <input type="button" name="up" value="上一题" onclick="back();">
   <%
   }
-  if(para.contains("next")){
+  if(next==true){
   %>
   <input type="submit" name="next" value="下一题">
   <%

@@ -3,6 +3,7 @@ package com.action;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,13 +22,21 @@ public class ClickQuesAction extends HttpServlet
         {
             e1.printStackTrace();
         }
-        String para = req.getQueryString();
-        String id = para.split("&")[1].substring(3);
-        String type = para.split("&")[0].substring(5);
+        //String para = req.getQueryString();
+        //String id = para.split("&")[1].substring(3);
+        //String type = para.split("&")[0].substring(5);
 
+        HttpSession hs = req.getSession();
+        String quesIdStr = req.getParameter("quesId");
+        int quesId = 0;
+        if(quesIdStr!=null)
+            quesId = Integer.parseInt(quesIdStr);
+        else
+            quesId = (Integer)hs.getAttribute("quesId");
+        String quesType = req.getParameter("quesType");
+        
         Boolean nextButton = false;
         Boolean backButton = false;
-        HttpSession hs = req.getSession();
         int judgeSum = (Integer) hs.getAttribute("judgeSum");
         int singleSum = (Integer) hs.getAttribute("singleSum");
         int multiSum = (Integer) hs.getAttribute("multiSum");
@@ -36,11 +45,11 @@ public class ClickQuesAction extends HttpServlet
         int smLine = judgeSum + singleSum;
 
         int totleSum = judgeSum + singleSum + multiSum;
-        int globalId = Integer.parseInt(id);
-        if (type.equals("single"))
+        int globalId = quesId;
+        if (quesType.equals("single"))
         {
             globalId += jsLine;
-        } else if (type.equals("multi"))
+        } else if (quesType.equals("multi"))
         {
             globalId += smLine;
         }
@@ -59,12 +68,36 @@ public class ClickQuesAction extends HttpServlet
 
         try
         {
-            StringBuffer url = new StringBuffer(type + "Ques.jsp?id=" + id);
+            //StringBuffer url = new StringBuffer(type + "Ques.jsp?id=" + id);
+            String url = quesType + "Ques.jsp";
+            hs.setAttribute("quesId", quesId);
             if (nextButton)
-                url.append("&next");
+            {
+                //url.append("&next");
+                hs.setAttribute("next", true);
+            }
+            else
+            {
+                hs.setAttribute("next", false);
+            }
             if (backButton)
-                url.append("&back");
-            resp.sendRedirect(url.toString());
+            {
+                //url.append("&back");
+                hs.setAttribute("back", true);
+            }
+            else
+            {
+                hs.setAttribute("back", false);
+            }
+            //resp.sendRedirect(url.toString());
+            try
+            {
+                req.getRequestDispatcher(url).forward(req, resp);
+            } catch (ServletException e)
+            {
+                e.printStackTrace();
+            }
+
         } catch (IOException e)
         {
             // TODO Auto-generated catch block

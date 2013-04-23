@@ -38,7 +38,12 @@ if(login==null||!login.equals("user"))
             out.println("multi");
         }
     }
-    %>Ques.jsp?id=0&next" name="ques">
+    %>Ques.jsp" name="ques">
+    <%
+    request.getSession().setAttribute("quesId", 0);
+    request.getSession().setAttribute("next", true);
+    request.getSession().setAttribute("back", false);
+    %>
   </frameset>
 </frameset>
 
