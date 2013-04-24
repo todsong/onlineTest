@@ -9,12 +9,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("user"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
 DeptDAO dd = new DeptDAOImpl();
 List<Dept> deptList = dd.getAllDept();
 

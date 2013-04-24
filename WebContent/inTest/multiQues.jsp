@@ -6,14 +6,6 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("user"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
-%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

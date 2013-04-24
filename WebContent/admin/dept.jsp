@@ -6,12 +6,12 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-String login = (String)session.getAttribute("login");
+/* String login = (String)session.getAttribute("login");
 if(login==null||!login.equals("admin"))
 {
     out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
     return;
-}
+} */
 String para = request.getParameter("delError");
 String addError = request.getParameter("addError");
 if(para!=null && para.equals("user"))

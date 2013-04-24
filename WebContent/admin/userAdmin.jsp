@@ -28,14 +28,6 @@
 </head>
 
 <%
-request.setCharacterEncoding("utf-8");
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("admin"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
-
 DeptDAO dd = new DeptDAOImpl();
 List<Dept> deptList = dd.getAllDept();
 Map<Integer,String> deptMap = new HashMap<Integer,String>();

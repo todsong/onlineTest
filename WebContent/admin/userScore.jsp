@@ -59,12 +59,6 @@
 </head>
 <body>
 <%
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("admin"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
 String userId = request.getQueryString().substring(3);
 if(userId!=null || !userId.equals(""))
 {

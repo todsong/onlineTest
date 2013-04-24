@@ -21,15 +21,6 @@ function clickHRef(quesType,quesId)
 	document.forms[0].submit();
 }
 </script>
-
-<%
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("user"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
-%>
 <a id="judge" name="judge"><b>判断题</b></a><br/>
 
 <%

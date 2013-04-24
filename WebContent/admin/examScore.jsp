@@ -17,12 +17,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("admin"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
 DeptDAO dd = new DeptDAOImpl();
 List<Dept> deptList = dd.getAllDept();
 Map<Integer,String> deptMap = new HashMap<Integer,String>();

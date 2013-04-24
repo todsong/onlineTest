@@ -6,14 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../js/md5.js"></script>
 <title>在线考试系统</title>
-<%
-String login = (String)session.getAttribute("login");
-if(login==null||!login.equals("user"))
-{
-    out.print("<script>window.parent.location.href='/onlineTest/login.jsp';</script>");
-    return;
-}
-%>
 <script>
     function passwdCheck()
     {
