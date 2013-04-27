@@ -52,7 +52,7 @@ List<SingleQues> sqList = (ArrayList<SingleQues>) session.getAttribute("single")
 for(int i=0;i<sqList.size();i++)
 {
     %>
-    &nbsp;&nbsp;<a href=javascript:clickHRef("judge","<%=i%>") target="ques">第<%=(i+1)%>题</a>
+    &nbsp;&nbsp;<a href=javascript:clickHRef("single","<%=i%>") target="ques">第<%=(i+1)%>题</a>
     <%
     String answer = (String) session.getAttribute("single"+i);
     out.print("<a id=\"single"+i+"\">");
@@ -75,7 +75,7 @@ List<MultiQues> mqList = (ArrayList<MultiQues>) session.getAttribute("multi");
 for(int i=0;i<mqList.size();i++)
 {
     %>
-    &nbsp;&nbsp;<a href=javascript:clickHRef("judge","<%=i%>") target="ques">第 <%=(i+1)%>题</a>
+    &nbsp;&nbsp;<a href=javascript:clickHRef("multi","<%=i%>") target="ques">第<%=(i+1)%>题</a>
     <%
     String answer = (String) session.getAttribute("multi"+i);
     out.print("<a id=\"multi"+i+"\">");
