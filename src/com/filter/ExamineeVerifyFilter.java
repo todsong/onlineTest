@@ -24,7 +24,6 @@ public class ExamineeVerifyFilter implements Filter
     public void doFilter(ServletRequest req, ServletResponse resp,
             FilterChain chain) throws IOException, ServletException
     {
-        req.setCharacterEncoding("utf-8");
         HttpServletRequest request = (HttpServletRequest)req;
         HttpSession hs = request.getSession();
         String login = (String) hs.getAttribute("login");

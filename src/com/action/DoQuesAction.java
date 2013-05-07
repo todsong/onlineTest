@@ -19,14 +19,6 @@ public class DoQuesAction extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-
         HttpSession hs = req.getSession();
         int quesId = (Integer)hs.getAttribute("quesId");
         String quesType = req.getParameter("quesType");

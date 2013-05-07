@@ -19,13 +19,6 @@ public class RegCheck extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
         UserDAO ud = new UserDAOImpl();
         String id = req.getParameter("id");
         if (!id.startsWith("admin") && ud.queryUserById(id) == null)

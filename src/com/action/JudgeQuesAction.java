@@ -33,13 +33,6 @@ public class JudgeQuesAction extends HttpServlet
     {
         try
         {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        try
-        {
             JudgeQuesDAO jqd = new JudgeQuesDAOImpl();
             JudgeQues jq = new JudgeQues();
             String del = req.getParameter("del");

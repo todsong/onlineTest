@@ -24,13 +24,6 @@ public class HandInPrac extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
         HttpSession hs = req.getSession();
         String examType = (String) hs.getAttribute("examType");
 

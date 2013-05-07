@@ -19,8 +19,9 @@ public class UserDAOImpl implements UserDAO
     @Override
     public int addUser(User user)
     {
-        String sql = "insert into T_USER(id, passwd, name, dept, telephone, status) values(?,?,?,?,?,?)";
+        final String sql = "insert into T_USER(id, passwd, name, dept, telephone, status) values(?,?,?,?,?,?)";
         PreparedStatement st = null;
+        int res = 0;
         try
         {
             conn = DBConnection.getConnection();
@@ -32,26 +33,23 @@ public class UserDAOImpl implements UserDAO
             st.setString(5, user.getTelephone());
             st.setString(6, user.getStatus());
             st.execute();
-            //conn.commit();
-        }
-        catch (SQLException e)
+            // conn.commit();
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return 1;
-        }
-        finally
+            res = 1;
+        } finally
         {
             try
             {
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
         }
-        return 0;
+        return res;
     }
 
     @Override
@@ -70,21 +68,19 @@ public class UserDAOImpl implements UserDAO
             st.setString(5, user.getStatus());
             st.setString(6, id);
             st.execute();
-            //conn.commit();
+            // conn.commit();
         }// UPDATE t_user SET passwd = 'Fred' WHERE passwd = 'asd';
         catch (SQLException e)
         {
             e.printStackTrace();
             return 1;
-        }
-        finally
+        } finally
         {
             try
             {
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -103,21 +99,18 @@ public class UserDAOImpl implements UserDAO
             st = conn.prepareStatement(sql);
             st.setString(1, id);
             st.execute();
-            //conn.commit();
-        }
-        catch (SQLException e)
+            // conn.commit();
+        } catch (SQLException e)
         {
             e.printStackTrace();
             return 1;
-        }
-        finally
+        } finally
         {
             try
             {
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -149,21 +142,18 @@ public class UserDAOImpl implements UserDAO
                 user.setTelephone(rs.getString(5));
                 user.setStatus(rs.getString(6));
             }
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return null;
-        }
-        finally
+            user = null;
+        } finally
         {
             try
             {
                 rs.close();
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -194,21 +184,18 @@ public class UserDAOImpl implements UserDAO
                 user.setTelephone(rs.getString(5));
                 user.setStatus(rs.getString(6));
             }
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return null;
-        }
-        finally
+            user = null;
+        } finally
         {
             try
             {
                 rs.close();
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -245,21 +232,18 @@ public class UserDAOImpl implements UserDAO
                     userList.add(user);
                 }
             }
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return null;
-        }
-        finally
+            userList = null;
+        } finally
         {
             try
             {
                 rs.close();
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -283,21 +267,18 @@ public class UserDAOImpl implements UserDAO
             {
                 sum = rs.getInt(1);
             }
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return 0;
-        }
-        finally
+            sum = 0;
+        } finally
         {
             try
             {
                 rs.close();
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -332,21 +313,18 @@ public class UserDAOImpl implements UserDAO
                     userList.add(user);
                 }
             }
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return null;
-        }
-        finally
+            userList = null;
+        } finally
         {
             try
             {
                 rs.close();
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }
@@ -382,21 +360,18 @@ public class UserDAOImpl implements UserDAO
                     userList.add(user);
                 }
             }
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             e.printStackTrace();
-            return null;
-        }
-        finally
+            userList = null;
+        } finally
         {
             try
             {
                 rs.close();
                 st.close();
                 conn.close();
-            }
-            catch (SQLException e)
+            } catch (SQLException e)
             {
                 e.printStackTrace();
             }

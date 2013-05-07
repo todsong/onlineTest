@@ -26,13 +26,6 @@ public class InPracAction extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
         String url = req.getQueryString();
         int pracId = Integer.parseInt(url.split("&")[0].substring(3));
         int caseId = Integer.parseInt(url.split("&")[1].substring(2));

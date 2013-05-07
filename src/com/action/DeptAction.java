@@ -26,13 +26,6 @@ public class DeptAction extends HttpServlet
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
         String deptName = req.getParameter("deptName");
         String addD = req.getParameter("addD");
         String delD = req.getParameter("delD");

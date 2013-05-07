@@ -37,13 +37,6 @@ public class PracAction extends HttpServlet
     {
         try
         {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        try
-        {
             ExamDAO ed = new ExamDAOImpl();
             String addP = req.getParameter("addP");
             String upP = req.getParameter("upP");

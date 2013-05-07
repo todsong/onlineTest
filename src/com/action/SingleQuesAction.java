@@ -31,13 +31,6 @@ public class SingleQuesAction extends HttpServlet
     {
         try
         {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        try
-        {
             SingleQuesDAO sqd = new SingleQuesDAOImpl();
             SingleQues sq = new SingleQues();
             String del = req.getParameter("del");

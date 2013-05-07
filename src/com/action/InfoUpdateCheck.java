@@ -23,13 +23,6 @@ public class InfoUpdateCheck extends HttpServlet
     {
         try
         {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        try
-        {
             UserDAO ud = new UserDAOImpl();
             HttpSession hs = req.getSession();
             String login = (String) hs.getAttribute("login");

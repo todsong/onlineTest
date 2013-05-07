@@ -31,13 +31,6 @@ public class MultiQuesAction extends HttpServlet
     {
         try
         {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        try
-        {
             MultiQuesDAO sqd = new MultiQuesDAOImpl();
             MultiQues sq = new MultiQues();
             String del = req.getParameter("del");

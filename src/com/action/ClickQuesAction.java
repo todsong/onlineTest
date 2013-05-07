@@ -9,104 +9,100 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 考试中, 处理点击试题列表的操作, 跳转到所点击的页面.
+ * 
+ * @author song
+ */
 public class ClickQuesAction extends HttpServlet
 {
-    private static final long serialVersionUID = 176354166115021807L;
+    /**
+     * serialVersionUID.
+     */
+    private static final long serialVersionUID = 4664198340938178555L;
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+    /**
+     * doGet.
+     * 
+     * @param req
+     *            请求
+     * @param resp
+     *            响应
+     */
+    public final void doGet(final HttpServletRequest req,
+            final HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        //String para = req.getQueryString();
-        //String id = para.split("&")[1].substring(3);
-        //String type = para.split("&")[0].substring(5);
-
-        HttpSession hs = req.getSession();
-        String quesIdStr = req.getParameter("quesId");
+        final HttpSession httpSession = req.getSession();
+        final String quesIdStr = req.getParameter("quesId");
         int quesId = 0;
-        if(quesIdStr!=null)
+        if (quesIdStr == null)
+        {
+            quesId = (Integer) httpSession.getAttribute("quesId");
+        } else
+        {
             quesId = Integer.parseInt(quesIdStr);
-        else
-            quesId = (Integer)hs.getAttribute("quesId");
-        String quesType = req.getParameter("quesType");
-        
-        Boolean nextButton = false;
-        Boolean backButton = false;
-        int judgeSum = (Integer) hs.getAttribute("judgeSum");
-        int singleSum = (Integer) hs.getAttribute("singleSum");
-        int multiSum = (Integer) hs.getAttribute("multiSum");
+        }
+        final String quesType = req.getParameter("quesType");
 
-        int jsLine = judgeSum;
-        int smLine = judgeSum + singleSum;
+        final int judgeSum = (Integer) httpSession.getAttribute("judgeSum");
+        final int singleSum = (Integer) httpSession
+                .getAttribute("singleSum");
+        final int multiSum = (Integer) httpSession.getAttribute("multiSum");
 
-        int totleSum = judgeSum + singleSum + multiSum;
+        final int jsLine = judgeSum;
+        final int smLine = judgeSum + singleSum;
+
+        final int totleSum = judgeSum + singleSum + multiSum;
         int globalId = quesId;
-        if (quesType.equals("single"))
+        if ("single".equals(quesType))
         {
             globalId += jsLine;
-        } else if (quesType.equals("multi"))
+        } else if ("multi".equals(quesType))
         {
             globalId += smLine;
         }
 
         if (globalId == totleSum - 1)
         {
-            nextButton = false;
+            httpSession.setAttribute("next", false);
         } else
         {
-            nextButton = true;
+            httpSession.setAttribute("next", true);
         }
         if (globalId == 0)
-            backButton = false;
-        else
-            backButton = true;
-
+        {
+            httpSession.setAttribute("back", false);
+        } else
+        {
+            httpSession.setAttribute("back", true);
+        }
+        // StringBuffer url = new StringBuffer(type + "Ques.jsp?id=" + id);
+        final String url = quesType + "Ques.jsp";
+        httpSession.setAttribute("quesId", quesId);
+        // resp.sendRedirect(url.toString());
         try
         {
-            //StringBuffer url = new StringBuffer(type + "Ques.jsp?id=" + id);
-            String url = quesType + "Ques.jsp";
-            hs.setAttribute("quesId", quesId);
-            if (nextButton)
-            {
-                //url.append("&next");
-                hs.setAttribute("next", true);
-            }
-            else
-            {
-                hs.setAttribute("next", false);
-            }
-            if (backButton)
-            {
-                //url.append("&back");
-                hs.setAttribute("back", true);
-            }
-            else
-            {
-                hs.setAttribute("back", false);
-            }
-            //resp.sendRedirect(url.toString());
-            try
-            {
-                req.getRequestDispatcher(url).forward(req, resp);
-            } catch (ServletException e)
-            {
-                e.printStackTrace();
-            }
-
+            req.getRequestDispatcher(url).forward(req, resp);
+            return;
+        } catch (ServletException e)
+        {
+            e.printStackTrace();
         } catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
+    /**
+     * doPost.
+     * 
+     * @param req
+     *            请求
+     * @param resp
+     *            响应
+     */
+    public final void doPost(final HttpServletRequest req,
+            final HttpServletResponse resp)
     {
         doGet(req, resp);
     }

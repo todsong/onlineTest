@@ -31,14 +31,6 @@ public class InExamAction extends HttpServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-
         HttpSession hs = req.getSession();
         String checkType = (String) hs.getAttribute("examType");
         if (checkType != null && checkType.equals("1"))
@@ -76,10 +68,10 @@ public class InExamAction extends HttpServlet
             String singleNumStr = exam.getSingleNum();
             String multiNumStr = exam.getMutliNum();
             String reg="\\|";
-            int[] subjectIdInt = InExamAction.Str2IntBySplit(subjectIdStr, reg);
-            int[] judgeNumInt = InExamAction.Str2IntBySplit(judgeNumStr, reg);
-            int[] singleNumInt = InExamAction.Str2IntBySplit(singleNumStr, reg);
-            int[] multiNumInt = InExamAction.Str2IntBySplit(multiNumStr, reg);
+            int[] subjectIdInt = InExamAction.str2IntBySplit(subjectIdStr, reg);
+            int[] judgeNumInt = InExamAction.str2IntBySplit(judgeNumStr, reg);
+            int[] singleNumInt = InExamAction.str2IntBySplit(singleNumStr, reg);
+            int[] multiNumInt = InExamAction.str2IntBySplit(multiNumStr, reg);
             int subjectSum = subjectIdInt.length;
             
             int[][] jqArray = new int[subjectSum][];
@@ -239,7 +231,7 @@ public class InExamAction extends HttpServlet
     {
         doGet(req, resp);
     }
-    public static int[] Str2IntBySplit(String src, String reg)
+    public static int[] str2IntBySplit(String src, String reg)
     {
         String[] tmp = src.split(reg);
         int[] res = new int[tmp.length];

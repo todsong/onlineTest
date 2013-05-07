@@ -36,13 +36,6 @@ public class SubjectAction extends HttpServlet
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
-        try
-        {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
         String subjectName = req.getParameter("subjectName");
         String addD = req.getParameter("addD");
         String delD = req.getParameter("delD");

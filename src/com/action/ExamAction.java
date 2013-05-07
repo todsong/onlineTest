@@ -31,13 +31,6 @@ public class ExamAction extends HttpServlet
     {
         try
         {
-            req.setCharacterEncoding("utf-8");
-        } catch (UnsupportedEncodingException e1)
-        {
-            e1.printStackTrace();
-        }
-        try
-        {
             ExamDAO ed = new ExamDAOImpl();
             String addE = req.getParameter("addE");
             String upE = req.getParameter("upE");
