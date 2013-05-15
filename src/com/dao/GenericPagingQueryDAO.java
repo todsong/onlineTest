@@ -1,7 +1,7 @@
 package com.dao;
 
-import com.pojo.PagingReq;
-import com.pojo.PagingResp;
+import com.datatype.PagingReq;
+import com.datatype.PagingResp;
 
 public interface GenericPagingQueryDAO
 {

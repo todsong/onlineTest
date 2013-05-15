@@ -8,7 +8,7 @@ import com.pojo.MultiQues;
 public interface MultiQuesDAO
 {
     public int addMultiQues(MultiQues jq);
-    public int addMultiQuesList(List<MultiQues> jqList);
+    public int addMultiQuesList(List jqList);
     public int deleteMultiQues(int id);
     public int updateMultiQues(int id, MultiQues jq);
     public MultiQues queryMultiQuesById(int id);

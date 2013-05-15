@@ -1,4 +1,4 @@
-package com.pojo;
+package com.datatype;
 
 import java.io.Serializable;
 import java.util.List;

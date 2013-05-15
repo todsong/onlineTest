@@ -7,7 +7,7 @@ import com.pojo.SingleQues;
 public interface SingleQuesDAO
 {
     public int addSingleQues(SingleQues jq);
-    public int addSingleQuesList(List<SingleQues> jqList);
+    public int addSingleQuesList(List jqList);
     public int deleteSingleQues(int id);
     public int updateSingleQues(int id, SingleQues jq);
     public SingleQues querySingleQuesById(int id);

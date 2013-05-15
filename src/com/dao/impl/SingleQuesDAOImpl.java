@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.dao.SingleQuesDAO;
+import com.pojo.SelectionQues;
 import com.pojo.SingleQues;
 import com.resource.DBConnection;
 
@@ -61,7 +62,7 @@ public class SingleQuesDAOImpl implements SingleQuesDAO
     }
 
     @Override
-    public int addSingleQuesList(List<SingleQues> jqList)
+    public int addSingleQuesList(List jqList)
     {
         String sql = "insert into T_SINGLE_QUES(qName, qAnswer, optionA, optionB, optionC, optionD, optionE," +
         		" optNum, subjectId,hash,status) values(?,?,?,?,?,?,?,?,?,?,?)";
@@ -70,11 +71,10 @@ public class SingleQuesDAOImpl implements SingleQuesDAO
         {
             conn = DBConnection.getConnection();
             st = conn.prepareStatement(sql);
-            SingleQues jq = null;
             int count=0;
-            for(Iterator<SingleQues> iter = jqList.iterator(); iter.hasNext(); count++)
+            for(Iterator iter = jqList.iterator(); iter.hasNext(); count++)
             {
-                jq = iter.next();
+                SelectionQues jq = (SelectionQues)iter.next();
                 st.setString(1, jq.getqName());
                 st.setString(2, jq.getqAnswer());
                 st.setString(3, jq.getOptionA());

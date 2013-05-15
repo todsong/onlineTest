@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dao.GenericPagingQueryDAO;
+import com.datatype.PagingReq;
+import com.datatype.PagingResp;
+import com.datatype.Paras;
 import com.pojo.Exam;
 import com.pojo.JudgeQues;
 import com.pojo.MultiQues;
-import com.pojo.PagingReq;
-import com.pojo.PagingResp;
-import com.pojo.Paras;
 import com.pojo.SingleQues;
 import com.pojo.User;
 import com.pojo.UserExam;

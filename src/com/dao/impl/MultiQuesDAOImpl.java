@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.dao.MultiQuesDAO;
 import com.pojo.MultiQues;
+import com.pojo.SelectionQues;
 import com.resource.DBConnection;
 
 public class MultiQuesDAOImpl implements MultiQuesDAO
@@ -61,7 +62,7 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
     }
 
     @Override
-    public int addMultiQuesList(List<MultiQues> jqList)
+    public int addMultiQuesList(List jqList)
     {
         String sql = "insert into T_MULTI_QUES(qName, qAnswer, optionA, optionB, optionC, optionD, optionE," +
         		" optNum, subjectId,hash,status) values(?,?,?,?,?,?,?,?,?,?,?)";
@@ -70,11 +71,10 @@ public class MultiQuesDAOImpl implements MultiQuesDAO
         {
             conn = DBConnection.getConnection();
             st = conn.prepareStatement(sql);
-            MultiQues jq = null;
             int count=0;
-            for(Iterator<MultiQues> iter = jqList.iterator(); iter.hasNext(); count++)
+            for(Iterator iter = jqList.iterator(); iter.hasNext(); count++)
             {
-                jq = iter.next();
+                SelectionQues jq = (SelectionQues)iter.next();
                 st.setString(1, jq.getqName());
                 st.setString(2, jq.getqAnswer());
                 st.setString(3, jq.getOptionA());
