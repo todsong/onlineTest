@@ -5,7 +5,7 @@ import java.util.List;
 import com.pojo.JudgeQues;
 import com.pojo.MultiQues;
 
-public interface MultiQuesDAO
+public interface MultiQuesDAO extends GenericDAO
 {
     public int addMultiQues(MultiQues jq);
     public int addMultiQuesList(List jqList);

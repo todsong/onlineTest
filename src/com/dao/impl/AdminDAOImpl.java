@@ -9,7 +9,7 @@ import com.dao.AdminDAO;
 import com.pojo.Admin;
 import com.resource.DBConnection;
 
-public class AdminDAOImpl implements AdminDAO
+public class AdminDAOImpl extends GenericDAOImpl implements AdminDAO
 {
 
     private Connection conn;

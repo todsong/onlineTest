@@ -12,7 +12,7 @@ import com.pojo.ExamScore;
 import com.pojo.UserScore;
 import com.resource.DBConnection;
 
-public class ExamScoreDAOImpl implements ExamScoreDAO
+public class ExamScoreDAOImpl extends GenericDAOImpl implements ExamScoreDAO
 {
 	private Connection conn;
 	

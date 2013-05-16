@@ -12,41 +12,14 @@ import com.pojo.Dept;
 import com.pojo.User;
 import com.resource.DBConnection;
 
-public class DeptDAOImpl implements DeptDAO
+public class DeptDAOImpl extends GenericDAOImpl implements DeptDAO
 {
 
     private Connection conn;
     @Override
     public int addDept(Dept sj)
     {
-        String sql = "insert into T_DEPT(id, name) values(?,?)";
-        PreparedStatement st = null;
-        try
-        {
-            conn = DBConnection.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setInt(1, sj.getId());
-            st.setString(2, sj.getName());
-            st.execute();
-            ////conn.commit();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-            return 1;
-        }
-        finally
-        {
-            try
-            {
-                st.close();
-                conn.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        insert(sj);
         return 0;
     }
 

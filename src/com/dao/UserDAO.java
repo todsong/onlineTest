@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.pojo.User;
 
-public interface UserDAO {
+public interface UserDAO  extends GenericDAO
+{
 	public int addUser(User user);
 	public int updateUserById(String id, User user);
 	public int deleteUserById(String Id);

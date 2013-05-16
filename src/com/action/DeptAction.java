@@ -37,7 +37,9 @@ public class DeptAction extends HttpServlet
             Dept dept = new Dept();
             dept.setName(deptName);
             if(dd.quertDeptByName(deptName)==null)
+            {
                 dd.addDept(dept);
+            }
             else
             {
                 try

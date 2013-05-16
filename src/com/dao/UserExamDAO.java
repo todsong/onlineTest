@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.pojo.UserExam;
 
-public interface UserExamDAO
+public interface UserExamDAO extends GenericDAO
 {
     public int addNewUserExam(UserExam ue);
     public int updateUserExamResult(UserExam ue);

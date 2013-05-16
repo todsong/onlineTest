@@ -8,47 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dao.SubjectDAO;
+import com.datatype.InsertResp;
 import com.pojo.Subject;
 import com.pojo.Subject;
 import com.pojo.User;
 import com.resource.DBConnection;
 
-public class SubjectDAOImpl implements SubjectDAO
+public class SubjectDAOImpl extends GenericDAOImpl implements SubjectDAO
 {
 
     private Connection conn;
     @Override
     public int addSubject(Subject sj)
     {
-        String sql = "insert into T_SUBJECT(id, name) values(?,?)";
-        PreparedStatement st = null;
-        try
+        InsertResp resp = insert(sj);
+        if("error".equals(resp.getResult()))
         {
-            conn = DBConnection.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setInt(1, sj.getId());
-            st.setString(2, sj.getName());
-            st.execute();
-            //conn.commit();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
             return 1;
         }
-        finally
+        else
         {
-            try
-            {
-                st.close();
-                conn.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+            return 0;
         }
-        return 0;
     }
 
     @Override

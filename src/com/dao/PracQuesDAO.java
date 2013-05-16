@@ -2,7 +2,7 @@ package com.dao;
 
 import com.pojo.PracQues;
 
-public interface PracQuesDAO
+public interface PracQuesDAO extends GenericDAO
 {
     public int addPracQues(PracQues pq);
     public int deletePracQuesByPracId(int pracId);

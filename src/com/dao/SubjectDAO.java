@@ -5,7 +5,7 @@ import java.util.List;
 import com.pojo.Dept;
 import com.pojo.Subject;
 
-public interface SubjectDAO
+public interface SubjectDAO extends GenericDAO
 {
     public int addSubject(Subject sj);
     public int deleteSubjectById(int id);

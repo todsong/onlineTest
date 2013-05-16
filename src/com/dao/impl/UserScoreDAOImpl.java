@@ -14,7 +14,7 @@ import com.pojo.Exam;
 import com.pojo.UserScore;
 import com.resource.DBConnection;
 
-public class UserScoreDAOImpl implements UserScoreDAO
+public class UserScoreDAOImpl extends GenericDAOImpl implements UserScoreDAO
 {
 	private Connection conn;
 

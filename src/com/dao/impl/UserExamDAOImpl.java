@@ -9,50 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dao.UserExamDAO;
+import com.datatype.InsertResp;
 import com.pojo.User;
 import com.pojo.UserExam;
 import com.resource.DBConnection;
 
-public class UserExamDAOImpl implements UserExamDAO
+public class UserExamDAOImpl extends GenericDAOImpl implements UserExamDAO
 {
     private Connection conn;
 
     @Override
     public int addNewUserExam(UserExam ue)
     {
-        String sql = "insert into T_USER_EXAM(examId, userId, score, judgeIdList, singleIdList, multiIdList) values(?,?,?,?,?,?)";
-        PreparedStatement st = null;
-        try
+        InsertResp resp = insert(ue);
+        if("error".equals(resp.getResult()))
         {
-            conn = DBConnection.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setInt(1, ue.getExamId());
-            st.setString(2, ue.getUserId());
-            st.setInt(3, ue.getScore());
-            st.setString(4, ue.getJudgeIdList());
-            st.setString(5, ue.getSingleIdList());
-            st.setString(6, ue.getMultiIdList());
-            st.execute();
-            //conn.commit();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
             return 1;
         }
-        finally
+        else
         {
-            try
-            {
-                st.close();
-                conn.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+            return 0;
         }
-        return 0;
     }
 
     @Override

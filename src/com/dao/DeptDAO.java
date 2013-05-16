@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.pojo.Dept;
 
-public interface DeptDAO
+public interface DeptDAO extends GenericDAO
 {
     public int addDept(Dept sj);
     public int deleteDeptById(int id);

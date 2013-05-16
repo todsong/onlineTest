@@ -9,48 +9,26 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.dao.JudgeQuesDAO;
+import com.datatype.InsertResp;
 import com.pojo.JudgeQues;
 import com.resource.DBConnection;
 
-public class JudgeQuesDAOImpl implements JudgeQuesDAO
+public class JudgeQuesDAOImpl extends GenericDAOImpl implements JudgeQuesDAO
 {
     private Connection conn;
 
     @Override
     public int addJudgeQues(JudgeQues jq)
     {
-        String sql = "insert into T_JUDGE_QUES(qName, qAnswer, subjectId, hash, status) values(?,?,?,?,?)";
-        PreparedStatement st = null;
-        try
+        InsertResp resp = insert(jq);
+        if("error".equals(resp.getResult()))
         {
-            conn = DBConnection.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setString(1, jq.getqName());
-            st.setString(2, jq.getqAnswer());
-            st.setInt(3, jq.getSubjectId());
-            st.setString(4, jq.getHash());
-            st.setInt(5, jq.getStatus());
-            st.execute();
-            //conn.commit();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
             return 1;
         }
-        finally
+        else
         {
-            try
-            {
-                st.close();
-                conn.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+            return 0;
         }
-        return 0;
     }
 
     @Override

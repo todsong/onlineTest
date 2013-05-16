@@ -37,8 +37,8 @@ import com.pojo.MultiQues;
 import com.pojo.SelectionQues;
 import com.pojo.SingleQues;
 import com.resource.Cache;
-import com.resource.CloseDBRes;
 import com.resource.DBConnection;
+import com.resource.DBResManager;
 import com.util.MD5Util;
 
 public class AddBatchBase
@@ -181,9 +181,9 @@ public class AddBatchBase
         {
         } finally
         {
-            CloseDBRes.closeResultSet(rst);
-            CloseDBRes.closePreStatement(pst);
-            CloseDBRes.closeConnection(conn);
+            DBResManager.closeResultSet(rst);
+            DBResManager.closePreStatement(pst);
+            DBResManager.closeConnection(conn);
         }
         return res;
     }

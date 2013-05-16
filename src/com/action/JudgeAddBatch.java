@@ -22,7 +22,6 @@ import com.datatype.QuesFile;
 import com.exception.AddBatchException;
 import com.pojo.JudgeQues;
 import com.resource.Cache;
-import com.resource.CloseDBRes;
 import com.resource.DBConnection;
 import com.util.MD5Util;
 

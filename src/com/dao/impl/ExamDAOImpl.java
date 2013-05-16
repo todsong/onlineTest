@@ -14,7 +14,7 @@ import com.dao.ExamDAO;
 import com.pojo.Exam;
 import com.resource.DBConnection;
 
-public class ExamDAOImpl implements ExamDAO {
+public class ExamDAOImpl extends GenericDAOImpl implements ExamDAO {
 	private Connection conn;
 	
 	@Override

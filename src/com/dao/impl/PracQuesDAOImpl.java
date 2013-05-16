@@ -7,49 +7,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.dao.PracQuesDAO;
+import com.datatype.InsertResp;
 import com.pojo.PracQues;
 import com.pojo.UserExam;
 import com.resource.DBConnection;
 
-public class PracQuesDAOImpl implements PracQuesDAO
+public class PracQuesDAOImpl extends GenericDAOImpl implements PracQuesDAO
 {
     private Connection conn;
 
     @Override
     public int addPracQues(PracQues pq)
     {
-        String sql = "insert into T_PRAC_QUES(pracId, caseId, judgeIdList, singleIdList, multiIdList) values(?,?,?,?,?)";
-        PreparedStatement st = null;
-        try
+        InsertResp resp = insert(pq);
+        if("error".equals(resp.getResult()))
         {
-            conn = DBConnection.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setInt(1, pq.getPracId());
-            st.setInt(2, pq.getCaseId());
-            st.setString(3, pq.getJudgeIdList());
-            st.setString(4, pq.getSingleIdList());
-            st.setString(5, pq.getMultiIdList());
-            st.execute();
-            //conn.commit();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
             return 1;
         }
-        finally
+        else
         {
-            try
-            {
-                st.close();
-                conn.close();
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+            return 0;
         }
-        return 0;
     }
 
     @Override

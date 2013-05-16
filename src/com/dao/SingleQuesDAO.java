@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.pojo.SingleQues;
 
-public interface SingleQuesDAO
+public interface SingleQuesDAO extends GenericDAO
 {
     public int addSingleQues(SingleQues jq);
     public int addSingleQuesList(List jqList);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.pojo.Exam;
 
-public interface ExamDAO {
+public interface ExamDAO extends GenericDAO {
 	public int addExam(Exam exam);
 	public int deleteExam(int id);
 	public int updateExam(int id, Exam exam);

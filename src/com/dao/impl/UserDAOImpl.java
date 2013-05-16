@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dao.UserDAO;
+import com.datatype.InsertResp;
 import com.pojo.User;
 import com.resource.DBConnection;
 
-public class UserDAOImpl implements UserDAO
+public class UserDAOImpl extends GenericDAOImpl implements UserDAO
 {
 
     private Connection conn;
@@ -19,37 +20,15 @@ public class UserDAOImpl implements UserDAO
     @Override
     public int addUser(User user)
     {
-        final String sql = "insert into T_USER(id, passwd, name, dept, telephone, status) values(?,?,?,?,?,?)";
-        PreparedStatement st = null;
-        int res = 0;
-        try
+        InsertResp resp = insert(user);
+        if("error".equals(resp.getResult()))
         {
-            conn = DBConnection.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setString(1, user.getId());
-            st.setString(2, user.getPasswd());
-            st.setString(3, user.getName());
-            st.setInt(4, user.getDept());
-            st.setString(5, user.getTelephone());
-            st.setString(6, user.getStatus());
-            st.execute();
-            // conn.commit();
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            res = 1;
-        } finally
-        {
-            try
-            {
-                st.close();
-                conn.close();
-            } catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
+            return 1;
         }
-        return res;
+        else
+        {
+            return 0;
+        }
     }
 
     @Override
